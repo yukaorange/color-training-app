@@ -1,0 +1,86 @@
+@use "./../mixin/" as *;
+
+@keyframes slideOut {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes grid-move {
+  0% {
+    translate: 0 0;
+  }
+  100% {
+    translate: 50% calc(50% * 1);
+  }
+}
+
+@keyframes text-loop {
+  0% {
+    translate: 0 0;
+  }
+  100% {
+    translate: -100% 0;
+  }
+}
+
+@keyframes marquee {
+  0% {
+    translate: 0 0;
+  }
+  100% {
+    translate: -100% 0;
+  }
+}
+
+@keyframes marquee-editor {
+  0% {
+    translate: 0 0;
+  }
+  100% {
+    translate: -100% 0;
+  }
+}
+
+@keyframes marquee-editor-reverse {
+  0% {
+    translate: 0 0;
+  }
+  100% {
+    translate: 100% 0;
+  }
+}
+
+@keyframes explanation-show {
+  0% {
+    opacity: 0;
+    translate: -50% calc(-50% + 5rem);
+  }
+  100% {
+    opacity: 1;
+    translate: -50% -50%;
+  }
+}
+
+@keyframes explanation-hide {
+  0% {
+    opacity: 1;
+    translate: -50% -50%;
+  }
+  100% {
+    opacity: 0;
+    translate: -50% calc(-50% - 5rem);
+  }
+}

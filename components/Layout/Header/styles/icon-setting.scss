@@ -1,0 +1,45 @@
+@use "@/styles/mixin/mixins" as *;
+
+.icon-setting {
+  width: 7.2rem;
+  height: 8rem;
+  border: 0.1rem solid var(--black);
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  justify-content: center;
+  row-gap: 0.4rem;
+}
+
+.icon-setting__icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+.icon-setting__text {
+  font-size: 1rem;
+}
+
+@include mq(sp) {
+  .icon-setting {
+    width: 4rem;
+    height: 4rem;
+    border: 0.1rem solid var(--black);
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    justify-content: center;
+    row-gap: 0rem;
+  }
+
+  .icon-setting__icon {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
+
+  .icon-setting__text {
+    font-size: 1rem;
+
+    display: none;
+  }
+}

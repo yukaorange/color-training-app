@@ -1,0 +1,178 @@
+@use "@/styles/mixin/mixins" as *;
+
+.marquee {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: repeat(6, auto);
+  scale: 0 1;
+  transition-property: scale;
+  transition-duration: 1.5s;
+  transform-origin: right;
+}
+
+.marquee--green {
+  background-color: var(--active);
+}
+
+.marquee--red {
+  background-color: var(--danger);
+}
+
+.marquee--1 {
+  z-index: 4;
+  rotate: -32deg;
+  top: calc(50% - 190rem);
+  left: calc(50% - 10rem);
+  translate: -50% -50%;
+}
+
+.marquee--2 {
+  z-index: 3;
+  rotate: -10deg;
+  top: calc(50% - 76rem);
+  left: calc(50% - 10rem);
+  translate: -50% -50%;
+}
+
+.marquee--3 {
+  z-index: 2;
+  rotate: -32deg;
+  top: calc(50% - 111rem);
+  left: calc(50% + 30rem);
+  translate: -50% -50%;
+}
+
+.marquee--4 {
+  z-index: 1;
+  rotate: -5deg;
+  top: calc(50% + 18rem);
+  left: calc(50% + 30rem);
+  translate: -50% -50%;
+}
+
+.marquee--is-show {
+  scale: 1 1;
+}
+
+.marquee__inner {
+  display: grid;
+  padding-right: 2.4rem;
+  grid-template-columns: repeat(3, auto);
+  column-gap: 0.8rem;
+  justify-content: start;
+  align-items: center;
+  animation: marquee 8s linear infinite;
+}
+
+.marquee__text {
+  font-size: 4.8rem;
+  font-weight: 500;
+}
+
+.marquee__icon {
+  width: 9rem;
+  aspect-ratio: 1/1;
+}
+
+.marquee__icon img {
+  object-fit: contain;
+}
+
+.marquee__decoration {
+  width: 24rem;
+  aspect-ratio: 120/30;
+}
+
+.marquee__decoration img {
+  object-fit: contain;
+}
+
+@include mq(sp) {
+  .marquee {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    transition-property: scale;
+    scale: 0 1;
+    transition-duration: 1.5s;
+    transform-origin: right;
+  }
+
+  .marquee--green {
+    background-color: var(--active);
+  }
+
+  .marquee--red {
+    background-color: var(--danger);
+  }
+  .marquee--1 {
+    z-index: 4;
+    rotate: -24deg;
+    top: calc(50% - 90rem);
+    left: calc(50% + 29rem);
+    translate: -50% -50%;
+  }
+
+  .marquee--2 {
+    z-index: 3;
+    rotate: -10deg;
+    top: calc(50% - 53rem);
+    left: calc(50% + 30rem);
+    translate: -50% -50%;
+  }
+
+  .marquee--3 {
+    z-index: 2;
+    rotate: -24deg;
+    top: calc(50% - 42rem);
+    left: calc(50% + 30rem);
+    translate: -50% -50%;
+  }
+
+  .marquee--4 {
+    z-index: 1;
+    rotate: -5deg;
+    top: calc(50% + 13rem);
+    left: calc(50% + 30rem);
+    translate: -50% -50%;
+  }
+
+  .marquee--is-show {
+    scale: 1 1;
+  }
+
+  .marquee__inner {
+    display: grid;
+    padding-right: 1.4rem;
+    grid-template-columns: repeat(3, auto);
+    column-gap: 0.4rem;
+    justify-content: start;
+    align-items: center;
+    animation: marquee 5s linear infinite;
+  }
+
+  .marquee__text {
+    font-size: 2.4rem;
+    font-weight: 500;
+  }
+
+  .marquee__icon {
+    width: 4.4rem;
+  }
+
+  .marquee__icon img {
+    object-fit: contain;
+  }
+
+  .marquee__decoration {
+    width: 12rem;
+  }
+
+  .marquee__decoration img {
+    object-fit: contain;
+  }
+}

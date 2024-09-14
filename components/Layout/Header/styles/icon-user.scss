@@ -1,0 +1,15 @@
+@use "@/styles/mixin/mixins" as *;
+
+.icon-user {
+  width: 7.2rem;
+  height: 8rem;
+  border: 0.1rem solid var(--black);
+}
+
+@include mq(sp) {
+  .icon-user {
+    width: 4rem;
+    height: 4rem;
+    border: 0.1rem solid var(--black);
+  }
+}

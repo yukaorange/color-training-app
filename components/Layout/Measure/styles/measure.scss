@@ -1,0 +1,52 @@
+@use "@/styles/mixin/mixins" as *;
+
+.measure {
+  display: grid;
+  width: fit-content;
+  position: absolute;
+  z-index: var(--z-index-measure);
+  top: 50%;
+  left: 3rem;
+  translate: 0% -50%;
+}
+
+.measure__image {
+  width: 6rem;
+  height: 59.7rem;
+}
+
+.measure__line {
+  transition-property: scale;
+  transition-duration: 0.2s;
+}
+
+.measure__line--prev {
+  scale: 1.5 1;
+}
+
+.measure__line--active {
+  scale: 2 1;
+}
+
+.measure__line--next {
+  scale: 1.5 1;
+}
+
+@include mq(sp) {
+  .measure {
+    // display: grid;
+    width: fit-content;
+    position: absolute;
+    z-index: var(--z-index-measure);
+    top: 50%;
+    left: 3rem;
+    translate: 0% -50%;
+
+    display: none;
+  }
+
+  .measure__image {
+    width: 3rem;
+    height: 59.7rem;
+  }
+}

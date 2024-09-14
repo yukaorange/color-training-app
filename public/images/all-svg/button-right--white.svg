@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 121 121">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー_1">
+    <g id="button-right">
+      <polygon id="button-right_x5F__x5F_frame" class="cls-1" points=".5 .5 .5 120.5 97.17 120.5 120.5 97.17 120.5 .5 .5 .5"/>
+      <polygon id="button-right_x5F__x5F_arrow" points="47.17 30.5 47.17 90.5 80.5 60.5 47.17 30.5"/>
+    </g>
+  </g>
+</svg>

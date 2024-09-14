@@ -1,0 +1,86 @@
+@use "@/styles/mixin/mixins" as *;
+
+.top {
+  width: 100%;
+  height: 100svh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  z-index: 0;
+}
+
+.top__inner {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+}
+
+.top__buttons {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: center;
+  column-gap: cols(3);
+}
+
+.top__text-loop {
+  margin-top: 5rem;
+  width: 100vw;
+  position: relative;
+  z-index: 0;
+}
+
+.top__marquee {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+@include mq(sp) {
+  .top {
+    width: 100%;
+    height: 100svh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: relative;
+    z-index: 0;
+  }
+
+  .top__inner {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+  }
+
+  .top__buttons {
+    display: grid;
+    grid-template-columns: repeat(1, auto);
+    justify-content: center;
+    column-gap: 0;
+    row-gap: 3.2rem;
+  }
+
+  .top__text-loop {
+    margin-top: 3.2rem;
+    width: 100vw;
+    position: relative;
+    z-index: 0;
+  }
+
+  .top__marquee {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}

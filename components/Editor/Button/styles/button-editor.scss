@@ -1,0 +1,41 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-editor {
+  display: grid;
+
+  cursor: pointer;
+}
+
+.button-editor__icon {
+  --size: 6.4rem;
+  width: var(--size);
+  height: var(--size);
+}
+
+#button__frame,
+#button__arrow {
+  transition: 0.2s;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-editor:hover .button-editor__icon {
+  }
+  .button-editor:hover #button__frame {
+    stroke: var(--active);
+  }
+  .button-editor:hover #button__arrow {
+    fill: var(--active);
+  }
+}
+
+@include mq(sp) {
+  .button-editor {
+    display: grid;
+  }
+
+  .button-editor__icon {
+    --size: 3.1rem;
+    width: var(--size);
+    height: var(--size);
+  }
+}

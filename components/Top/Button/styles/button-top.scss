@@ -1,0 +1,154 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-top {
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  min-width: cols(6);
+  width: fit-content;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  padding-block: 2.4rem;
+  padding-inline: 2.4rem;
+}
+
+.button-top__text {
+  font-size: text(48);
+  letter-spacing: 0.005em;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.button-top__frames {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+}
+
+.button-top__frame {
+  position: absolute;
+  z-index: 2;
+  width: 3.5rem;
+  height: 3.1rem;
+}
+
+.button-top__frame img {
+  object-fit: contain;
+}
+
+.button-top__frame:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.button-top__frame:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+
+.button-top__frame:nth-child(3) {
+  bottom: 0;
+  left: 0;
+}
+
+.button-top__frame:nth-child(4) {
+  bottom: 0;
+  right: 0;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-top .button-top__frame {
+    opacity: 0;
+    transition:
+      opacity 0.2s,
+      translate 0.333s;
+
+    --offset: 1;
+  }
+
+  .button-top__frame:nth-child(1) {
+    translate: calc(-1rem * var(--offset)) calc(-1rem * var(--offset));
+  }
+
+  .button-top__frame:nth-child(2) {
+    translate: calc(1rem * var(--offset)) calc(-1rem * var(--offset));
+  }
+
+  .button-top__frame:nth-child(3) {
+    translate: calc(-1rem * var(--offset)) calc(1rem * var(--offset));
+  }
+
+  .button-top__frame:nth-child(4) {
+    translate: calc(1rem * var(--offset)) calc(1rem * var(--offset));
+  }
+
+  .button-top:hover .button-top__frame {
+    opacity: 1;
+    --offset: 0;
+  }
+}
+
+@include mq(sp) {
+  .button-top {
+    position: relative;
+    z-index: 0;
+    min-width: cols(6);
+    width: fit-content;
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    padding-block: 2.4rem;
+    padding-inline: 2.4rem;
+  }
+
+  .button-top__text {
+    font-size: text(24);
+    letter-spacing: 0.005em;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .button-top__frames {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .button-top__frame {
+    position: absolute;
+    z-index: 2;
+    width: 3.6rem;
+    height: 3.2rem;
+  }
+
+  .button-top__frame img {
+    object-fit: contain;
+  }
+
+  .button-top__frame:nth-child(1) {
+    top: 0;
+    left: 0;
+  }
+
+  .button-top__frame:nth-child(2) {
+    top: 0;
+    right: 0;
+  }
+
+  .button-top__frame:nth-child(3) {
+    bottom: 0;
+    left: 0;
+  }
+
+  .button-top__frame:nth-child(4) {
+    bottom: 0;
+    right: 0;
+  }
+}

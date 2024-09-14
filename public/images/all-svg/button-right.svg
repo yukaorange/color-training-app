@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー_1">
+    <g id="button-right">
+      <polygon id="button-right_x5F__x5F_frame" points="0 0 0 120 96.67 120 120 96.67 120 0 0 0"/>
+      <polygon id="button-right_x5F__x5F_arrow" class="cls-1" points="46.67 30 46.67 90 80 60 46.67 30"/>
+    </g>
+  </g>
+</svg>

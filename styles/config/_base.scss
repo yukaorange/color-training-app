@@ -1,0 +1,275 @@
+@use "./../libs/ress.min.css";
+@use "./font-face";
+@use "./../mixin/" as *;
+
+:root {
+  --vw: 100vw; //this value will be changed by js
+  --vh: 100vh; //this value will be changed by js
+
+  --header-height: 0; //this value will be changed by js
+
+  //z-index
+  --z-index-header: 1000;
+  --z-index-virtual-grid: -10;
+  --z-index-overlay: 100;
+  --z-index-webgl: 10;
+  --z-index-layout: 0;
+  --z-index-measure: 1;
+  --z-index-bg-grid: -1000;
+
+  --margin: 0.6rem;
+  --gap: 1.2rem;
+  --col: calc((var(--vw) - var(--margin) * 2 - var(--gap) * 23) / 24);
+
+  --delay: 0.2s;
+  --duration: 0.4s;
+  --timing-function: var(--easeInOutQuint);
+}
+
+@include mq(sp) {
+  :root {
+    --margin: 2rem;
+    --gap: 0.8rem;
+    --col: calc((var(--vw) - var(--margin) * 2 - var(--gap) * 7) / 8);
+  }
+}
+
+::-webkit-scrollbar {
+}
+::-webkit-scrollbar-track {
+  background-color: var(--black-5);
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 1rem;
+  background-color: var(--black-5);
+}
+
+html {
+  font-size: calc(var(--vw) / 144);
+  scrollbar-width: thin; //webkit
+  scrollbar-color: #444 #ccc; //webkit
+
+  min-height: 100svh;
+
+  overscroll-behavior-y: none;
+}
+
+@include mq(sp) {
+  html {
+    font-size: calc(var(--vw) / 36);
+  }
+}
+
+body {
+  font-size: var(--font-size-base);
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+
+  color: var(--black);
+
+  font-family:
+    "Noto Sans JP",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+}
+
+p {
+  font-size: var(--font-size-base);
+}
+
+h1 {
+  font-size: var(--font-size-6);
+}
+
+h2 {
+  font-size: var(--font-size-5);
+}
+
+h3 {
+  font-size: var(--font-size-4);
+}
+
+h4 {
+  font-size: var(--font-size-3);
+}
+
+h5 {
+  font-size: var(--font-size-2);
+}
+
+h6 {
+  font-size: var(--font-size-1);
+}
+
+// Safari対策
+a[href^="tel"] {
+  text-decoration: none;
+}
+
+[data-device="sp"] {
+  display: none;
+}
+[data-device="pc"] {
+  display: inherit;
+}
+
+@include mq(sp) {
+  [data-device="sp"] {
+    display: inherit;
+  }
+  [data-device="pc"] {
+    display: none;
+  }
+}
+
+a {
+  font-size: var(--font-size-base);
+  color: inherit;
+  text-decoration: none;
+  transition: var(--duration);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  a:hover {
+    text-decoration: none;
+    opacity: 0.8;
+  }
+}
+
+svg {
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  touch-action: manipulation;
+}
+
+// SVGスプライトのためのスタイル
+.use-sprite {
+  position: absolute;
+  height: 0;
+  & > svg {
+    display: block;
+    height: 0;
+  }
+}
+
+* {
+  // min-inline-size: 0;
+}
+
+//font-size
+:root {
+  --font-size-small-3: calc(1.6rem * 8 / 11);
+  --font-size-small-2: calc(1.6rem * 8 / 10);
+  --font-size-small-1: calc(1.6rem * 8 / 9);
+  --font-size-base: calc(1.6rem * 8 / 8);
+  --font-size-1: calc(1.6rem * 8 / 7);
+  --font-size-2: calc(1.6rem * 8 / 6);
+  --font-size-3: calc(1.6rem * 8 / 5);
+  --font-size-4: calc(1.6rem * 8 / 4);
+  --font-size-5: calc(1.6rem * 8 / 3);
+  --font-size-6: calc(1.6rem * 8 / 2);
+  --font-size-7: calc(1.6rem * 8 / 1);
+  --font-size-8: calc(1.6rem * 8 / 0.8);
+  --font-size-9: calc(1.6rem * 8 / 0.6);
+  @include mq(sp) {
+    --font-size-small-3: calc(1.4rem * 16 / 19);
+    --font-size-small-2: calc(1.4rem * 16 / 18);
+    --font-size-small-1: calc(1.4rem * 16 / 17);
+    --font-size-base: calc(1.4rem * 16 / 16);
+    --font-size-1: calc(1.4rem * 16 / 15);
+    --font-size-2: calc(1.4rem * 16 / 14);
+    --font-size-3: calc(1.4rem * 16 / 13);
+    --font-size-4: calc(1.4rem * 16 / 12);
+    --font-size-5: calc(1.4rem * 16 / 11);
+    --font-size-6: calc(1.4rem * 16 / 10);
+    --font-size-7: calc(1.4rem * 16 / 9);
+    --font-size-8: calc(1.4rem * 16 / 8);
+    --font-size-9: calc(1.4rem * 16 / 7);
+  }
+}
+
+//color
+:root {
+  --white: #ffffff;
+
+  --black: #0d0d0d;
+
+  --active: #aaff01;
+
+  --inactive: #a1a1a1;
+
+  --overlay: #dcdcdc50;
+  
+  --overlay2: #dcdcdc10;
+
+  --sub-accent: #008080;
+
+  --danger: #f44336;
+
+  --ui-background: #e8e8e8;
+
+  --standby: #e1e1e1;
+}
+
+// easing
+:root {
+  --linear: cubic-bezier(0.25, 0.25, 0.75, 0.75);
+  --easeInSine: cubic-bezier(0.47, 0, 0.745, 0.715);
+  --easeOutSine: cubic-bezier(0.39, 0.575, 0.565, 1);
+  --easeInOutSine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  --easeInQuad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  --easeOutQuad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+  --easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+  --easeOutCubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+  --easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1);
+  --easeInQuart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+  --easeOutQuart: cubic-bezier(0.165, 0.84, 0.44, 1);
+  --easeInOutQuart: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --easeInQuint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  --easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
+  --easeInOutQuint: cubic-bezier(0.86, 0, 0.07, 1);
+  --easeInExpo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --easeOutExpo: cubic-bezier(0.19, 1, 0.22, 1);
+  --easeInOutExpo: cubic-bezier(1, 0, 0, 1);
+
+  --easeInCirc: cubic-bezier(0.6, 0.04, 0.98, 0.335);
+  --easeOutCirc: cubic-bezier(0.075, 0.82, 0.165, 1);
+  --easeInOutCirc: cubic-bezier(0.785, 0.135, 0.15, 0.86);
+  --easeInBack: cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  --easeOutBack: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --easeInOutBack: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}

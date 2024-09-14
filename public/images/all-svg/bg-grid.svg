@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 901">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: gray;
+      }
+
+      .cls-1, .cls-2 {
+        fill: #fff;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2 {
+        stroke: #b3b3b3;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー_1">
+    <g id="bg-grid">
+      <g id="grid">
+        <line class="cls-2" y1="119.67" x2="1440" y2="119.67"/>
+        <line class="cls-2" y1="240.48" x2="1440" y2="240.48"/>
+        <line class="cls-2" y1="360.29" x2="1440" y2="360.29"/>
+        <line class="cls-2" y1="480.1" x2="1440" y2="480.1"/>
+        <line class="cls-2" y1="599.91" x2="1440" y2="599.91"/>
+        <line class="cls-2" x1="0" y1="719.72" x2="1440" y2="719.72"/>
+        <line class="cls-2" x1="0" y1="840.53" x2="1440" y2="840.53"/>
+        <line class="cls-2" x1="119.74" x2="119.74" y2="900"/>
+        <line class="cls-2" x1="240.28" x2="240.28" y2="900"/>
+        <line class="cls-2" x1="359.78" x2="359.78" y2="900"/>
+        <line class="cls-2" x1="479.74" y1="1" x2="479.74" y2="901"/>
+        <line class="cls-2" x1="600.28" y1="1" x2="600.28" y2="901"/>
+        <line class="cls-2" x1="720" y1="1" x2="720" y2="901"/>
+        <line class="cls-2" x1="839.74" y1="1" x2="839.74" y2="901"/>
+        <line class="cls-2" x1="960.28" y1="1" x2="960.28" y2="901"/>
+        <line class="cls-2" x1="1080.01" y1="1" x2="1080.01" y2="901"/>
+        <line class="cls-2" x1="1199.74" y1="1" x2="1199.74" y2="901"/>
+        <line class="cls-2" x1="1320.47" y1="1" x2="1320.47" y2="901"/>
+      </g>
+      <g id="corners">
+        <g id="corner">
+          <line class="cls-1" x1="109.98" y1="119.67" x2="130.01" y2="119.67"/>
+          <line class="cls-1" x1="119.74" y1="129.96" x2="119.74" y2="110.03"/>
+        </g>
+        <g id="corner-2" data-name="corner">
+          <line class="cls-1" x1="230.47" y1="119.67" x2="250.49" y2="119.67"/>
+          <line class="cls-1" x1="240.23" y1="129.96" x2="240.23" y2="110.03"/>
+        </g>
+        <g id="corner-3" data-name="corner">
+          <line class="cls-1" x1="350.02" y1="119.67" x2="370.04" y2="119.67"/>
+          <line class="cls-1" x1="359.78" y1="129.96" x2="359.78" y2="110.03"/>
+        </g>
+        <g id="corner-4" data-name="corner">
+          <line class="cls-1" x1="469.98" y1="119.67" x2="490.01" y2="119.67"/>
+          <line class="cls-1" x1="479.74" y1="129.96" x2="479.74" y2="110.03"/>
+        </g>
+        <g id="corner-5" data-name="corner">
+          <line class="cls-1" x1="590.61" y1="119.67" x2="610.63" y2="119.67"/>
+          <line class="cls-1" x1="600.37" y1="129.96" x2="600.37" y2="110.03"/>
+        </g>
+        <g id="corner-6" data-name="corner">
+          <line class="cls-1" x1="710.19" y1="119.67" x2="730.21" y2="119.67"/>
+          <line class="cls-1" x1="719.95" y1="129.96" x2="719.95" y2="110.03"/>
+        </g>
+        <g id="corner-7" data-name="corner">
+          <line class="cls-1" x1="830" y1="119.67" x2="850.02" y2="119.67"/>
+          <line class="cls-1" x1="839.76" y1="129.96" x2="839.76" y2="110.03"/>
+        </g>
+        <g id="corner-8" data-name="corner">
+          <line class="cls-1" x1="950.27" y1="119.67" x2="970.29" y2="119.67"/>
+          <line class="cls-1" x1="960.03" y1="129.96" x2="960.03" y2="110.03"/>
+        </g>
+        <g id="corner-9" data-name="corner">
+          <line class="cls-1" x1="1070.27" y1="119.67" x2="1090.29" y2="119.67"/>
+          <line class="cls-1" x1="1080.03" y1="129.96" x2="1080.03" y2="110.03"/>
+        </g>
+        <g id="corner-10" data-name="corner">
+          <line class="cls-1" x1="1190.03" y1="119.67" x2="1210.06" y2="119.67"/>
+          <line class="cls-1" x1="1199.79" y1="129.96" x2="1199.79" y2="110.03"/>
+        </g>
+        <g id="corner-11" data-name="corner">
+          <line class="cls-1" x1="1310.66" y1="119.67" x2="1330.69" y2="119.67"/>
+          <line class="cls-1" x1="1320.42" y1="129.96" x2="1320.42" y2="110.03"/>
+        </g>
+        <g id="corner-12" data-name="corner">
+          <line class="cls-1" x1="109.6" y1="240.16" x2="129.62" y2="240.16"/>
+          <line class="cls-1" x1="119.36" y1="250.44" x2="119.36" y2="230.52"/>
+        </g>
+        <g id="corner-13" data-name="corner">
+          <line class="cls-1" x1="230.09" y1="240.16" x2="250.11" y2="240.16"/>
+          <line class="cls-1" x1="239.85" y1="250.44" x2="239.85" y2="230.52"/>
+        </g>
+        <g id="corner-14" data-name="corner">
+          <line class="cls-1" x1="349.63" y1="240.16" x2="369.65" y2="240.16"/>
+          <line class="cls-1" x1="359.39" y1="250.44" x2="359.39" y2="230.52"/>
+        </g>
+        <g id="corner-15" data-name="corner">
+          <line class="cls-1" x1="469.6" y1="240.16" x2="489.62" y2="240.16"/>
+          <line class="cls-1" x1="479.36" y1="250.44" x2="479.36" y2="230.52"/>
+        </g>
+        <g id="corner-16" data-name="corner">
+          <line class="cls-1" x1="590.22" y1="240.16" x2="610.24" y2="240.16"/>
+          <line class="cls-1" x1="599.98" y1="250.44" x2="599.98" y2="230.52"/>
+        </g>
+        <g id="corner-17" data-name="corner">
+          <line class="cls-1" x1="709.81" y1="240.16" x2="729.83" y2="240.16"/>
+          <line class="cls-1" x1="719.56" y1="250.44" x2="719.56" y2="230.52"/>
+        </g>
+        <g id="corner-18" data-name="corner">
+          <line class="cls-1" x1="829.62" y1="240.16" x2="849.64" y2="240.16"/>
+          <line class="cls-1" x1="839.37" y1="250.44" x2="839.37" y2="230.52"/>
+        </g>
+        <g id="corner-19" data-name="corner">
+          <line class="cls-1" x1="949.88" y1="240.16" x2="969.91" y2="240.16"/>
+          <line class="cls-1" x1="959.64" y1="250.44" x2="959.64" y2="230.52"/>
+        </g>
+        <g id="corner-20" data-name="corner">
+          <line class="cls-1" x1="1069.88" y1="240.16" x2="1089.91" y2="240.16"/>
+          <line class="cls-1" x1="1079.64" y1="250.44" x2="1079.64" y2="230.52"/>
+        </g>
+        <g id="corner-21" data-name="corner">
+          <line class="cls-1" x1="1189.65" y1="240.16" x2="1209.67" y2="240.16"/>
+          <line class="cls-1" x1="1199.41" y1="250.44" x2="1199.41" y2="230.52"/>
+        </g>
+        <g id="corner-22" data-name="corner">
+          <line class="cls-1" x1="1310.28" y1="240.16" x2="1330.3" y2="240.16"/>
+          <line class="cls-1" x1="1320.04" y1="250.44" x2="1320.04" y2="230.52"/>
+        </g>
+        <g id="corner-23" data-name="corner">
+          <line class="cls-1" x1="109.85" y1="359.97" x2="129.87" y2="359.97"/>
+          <line class="cls-1" x1="119.61" y1="370.25" x2="119.61" y2="350.33"/>
+        </g>
+        <g id="corner-24" data-name="corner">
+          <line class="cls-1" x1="230.34" y1="359.97" x2="250.36" y2="359.97"/>
+          <line class="cls-1" x1="240.1" y1="370.25" x2="240.1" y2="350.33"/>
+        </g>
+        <g id="corner-25" data-name="corner">
+          <line class="cls-1" x1="349.88" y1="359.97" x2="369.91" y2="359.97"/>
+          <line class="cls-1" x1="359.64" y1="370.25" x2="359.64" y2="350.33"/>
+        </g>
+        <g id="corner-26" data-name="corner">
+          <line class="cls-1" x1="469.85" y1="359.97" x2="489.87" y2="359.97"/>
+          <line class="cls-1" x1="479.61" y1="370.25" x2="479.61" y2="350.33"/>
+        </g>
+        <g id="corner-27" data-name="corner">
+          <line class="cls-1" x1="590.47" y1="359.97" x2="610.5" y2="359.97"/>
+          <line class="cls-1" x1="600.23" y1="370.25" x2="600.23" y2="350.33"/>
+        </g>
+        <g id="corner-28" data-name="corner">
+          <line class="cls-1" x1="710.06" y1="359.97" x2="730.08" y2="359.97"/>
+          <line class="cls-1" x1="719.82" y1="370.25" x2="719.82" y2="350.33"/>
+        </g>
+        <g id="corner-29" data-name="corner">
+          <line class="cls-1" x1="829.87" y1="359.97" x2="849.89" y2="359.97"/>
+          <line class="cls-1" x1="839.63" y1="370.25" x2="839.63" y2="350.33"/>
+        </g>
+        <g id="corner-30" data-name="corner">
+          <line class="cls-1" x1="950.14" y1="359.97" x2="970.16" y2="359.97"/>
+          <line class="cls-1" x1="959.9" y1="370.25" x2="959.9" y2="350.33"/>
+        </g>
+        <g id="corner-31" data-name="corner">
+          <line class="cls-1" x1="1070.14" y1="359.97" x2="1090.16" y2="359.97"/>
+          <line class="cls-1" x1="1079.9" y1="370.25" x2="1079.9" y2="350.33"/>
+        </g>
+        <g id="corner-32" data-name="corner">
+          <line class="cls-1" x1="1189.9" y1="359.97" x2="1209.92" y2="359.97"/>
+          <line class="cls-1" x1="1199.66" y1="370.25" x2="1199.66" y2="350.33"/>
+        </g>
+        <g id="corner-33" data-name="corner">
+          <line class="cls-1" x1="1310.53" y1="359.97" x2="1330.55" y2="359.97"/>
+          <line class="cls-1" x1="1320.29" y1="370.25" x2="1320.29" y2="350.33"/>
+        </g>
+        <g id="corner-34" data-name="corner">
+          <line class="cls-1" x1="109.21" y1="479.78" x2="129.24" y2="479.78"/>
+          <line class="cls-1" x1="118.97" y1="490.06" x2="118.97" y2="470.14"/>
+        </g>
+        <g id="corner-35" data-name="corner">
+          <line class="cls-1" x1="229.7" y1="479.78" x2="249.72" y2="479.78"/>
+          <line class="cls-1" x1="239.46" y1="490.06" x2="239.46" y2="470.14"/>
+        </g>
+        <g id="corner-36" data-name="corner">
+          <line class="cls-1" x1="349.25" y1="479.78" x2="369.27" y2="479.78"/>
+          <line class="cls-1" x1="359.01" y1="490.06" x2="359.01" y2="470.14"/>
+        </g>
+        <g id="corner-37" data-name="corner">
+          <line class="cls-1" x1="469.21" y1="479.78" x2="489.24" y2="479.78"/>
+          <line class="cls-1" x1="478.97" y1="490.06" x2="478.97" y2="470.14"/>
+        </g>
+        <g id="corner-38" data-name="corner">
+          <line class="cls-1" x1="589.84" y1="479.78" x2="609.86" y2="479.78"/>
+          <line class="cls-1" x1="599.6" y1="490.06" x2="599.6" y2="470.14"/>
+        </g>
+        <g id="corner-39" data-name="corner">
+          <line class="cls-1" x1="709.42" y1="479.78" x2="729.44" y2="479.78"/>
+          <line class="cls-1" x1="719.18" y1="490.06" x2="719.18" y2="470.14"/>
+        </g>
+        <g id="corner-40" data-name="corner">
+          <line class="cls-1" x1="829.23" y1="479.78" x2="849.25" y2="479.78"/>
+          <line class="cls-1" x1="838.99" y1="490.06" x2="838.99" y2="470.14"/>
+        </g>
+        <g id="corner-41" data-name="corner">
+          <line class="cls-1" x1="949.5" y1="479.78" x2="969.52" y2="479.78"/>
+          <line class="cls-1" x1="959.26" y1="490.06" x2="959.26" y2="470.14"/>
+        </g>
+        <g id="corner-42" data-name="corner">
+          <line class="cls-1" x1="1069.5" y1="479.78" x2="1089.52" y2="479.78"/>
+          <line class="cls-1" x1="1079.26" y1="490.06" x2="1079.26" y2="470.14"/>
+        </g>
+        <g id="corner-43" data-name="corner">
+          <line class="cls-1" x1="1189.26" y1="479.78" x2="1209.29" y2="479.78"/>
+          <line class="cls-1" x1="1199.02" y1="490.06" x2="1199.02" y2="470.14"/>
+        </g>
+        <g id="corner-44" data-name="corner">
+          <line class="cls-1" x1="1309.89" y1="479.78" x2="1329.92" y2="479.78"/>
+          <line class="cls-1" x1="1319.65" y1="490.06" x2="1319.65" y2="470.14"/>
+        </g>
+        <g id="corner-45" data-name="corner">
+          <line class="cls-1" x1="109.58" y1="599.59" x2="129.6" y2="599.59"/>
+          <line class="cls-1" x1="119.33" y1="609.87" x2="119.33" y2="589.95"/>
+        </g>
+        <g id="corner-46" data-name="corner">
+          <line class="cls-1" x1="230.06" y1="599.59" x2="250.09" y2="599.59"/>
+          <line class="cls-1" x1="239.82" y1="609.87" x2="239.82" y2="589.95"/>
+        </g>
+        <g id="corner-47" data-name="corner">
+          <line class="cls-1" x1="349.61" y1="599.59" x2="369.63" y2="599.59"/>
+          <line class="cls-1" x1="359.37" y1="609.87" x2="359.37" y2="589.95"/>
+        </g>
+        <g id="corner-48" data-name="corner">
+          <line class="cls-1" x1="469.58" y1="599.59" x2="489.6" y2="599.59"/>
+          <line class="cls-1" x1="479.33" y1="609.87" x2="479.33" y2="589.95"/>
+        </g>
+        <g id="corner-49" data-name="corner">
+          <line class="cls-1" x1="590.2" y1="599.59" x2="610.22" y2="599.59"/>
+          <line class="cls-1" x1="599.96" y1="609.87" x2="599.96" y2="589.95"/>
+        </g>
+        <g id="corner-50" data-name="corner">
+          <line class="cls-1" x1="709.78" y1="599.59" x2="729.81" y2="599.59"/>
+          <line class="cls-1" x1="719.54" y1="609.87" x2="719.54" y2="589.95"/>
+        </g>
+        <g id="corner-51" data-name="corner">
+          <line class="cls-1" x1="829.59" y1="599.59" x2="849.62" y2="599.59"/>
+          <line class="cls-1" x1="839.35" y1="609.87" x2="839.35" y2="589.95"/>
+        </g>
+        <g id="corner-52" data-name="corner">
+          <line class="cls-1" x1="949.86" y1="599.59" x2="969.88" y2="599.59"/>
+          <line class="cls-1" x1="959.62" y1="609.87" x2="959.62" y2="589.95"/>
+        </g>
+        <g id="corner-53" data-name="corner">
+          <line class="cls-1" x1="1069.86" y1="599.59" x2="1089.88" y2="599.59"/>
+          <line class="cls-1" x1="1079.62" y1="609.87" x2="1079.62" y2="589.95"/>
+        </g>
+        <g id="corner-54" data-name="corner">
+          <line class="cls-1" x1="1189.63" y1="599.59" x2="1209.65" y2="599.59"/>
+          <line class="cls-1" x1="1199.38" y1="609.87" x2="1199.38" y2="589.95"/>
+        </g>
+        <g id="corner-55" data-name="corner">
+          <line class="cls-1" x1="1310.26" y1="599.59" x2="1330.28" y2="599.59"/>
+          <line class="cls-1" x1="1320.01" y1="609.87" x2="1320.01" y2="589.95"/>
+        </g>
+        <g id="corner-56" data-name="corner">
+          <line class="cls-1" x1="109.94" y1="719.4" x2="129.96" y2="719.4"/>
+          <line class="cls-1" x1="119.7" y1="729.68" x2="119.7" y2="709.76"/>
+        </g>
+        <g id="corner-57" data-name="corner">
+          <line class="cls-1" x1="230.43" y1="719.4" x2="250.45" y2="719.4"/>
+          <line class="cls-1" x1="240.19" y1="729.68" x2="240.19" y2="709.76"/>
+        </g>
+        <g id="corner-58" data-name="corner">
+          <line class="cls-1" x1="349.97" y1="719.4" x2="369.99" y2="719.4"/>
+          <line class="cls-1" x1="359.73" y1="729.68" x2="359.73" y2="709.76"/>
+        </g>
+        <g id="corner-59" data-name="corner">
+          <line class="cls-1" x1="469.94" y1="719.4" x2="489.96" y2="719.4"/>
+          <line class="cls-1" x1="479.7" y1="729.68" x2="479.7" y2="709.76"/>
+        </g>
+        <g id="corner-60" data-name="corner">
+          <line class="cls-1" x1="590.56" y1="719.4" x2="610.58" y2="719.4"/>
+          <line class="cls-1" x1="600.32" y1="729.68" x2="600.32" y2="709.76"/>
+        </g>
+        <g id="corner-61" data-name="corner">
+          <line class="cls-1" x1="710.15" y1="719.4" x2="730.17" y2="719.4"/>
+          <line class="cls-1" x1="719.9" y1="729.68" x2="719.9" y2="709.76"/>
+        </g>
+        <g id="corner-62" data-name="corner">
+          <line class="cls-1" x1="829.96" y1="719.4" x2="849.98" y2="719.4"/>
+          <line class="cls-1" x1="839.71" y1="729.68" x2="839.71" y2="709.76"/>
+        </g>
+        <g id="corner-63" data-name="corner">
+          <line class="cls-1" x1="950.22" y1="719.4" x2="970.25" y2="719.4"/>
+          <line class="cls-1" x1="959.98" y1="729.68" x2="959.98" y2="709.76"/>
+        </g>
+        <g id="corner-64" data-name="corner">
+          <line class="cls-1" x1="1070.22" y1="719.4" x2="1090.25" y2="719.4"/>
+          <line class="cls-1" x1="1079.98" y1="729.68" x2="1079.98" y2="709.76"/>
+        </g>
+        <g id="corner-65" data-name="corner">
+          <line class="cls-1" x1="1189.99" y1="719.4" x2="1210.01" y2="719.4"/>
+          <line class="cls-1" x1="1199.75" y1="729.68" x2="1199.75" y2="709.76"/>
+        </g>
+        <g id="corner-66" data-name="corner">
+          <line class="cls-1" x1="1310.62" y1="719.4" x2="1330.64" y2="719.4"/>
+          <line class="cls-1" x1="1320.38" y1="729.68" x2="1320.38" y2="709.76"/>
+        </g>
+        <g id="corner-67" data-name="corner">
+          <line class="cls-1" x1="109.3" y1="840.21" x2="129.32" y2="840.21"/>
+          <line class="cls-1" x1="119.06" y1="850.49" x2="119.06" y2="830.57"/>
+        </g>
+        <g id="corner-68" data-name="corner">
+          <line class="cls-1" x1="229.79" y1="840.21" x2="249.81" y2="840.21"/>
+          <line class="cls-1" x1="239.55" y1="850.49" x2="239.55" y2="830.57"/>
+        </g>
+        <g id="corner-69" data-name="corner">
+          <line class="cls-1" x1="349.33" y1="840.21" x2="369.36" y2="840.21"/>
+          <line class="cls-1" x1="359.09" y1="850.49" x2="359.09" y2="830.57"/>
+        </g>
+        <g id="corner-70" data-name="corner">
+          <line class="cls-1" x1="469.3" y1="840.21" x2="489.32" y2="840.21"/>
+          <line class="cls-1" x1="479.06" y1="850.49" x2="479.06" y2="830.57"/>
+        </g>
+        <g id="corner-71" data-name="corner">
+          <line class="cls-1" x1="589.92" y1="840.21" x2="609.95" y2="840.21"/>
+          <line class="cls-1" x1="599.68" y1="850.49" x2="599.68" y2="830.57"/>
+        </g>
+        <g id="corner-72" data-name="corner">
+          <line class="cls-1" x1="709.51" y1="840.21" x2="729.53" y2="840.21"/>
+          <line class="cls-1" x1="719.27" y1="850.49" x2="719.27" y2="830.57"/>
+        </g>
+        <g id="corner-73" data-name="corner">
+          <line class="cls-1" x1="829.32" y1="840.21" x2="849.34" y2="840.21"/>
+          <line class="cls-1" x1="839.08" y1="850.49" x2="839.08" y2="830.57"/>
+        </g>
+        <g id="corner-74" data-name="corner">
+          <line class="cls-1" x1="949.59" y1="840.21" x2="969.61" y2="840.21"/>
+          <line class="cls-1" x1="959.35" y1="850.49" x2="959.35" y2="830.57"/>
+        </g>
+        <g id="corner-75" data-name="corner">
+          <line class="cls-1" x1="1069.59" y1="840.21" x2="1089.61" y2="840.21"/>
+          <line class="cls-1" x1="1079.35" y1="850.49" x2="1079.35" y2="830.57"/>
+        </g>
+        <g id="corner-76" data-name="corner">
+          <line class="cls-1" x1="1189.35" y1="840.21" x2="1209.37" y2="840.21"/>
+          <line class="cls-1" x1="1199.11" y1="850.49" x2="1199.11" y2="830.57"/>
+        </g>
+        <g id="corner-77" data-name="corner">
+          <line class="cls-1" x1="1309.98" y1="840.21" x2="1330" y2="840.21"/>
+          <line class="cls-1" x1="1319.74" y1="850.49" x2="1319.74" y2="830.57"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

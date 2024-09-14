@@ -1,0 +1,218 @@
+@use "@/styles/mixin/mixins" as *;
+
+.color-picker {
+  --z-color-picker: 0;
+  --z-color-picker__inner: 10;
+  --z-color-picker__corner: 1;
+  --z-color-picker__button: 15;
+  --z-color-picker__marquee: 0;
+
+  width: calc(var(--col) * 9 + var(--gap) * 8 + calc(var(--margin) * 1));
+  right: 0;
+  position: absolute;
+  z-index: var(--z-color-picker);
+  translate: 100% 0;
+  height: 100svh;
+
+  background-color: var(--ui-background);
+
+  transition-property: translate;
+  transition-duration: 0.2s;
+
+  pointer-events: auto;
+}
+
+.color-picker--is-open {
+  translate: 0 0;
+}
+
+.color-picker__toggle {
+  position: absolute;
+  z-index: var(--z-color-picker__button);
+  top: 50%;
+  left: 0;
+  rotate: -90deg;
+  translate: -4rem -50%;
+
+  user-select: none;
+  cursor: pointer;
+}
+
+.color-picker__inner {
+  position: relative;
+  z-index: var(--z-color-picker__inner);
+  margin-inline: auto;
+  width: cols(7);
+  display: grid;
+  height: 100svh;
+  align-content: center;
+  row-gap: 3.2rem;
+}
+
+.color-picker__library {
+  display: grid;
+  row-gap: 3.2rem;
+}
+
+.color-picker__element-selector {
+  pointer-events: auto;
+}
+
+.color-picker__palette {
+  pointer-events: auto;
+  width: 5rem;
+}
+
+.w-color-saturation {
+  width: cols(7) !important;
+  height: 25rem !important;
+}
+.w-color-alpha {
+  width: cols(7) !important;
+  height: 2rem !important;
+}
+
+.color-picker__corner {
+  position: absolute;
+  z-index: var(--z-color-picker__corner);
+  top: 0.8rem;
+  left: 0.8rem;
+  display: grid;
+}
+
+.color-picker__corner svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.color-picker__marquee {
+  position: absolute;
+  z-index: var(--z-color-picker__marquee);
+  inset: 0;
+  overflow: hidden;
+}
+
+.color-picker-overlay {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+}
+
+.color-picker-overlay--is-open {
+  background-color: var(--overlay2);
+  pointer-events: auto;
+}
+
+@include mq(sp) {
+  .color-picker {
+    --z-color-picker: 0;
+    --z-color-picker__inner: 10;
+    --z-color-picker__corner: 1;
+    --z-color-picker__button: 5;
+    --z-color-picker__marquee: 0;
+
+    width: 100%;
+    right: auto;
+    bottom: 0;
+
+    position: fixed;
+    z-index: var(--z-color-picker);
+    translate: 100% 0;
+    height: auto;
+    min-height: 20rem;
+
+    background-color: var(--ui-background);
+
+    transition-property: translate;
+    transition-duration: 0.2s;
+
+    pointer-events: auto;
+  }
+
+  .color-picker--is-open {
+    translate: 0 0;
+  }
+
+  .color-picker__toggle {
+    position: absolute;
+    z-index: var(--z-color-picker__button);
+    top: 50%;
+    left: 0;
+    rotate: -90deg;
+    translate: -2rem -50%;
+
+    user-select: none;
+    cursor: pointer;
+  }
+
+  .color-picker__inner {
+    position: relative;
+    z-index: var(--z-color-picker__inner);
+    margin-inline: 0;
+    margin-left: calc(var(--col) * 1 + var(--margin) * 1 + calc(var(--gap) * 1));
+    width: cols(7);
+    display: grid;
+    height: auto;
+    align-content: center;
+    row-gap: 2.4rem;
+
+    padding-block: 3.2rem;
+  }
+
+  .color-picker__library {
+    display: grid;
+    row-gap: 1.4rem;
+  }
+
+  .color-picker__element-selector {
+    pointer-events: auto;
+  }
+
+  .color-picker__palette {
+    pointer-events: auto;
+  }
+
+  .w-color-colorful {
+    width: fit-content !important;
+  }
+
+  .w-color-saturation {
+    width: cols(6) !important;
+    height: 15rem !important;
+  }
+  .w-color-alpha {
+    width: cols(6) !important;
+    height: 2rem !important;
+  }
+
+  .color-picker__corner {
+    position: absolute;
+    z-index: var(--z-color-picker__corner);
+    top: 0.4rem;
+    left: 0.4rem;
+    display: grid;
+  }
+
+  .color-picker__corner svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .color-picker__marquee {
+    position: absolute;
+    z-index: var(--z-color-picker__marquee);
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .color-picker-overlay {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+  }
+
+  .color-picker-overlay--is-open {
+    background-color: var(--overlay2);
+    pointer-events: auto;
+  }
+}

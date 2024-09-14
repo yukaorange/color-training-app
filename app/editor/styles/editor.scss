@@ -1,0 +1,209 @@
+@use "@/styles/mixin/mixins" as *;
+
+.editor {
+  --z-editor: 0;
+  --z-editor__inner: 10;
+  --z-editor__inner__ui-space: 1;
+  --z-editor__inner__explanation: 1;
+  --z-editor__inner__grid: 1;
+  --z-editor__inner__buttons: 1;
+  --z-editor__save: 20;
+  --z-editor__color-picker: 25;
+
+  position: relative;
+  z-index: var(--z-editor);
+  overflow-x: hidden;
+
+  pointer-events: none;
+}
+
+.editor__inner {
+  display: grid;
+  grid-template-columns: calc(var(--col) * 13 + var(--gap) * 12 + var(--margin) * 1) 1fr;
+  padding-left: calc(calc(var(--margin) * 1) + calc(var(--col) * 1) + calc(var(--gap) * 1));
+  position: relative;
+  z-index: var(--z-editor__inner);
+}
+
+.editor__ui-space {
+  width: 100%;
+  height: 100svh;
+  position: relative;
+  z-index: var(--z-editor__inner__ui-space);
+}
+
+.editor__explanation {
+  display: grid;
+  position: absolute;
+  z-index: var(--z-editor__inner__explanation);
+  top: 50%;
+  left: 50%;
+  translate: calc(-50% - var(--col)) -50%;
+}
+
+.editor__grid {
+  width: 100%;
+  height: 100svh;
+  position: relative;
+  z-index: var(--z-editor__inner__grid);
+}
+
+.editor__buttons {
+  position: absolute;
+  z-index: var(--z-editor__inner__buttons);
+  top: calc(50% + 24rem + 6.4rem);
+  left: 50%;
+  translate: -50% -50%;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  align-items: center;
+  width: cols(3);
+  justify-content: space-between;
+  pointer-events: auto;
+}
+
+.editor__save {
+  position: absolute;
+  z-index: var(--z-editor__save);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+// .editor__save--is-open {
+//   --z-editor__save: 30;
+//   pointer-events: auto;
+//   background-color: var(--overlay);
+// }
+
+.editor__colorpicker {
+  position: absolute;
+  z-index: var(--z-editor__color-picker);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+// .editor__colorpicker--is-open {
+//   --z-editor__color-picker: 35;
+//   pointer-events: auto;
+//   background-color: var(--overlay);
+// }
+
+.editor__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding-bottom: 3.2rem;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+@include mq(sp) {
+  .editor {
+    position: relative;
+    z-index: 0;
+    overflow-x: hidden;
+  }
+
+  .editor__inner {
+    display: grid;
+    grid-template-columns: auto;
+    padding-left: 0;
+    position: relative;
+    z-index: var(--z-editor__inner);
+    min-height: 100svh;
+    align-content: start;
+    position: relative;
+  }
+
+  .editor__grid {
+    position: relative;
+    height: auto;
+    z-index: var(--z-editor__inner__grid);
+  }
+
+  .editor__buttons {
+    position: relative;
+    z-index: var(--z-editor__inner__buttons);
+    top: 0;
+    left: 0;
+    translate: 0 0;
+
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    align-items: center;
+    width: fit-content;
+    column-gap: calc(var(--col) * 1 + var(--gap) * 1);
+    justify-content: space-between;
+    margin-top: 2.8rem;
+    margin-inline: auto;
+  }
+
+  .editor__ui-space {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: var(--z-editor__inner__ui-space);
+  }
+
+  .editor__explanation {
+    display: grid;
+    row-gap: 3.2rem;
+    position: relative;
+    z-index: var(--z-editor__inner__explanation);
+    top: 0;
+    left: 0;
+    translate: 0 0;
+
+    margin-top: 6.4rem;
+    padding-bottom: 12.5rem;
+  }
+
+  .editor__save {
+    position: absolute;
+    z-index: var(--z-editor__save);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  // .editor__save--is-open {
+  //   --z-editor__save: 30;
+  //   pointer-events: auto;
+  //   background-color: var(--overlay);
+  // }
+
+  .editor__colorpicker {
+    position: absolute;
+    z-index: var(--z-editor__color-picker);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+  }
+
+  // .editor__colorpicker--is-open {
+  //   --z-editor__color-picker: 30;
+  //   pointer-events: auto;
+  //   background-color: var(--overlay);
+  // }
+
+  .editor__footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 2.4rem;
+    display: grid;
+    justify-items: center;
+    width: 100%;
+  }
+}

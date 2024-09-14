@@ -1,0 +1,82 @@
+@use "@/styles/mixin/mixins" as *;
+
+.header {
+  padding-inline: calc(var(--col) * 1 + var(--margin) * 1);
+  padding-block: 1.6rem;
+  position: fixed;
+  z-index: var(--z-index-header);
+  width: 100%;
+}
+
+.header__inner {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__title-logo {
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  column-gap: 0.4rem;
+}
+
+.header__title {
+  font-size: text(36);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+}
+
+.header__logo {
+  width: text(72);
+}
+
+.header__buttons {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 2.4rem;
+}
+
+@include mq(sp) {
+  .header {
+    padding-inline: calc(var(--margin) * 1);
+    padding-block: 1.6rem;
+    position: fixed;
+    z-index: var(--z-index-header);
+    width: 100%;
+  }
+
+  .header__inner {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .header__title-logo {
+    display: grid;
+    grid-template-columns: auto;
+    align-items: center;
+    column-gap: 0rem;
+  }
+
+  .header__title {
+    font-size: text(36);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+
+    display: none;
+  }
+
+  .header__logo {
+    width: text(40);
+  }
+
+  .header__buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 1.4rem;
+  }
+}

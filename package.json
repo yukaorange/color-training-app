@@ -6,19 +6,45 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint:style": "stylelint \"**/*.scss\"",
+    "lint:style:fix": "stylelint \"**/*.scss\" --fix"
   },
   "dependencies": {
+    "@react-three/drei": "^9.112.0",
+    "@react-three/fiber": "^8.17.7",
+    "@uiw/color-convert": "^2.3.0",
+    "@uiw/react-color": "^2.3.0",
+    "@uiw/react-color-colorful": "^2.3.0",
+    "gsap": "^3.12.5",
+    "lodash": "^4.17.21",
+    "next": "14.2.8",
     "react": "^18",
+    "react-colorful": "^5.6.1",
     "react-dom": "^18",
-    "next": "14.2.8"
+    "three": "^0.168.0",
+    "valtio": "^2.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/lodash": "^4.17.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.8"
+    "@typescript-eslint/eslint-plugin": "^8.4.0",
+    "@typescript-eslint/parser": "^8.4.0",
+    "eslint": "^9.10.0",
+    "eslint-config-next": "14.2.8",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.30.0",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.35.2",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "prettier": "^3.3.3",
+    "sass": "^1.78.0",
+    "stylelint": "^16.9.0",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^13.1.0",
+    "stylelint-order": "^6.0.4",
+    "typescript": "^5"
   }
 }

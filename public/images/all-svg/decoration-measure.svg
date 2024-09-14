@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 181 18">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="_レイヤー_1-2" data-name="レイヤー_1">
+    <g>
+      <line class="cls-1" x1=".5" x2=".5" y2="18"/>
+      <line class="cls-1" x1="6.5" y1="6" x2="6.5" y2="18"/>
+      <line class="cls-1" x1="12.5" y1="6" x2="12.5" y2="18"/>
+      <line class="cls-1" x1="18.5" y1="6" x2="18.5" y2="18"/>
+      <line class="cls-1" x1="24.5" y1="6" x2="24.5" y2="18"/>
+      <line class="cls-1" x1="30.5" x2="30.5" y2="18"/>
+      <line class="cls-1" x1="36.5" y1="6" x2="36.5" y2="18"/>
+      <line class="cls-1" x1="42.5" y1="6" x2="42.5" y2="18"/>
+      <line class="cls-1" x1="48.5" y1="6" x2="48.5" y2="18"/>
+      <line class="cls-1" x1="54.5" y1="6" x2="54.5" y2="18"/>
+      <line class="cls-1" x1="60.5" x2="60.5" y2="18"/>
+      <line class="cls-1" x1="66.5" y1="6" x2="66.5" y2="18"/>
+      <line class="cls-1" x1="72.5" y1="6" x2="72.5" y2="18"/>
+      <line class="cls-1" x1="78.5" y1="6" x2="78.5" y2="18"/>
+      <line class="cls-1" x1="84.5" y1="6" x2="84.5" y2="18"/>
+      <line class="cls-1" x1="90.5" x2="90.5" y2="18"/>
+      <line class="cls-1" x1="96.5" y1="6" x2="96.5" y2="18"/>
+      <line class="cls-1" x1="102.5" y1="6" x2="102.5" y2="18"/>
+      <line class="cls-1" x1="108.5" y1="6" x2="108.5" y2="18"/>
+      <line class="cls-1" x1="114.5" y1="6" x2="114.5" y2="18"/>
+      <line class="cls-1" x1="120.5" x2="120.5" y2="18"/>
+      <line class="cls-1" x1="126.5" y1="6" x2="126.5" y2="18"/>
+      <line class="cls-1" x1="132.5" y1="6" x2="132.5" y2="18"/>
+      <line class="cls-1" x1="138.5" y1="6" x2="138.5" y2="18"/>
+      <line class="cls-1" x1="144.5" y1="6" x2="144.5" y2="18"/>
+      <line class="cls-1" x1="150.5" x2="150.5" y2="18"/>
+      <line class="cls-1" x1="156.5" y1="6" x2="156.5" y2="18"/>
+      <line class="cls-1" x1="162.5" y1="6" x2="162.5" y2="18"/>
+      <line class="cls-1" x1="168.5" y1="6" x2="168.5" y2="18"/>
+      <line class="cls-1" x1="174.5" y1="6" x2="174.5" y2="18"/>
+      <line class="cls-1" x1="180.5" x2="180.5" y2="18"/>
+    </g>
+  </g>
+</svg>

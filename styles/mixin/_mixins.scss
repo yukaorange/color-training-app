@@ -1,0 +1,40 @@
+@use "./env";
+
+@mixin mq($device) {
+  @media #{map-get(env.$breakpoints, $device)} {
+    @content;
+  }
+}
+
+// touch device
+@mixin touch {
+  @media (hover: none) {
+    /* hoverが使えないタッチ端末を想定した装飾を記載（&:active使用する） */
+    // &:active{
+    @content;
+    // }
+  }
+}
+
+// not touch device
+@mixin no-touch {
+  @media (hover: hover) {
+    /* 非タッチ端末を想定した装飾を記載（&:hover使用する） */
+    // &:hover{
+    @content;
+    // }
+  }
+}
+
+@function cols($columns, $gaps: $columns - 1) {
+  @return calc(var(--col) * #{$columns} + var(--gap) * #{$gaps});
+}
+
+//16px想定時、最低フォント12pxを下回らない比率→1.333
+//16px想定時、最低フォント10pxを下回らない比率→1.6
+//いずれかで設定。
+@function text($size-px) {
+  $size-rem: $size-px / 10;
+  $min-px: $size-px / 1.6;
+  @return max(#{$size-rem}rem, #{$min-px}px);
+}

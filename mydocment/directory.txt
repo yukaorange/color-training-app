@@ -1,0 +1,55 @@
+src/
+│
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── editor/
+│   │   └── page.tsx
+│   └── archive/
+│       └── page.tsx
+│
+├── components/
+│   ├── layout/
+│   │   ├── Header.tsx
+│   │   └── Footer.tsx
+│   │
+│   ├── editor/
+│   │   ├── ColorGrid.tsx
+│   │   ├── ColorPicker.tsx
+│   │   └── SaveProjectModal.tsx
+│   │
+│   ├── archive/
+│   │   ├── ProjectList.tsx
+│   │   └── ProjectItem.tsx
+│   │
+│   └── common/
+│       ├── Button.tsx
+│       ├── Modal.tsx
+│       └── LoadingSpinner.tsx
+│
+├── hooks/
+│   ├── useColorProject.ts
+│   └── useArchive.ts
+│
+├── styles/
+│   └── scss/
+│
+├── utils/
+│   ├── colorUtils.ts
+│   └── dateUtils.ts
+│
+├── types/
+│   ├── project.ts
+│   └── user.ts
+│
+├── state/
+│   ├── colorProjectState.ts
+│   └── userState.ts
+│
+├── services/
+│   ├── api.ts
+│   └── firebase.ts
+│
+└── mocks/
+    ├── projectData.ts
+    └── userData.ts

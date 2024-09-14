@@ -1,0 +1,19 @@
+@use "@/styles/mixin/mixins" as *;
+
+.virtual-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  inset: 0;
+  z-index: var(--z-index-virtual-grid);
+}
+
+@include mq(sp) {
+  .virtual-grid {
+    position: fixed;
+    top: 0;
+    left: 0;
+    inset: 0;
+    z-index: var(--z-index-virtual-grid);
+  }
+}

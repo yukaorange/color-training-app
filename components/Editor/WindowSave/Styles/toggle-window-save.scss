@@ -1,0 +1,63 @@
+@use "@/styles/mixin/mixins" as *;
+
+.toggle-window-save {
+  display: grid;
+  grid-template-columns: auto auto;
+  width: cols(2.4);
+  padding: 0.4rem 0.8rem;
+  background-color: var(--active);
+  column-gap: 0.8rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggle-window-save--close {
+  background-color: transparent;
+}
+
+.toggle-window-save__text {
+  font-weight: 500;
+  font-size: text(16);
+  letter-spacing: 0.15em;
+}
+
+.toggle-window-save__icon {
+  display: grid;
+}
+
+.toggle-window-save__icon svg {
+  width: 2.4rem;
+  height: 1.6rem;
+}
+
+@include mq(sp) {
+  .toggle-window-save {
+    display: grid;
+    grid-template-columns: auto auto;
+    width: cols(2.4);
+    padding: 0.4rem 0.2rem;
+    background-color: var(--active);
+    column-gap: 0.4rem;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .toggle-window-save--close {
+    background-color: transparent;
+  }
+
+  .toggle-window-save__text {
+    font-weight: 500;
+    font-size: text(14);
+    letter-spacing: 0.15em;
+  }
+
+  .toggle-window-save__icon {
+    display: grid;
+  }
+
+  .toggle-window-save__icon svg {
+    width: 1.4rem;
+    height: 0.8rem;
+  }
+}

@@ -1,0 +1,33 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-save {
+  width: cols(7);
+  padding-block: 1.8rem;
+  padding-inline: 2.4rem;
+  background-color: var(--active);
+  display: grid;
+  justify-items: center;
+}
+
+.button-save__text {
+  font-weight: 500;
+  font-size: text(24);
+  letter-spacing: 0.15em;
+}
+
+@include mq(sp) {
+  .button-save {
+    width: cols(7);
+    padding-block: 1.4rem;
+    padding-inline: 1.6rem;
+    background-color: var(--active);
+    display: grid;
+    justify-items: center;
+  }
+
+  .button-save__text {
+    font-weight: 500;
+    font-size: text(16);
+    letter-spacing: 0.15em;
+  }
+}

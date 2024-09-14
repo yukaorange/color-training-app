@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_レイヤー_2" data-name="レイヤー_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 392.36 392.36">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+    </style>
+  </defs>
+  <g id="triangle">
+    <g id="triangle-2" data-name="triangle">
+      <g id="triangle_x5F__x5F_parts">
+        <polygon id="triangle_x5F__x5F_part" points="206.97 60.14 322.82 260.81 361.9 283.37 206.97 15.02 206.97 60.14"/>
+        <polygon id="triangle_x5F__x5F_part-2" data-name="triangle_x5F__x5F_part" points="74.14 259.82 189.2 60.54 189.2 15.42 33.96 284.3 74.14 259.82"/>
+        <polygon id="triangle_x5F__x5F_part-3" data-name="triangle_x5F__x5F_part" points="313.93 276.46 81.43 276.46 43.06 299.83 354.41 299.83 313.93 276.46"/>
+      </g>
+      <circle id="triangle_x5F__x5F_circle" class="cls-1" cx="196.18" cy="196.18" r="196.18"/>
+    </g>
+  </g>
+</svg>
