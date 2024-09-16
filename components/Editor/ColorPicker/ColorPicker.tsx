@@ -15,8 +15,11 @@ interface ColorPickerProps {
 }
 
 export const ColorPicker = ({ onClick, isOpen }: ColorPickerProps) => {
-  const { activeCell, selectedElement, cellColors } = useSnapshot(editorStore);
+  const snap = useSnapshot(editorStore);
+  const { activeCell, selectedElement, cellColors } = snap;
+
   const [hsva, setHsva] = useState({ h: 0, s: 0, v: 0, a: 1 });
+
   const [currentHex, setCurrentHex] = useState('');
   const { setSelectedElement, setColor } = actions;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
