@@ -17,14 +17,25 @@
   transition: 0.2s;
 }
 
+.button-editor--is-disabled {
+  opacity: 0.2;
+}
+
 @media (hover: hover) and (pointer: fine) {
   .button-editor:hover .button-editor__icon {
   }
   .button-editor:hover #button__frame {
-    stroke: var(--active);
   }
   .button-editor:hover #button__arrow {
     fill: var(--active);
+  }
+  .button-editor--is-disabled:hover {
+  }
+  .button-editor--is-disabled:hover #button__arrow {
+    fill: var(--black);
+  }
+  .button-editor--is-disabled:hover #button__frame {
+    stroke: var(--black);
   }
 }
 

@@ -6,6 +6,7 @@
   left: 0;
   inset: 0;
   z-index: var(--z-index-virtual-grid);
+  user-select: none;
 }
 
 @include mq(sp) {
@@ -15,5 +16,6 @@
     left: 0;
     inset: 0;
     z-index: var(--z-index-virtual-grid);
+    user-select: none;
   }
 }

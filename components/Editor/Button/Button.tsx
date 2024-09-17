@@ -1,9 +1,27 @@
 import '@/components/Editor/Button/styles/button-editor.scss';
 
-export const Button = ({ indicate }: { indicate: string }) => {
-  const RightButton = () => {
-    return (
-      <div className="button-editor button-editor--right">
+import { actions } from '@/store/editorStore';
+
+interface ButtonProps {
+  indicate: string;
+  disabled: boolean;
+}
+
+export const Button = ({ indicate, disabled }: ButtonProps) => {
+  const handleClick = () => {
+    if (indicate === 'right') {
+      actions.redo();
+    } else {
+      actions.undo();
+    }
+  };
+
+  return (
+    <div
+      className={`button-editor button-editor--${indicate} button-editor--${disabled ? 'is-disabled ' : ''}`}
+      onClick={handleClick}
+    >
+      {indicate === 'right' ? (
         <svg
           className="button-editor__icon"
           width="72"
@@ -27,13 +45,7 @@ export const Button = ({ indicate }: { indicate: string }) => {
             />
           </g>
         </svg>
-      </div>
-    );
-  };
-
-  const LeftButton = () => {
-    return (
-      <div className="button-editor button-editor--left">
+      ) : (
         <svg
           className="button-editor__icon"
           width="72"
@@ -57,9 +69,7 @@ export const Button = ({ indicate }: { indicate: string }) => {
             />
           </g>
         </svg>
-      </div>
-    );
-  };
-
-  return indicate == 'right' ? <RightButton /> : <LeftButton />;
+      )}
+    </div>
+  );
 };

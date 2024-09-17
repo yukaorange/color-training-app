@@ -4,8 +4,6 @@
   position: absolute;
   z-index: 0;
 
-  opacity: 0.0;
-
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -18,6 +16,8 @@
   position: absolute;
   background-color: var(--white);
   border: 1px solid var(--black);
+  opacity: 0;
+  // pointer-events: auto;
 }
 
 @include mq(sp) {

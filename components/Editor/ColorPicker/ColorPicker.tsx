@@ -1,44 +1,42 @@
 import '@/components/Editor/ColorPicker/styles/color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/toggle-color-picker.scss';
+import '@/components/Editor/ColorPicker/styles/button-done.scss';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useSnapshot } from 'valtio';
 import { actions, editorStore } from '@/store/editorStore';
+
+import Image from 'next/image';
 
 import Colorful from '@uiw/react-color-colorful';
 import { hexToHsva } from '@uiw/color-convert';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
+import { set } from 'lodash';
 
 interface ColorPickerProps {
-  onClick: () => void;
+  onClose: () => void;
   isOpen: boolean;
 }
 
-export const ColorPicker = ({ onClick, isOpen }: ColorPickerProps) => {
-  const snap = useSnapshot(editorStore);
-  const { activeCell, selectedElement, cellColors } = snap;
-
-  const [hsva, setHsva] = useState({ h: 0, s: 0, v: 0, a: 1 });
-
+export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
+  const { selectedElement, activeCell, tempCellColors, cellColors, isChanged } =
+    useSnapshot(editorStore);
+  const { setSelectedElement, setTempColor, applyColorChange, updateChangedFlag } = actions;
   const [currentHex, setCurrentHex] = useState('');
-  const { setSelectedElement, setColor } = actions;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (activeCell !== null && cellColors[activeCell]) {
-      const currentColor = cellColors[activeCell][selectedElement];
-      setCurrentHex(currentColor);
+    if (activeCell !== null && tempCellColors[activeCell]) {
+      setCurrentHex(tempCellColors[activeCell][selectedElement]);
     }
-  }, [selectedElement, activeCell, cellColors]);
+  }, [activeCell, selectedElement, tempCellColors]);
 
-  useEffect(() => {
+  const hsva = useMemo(() => {
     if (currentHex !== '') {
-      const newHsva = hexToHsva(currentHex);
-      if (JSON.stringify(newHsva) !== JSON.stringify(hsva)) {
-        setHsva(newHsva);
-      }
+      return hexToHsva(currentHex);
     }
-  }, [currentHex, hsva]);
+    return { h: 0, s: 0, v: 0, a: 1 };
+  }, [currentHex]);
 
   const handleColorChange = useCallback(
     (color: { hex: string; hsva: typeof hsva }) => {
@@ -49,18 +47,25 @@ export const ColorPicker = ({ onClick, isOpen }: ColorPickerProps) => {
       }
 
       timeoutRef.current = setTimeout(() => {
-        setColor(color.hex);
+        setTempColor(color.hex);
+        updateChangedFlag();
       }, 300);
     },
-    [activeCell, setColor]
+    [setTempColor]
   );
+
+  const handleDoneClick = useCallback(() => {
+    applyColorChange();
+    onClose();
+    updateChangedFlag();
+  }, []);
 
   return (
     <>
       <div className={`color-picker ${isOpen ? 'color-picker--is-open' : ''}`}>
         <div
           className={`color-picker__toggle ${isOpen ? 'color-picker__toggle--is-open' : ''}`}
-          onClick={onClick}
+          onClick={onClose}
         >
           <ToggleColorPicker isOpen={isOpen} />
         </div>
@@ -83,9 +88,17 @@ export const ColorPicker = ({ onClick, isOpen }: ColorPickerProps) => {
             <div className="color-picker__palette">
               <Colorful color={hsva} onChange={handleColorChange} disableAlpha={true} />
             </div>
-            <button className="color-picker__done-button _en" onClick={onClick}>
-              done
-            </button>
+            <div className="color-picker__button _en">
+              <button
+                className={`button-done ${isChanged ? '' : 'button-done--is-disabled'}`}
+                onClick={handleDoneClick}
+              >
+                <span className="button-done__text">done</span>
+                <span className="button-done__icon">
+                  <Image src="/images/editor/submit-check.svg" alt="" width={15} height={10} />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
         <div className="color-picker__corner">
@@ -98,7 +111,7 @@ export const ColorPicker = ({ onClick, isOpen }: ColorPickerProps) => {
       </div>
       <div
         className={`color-picker-overlay ${isOpen ? 'color-picker-overlay--is-open' : ''}`}
-        onClick={onClick}
+        onClick={onClose}
       ></div>
     </>
   );

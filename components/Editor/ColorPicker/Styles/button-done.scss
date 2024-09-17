@@ -1,0 +1,39 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-done {
+  width: cols(3);
+  padding: 0.8rem 2.4rem;
+  background-color: var(--active);
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.4rem;
+}
+
+.button-done--is-disabled {
+  background-color: transparent;
+  border: 0.1rem solid var(--inactive);
+  cursor: auto;
+  pointer-events: none;
+}
+
+.button-done__text {
+  font-size: 1.6rem;
+  font-weight: 400;
+}
+
+.button-done__icon {
+  display: grid;
+  width: 1.5rem;
+  height: 1rem;
+}
+
+.button-done__icon img {
+  object-fit: contain;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .button-done:hover {
+  }
+}

@@ -62,6 +62,10 @@
   pointer-events: auto;
 }
 
+.editor__buttons.is-disabled {
+  opacity: 0.2;
+}
+
 .editor__save {
   position: absolute;
   z-index: var(--z-editor__save);

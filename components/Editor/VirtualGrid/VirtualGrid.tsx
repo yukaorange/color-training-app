@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo, useCallback, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrthographicCamera } from '@react-three/drei';
+import { PerspectiveCamera } from '@react-three/drei';
 import { ResponsiveCells } from '@/components/Editor/VirtualGrid/ResponsiveCells';
 
 import '@/components/Editor/VirtualGrid/styles/virtual-grid.scss';
@@ -16,7 +16,7 @@ export const VirtualGrid = ({ gridRef }: VirtualGridProps) => {
     <div className="virtual-grid">
       <Suspense fallback={<Loading />}>
         <Canvas>
-          <OrthographicCamera makeDefault position={[0, 0, 5]} />
+          <PerspectiveCamera makeDefault position={[0, 0, 5]} />
           <ResponsiveCells gridRef={gridRef} />
         </Canvas>
       </Suspense>

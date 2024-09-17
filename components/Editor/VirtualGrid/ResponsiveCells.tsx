@@ -20,39 +20,31 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
     { position: [number, number, number]; scale: [number, number, number] }[]
   >([]);
   const lastClickTimeRef = useRef(0);
-  const { activeCell, cellColors } = useSnapshot(editorStore);
-  const { setActiveCell, toggleColorPicker } = actions;
+  const { activeCell, tempCellColors } = useSnapshot(editorStore);
+  const { setActiveCell, openColorPicker } = actions;
 
   const updateCellPositions = useCallback(() => {
-    if (gridRef.current && camera instanceof THREE.OrthographicCamera) {
+    if (gridRef.current && camera instanceof THREE.PerspectiveCamera) {
       const cellElements = gridRef.current.querySelectorAll('[data-ui-name="cell"]');
 
       const aspect = size.width / size.height;
-      const OrthographicCamera = camera as THREE.OrthographicCamera;
-
-      const frustumSize = OrthographicCamera.top - OrthographicCamera.bottom;
+      const vFov = camera.fov;
+      const height = 2 * camera.position.z * Math.tan((vFov * Math.PI) / 180 / 2);
+      const width = height * aspect;
 
       const standardPosition = {
-        x: -(frustumSize * aspect) / 2,
-        y: frustumSize / 2,
+        x: -width / 2,
+        y: height / 2,
       };
 
       cellPositionsRef.current = Array.from(cellElements).map((cell, index) => {
         const cellRect = cell.getBoundingClientRect();
 
-        const centerX = cellRect.width / 2;
-        const centerY = -cellRect.height / 2;
+        const scaleX = (cellRect.width / size.width) * width;
+        const scaleY = (cellRect.height / size.height) * height;
 
-        const cellPosition = {
-          x: (cellRect.left / size.width) * frustumSize * aspect,
-          y: -(cellRect.top / size.height) * frustumSize,
-        };
-
-        const x = centerX + cellPosition.x + standardPosition.x;
-        const y = centerY + cellPosition.y + standardPosition.y;
-
-        const scaleX = (cellRect.width / size.width) * frustumSize * aspect;
-        const scaleY = (cellRect.height / size.height) * frustumSize;
+        const x = (cellRect.left / size.width) * width + standardPosition.x + scaleX / 2;
+        const y = -(cellRect.top / size.height) * height + standardPosition.y - scaleY / 2;
 
         return {
           position: [x, y, 0] as [number, number, number],
@@ -70,16 +62,12 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
     updateCellPositions();
   });
 
-  useEffect(() => {
-    updateCellPositions();
-  }, [isInitialized]);
-
   const handleClick = useCallback((index: number) => {
     const now = performance.now();
     if (now - lastClickTimeRef.current > 300) {
       lastClickTimeRef.current = now;
       setActiveCell(index);
-      toggleColorPicker();
+      openColorPicker();
     }
   }, []);
 
@@ -91,10 +79,10 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
         cellPositionsRef={cellPositionsRef}
         onClick={() => handleClick(index)}
         isActive={activeCell === index}
-        colors={cellColors[index]}
+        colors={tempCellColors[index]}
       />
     ));
-  }, [isInitialized, activeCell, cellPositionsRef, handleClick, cellColors]);
+  }, [isInitialized, activeCell, cellPositionsRef, handleClick, tempCellColors]);
 
   return <group>{cells}</group>;
 };
@@ -153,8 +141,8 @@ const GridCell = React.memo(
       if (groupRef.current && cellPositionsRef.current[index]) {
         const { position, scale } = cellPositionsRef.current[index];
 
-        const activeScale = isActive ? 1.2 : 1.01;
-        const activeZoom = isActive ? 2 : 1;
+        const activeScale = isActive ? 1.1 : 1.0;
+        const activeZoom = isActive ? 0.01 : 0;
         const activeFrame = isActive ? 1 : 0;
 
         const targetScaleX = THREE.MathUtils.lerp(

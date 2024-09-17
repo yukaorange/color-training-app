@@ -16,32 +16,26 @@ import { useSnapshot } from 'valtio';
 
 export default function EditorAndVirtualGrid() {
   const gridRef = useRef<HTMLDivElement>(null);
-  const { activeCell, isColorPickerOpen } = useSnapshot(editorStore);
-  const { setActiveCell, toggleColorPicker } = actions;
+  const { isColorPickerOpen } = useSnapshot(editorStore);
 
   return (
     <>
-      <Editor
-        gridRef={gridRef}
-        setIsColorPickerOpen={toggleColorPicker}
-        isColorPickerOpen={isColorPickerOpen}
-      />
-      <VirtualGrid
-        gridRef={gridRef}
-      />
+      <Editor gridRef={gridRef} isColorPickerOpen={isColorPickerOpen} />
+      <VirtualGrid gridRef={gridRef} />
     </>
   );
 }
 
 interface EditorProps {
   gridRef: React.RefObject<HTMLDivElement>;
-  setIsColorPickerOpen: () => void;
+
   isColorPickerOpen: boolean;
 }
 
-const Editor = ({ gridRef, setIsColorPickerOpen, isColorPickerOpen }: EditorProps) => {
+const Editor = ({ gridRef, isColorPickerOpen }: EditorProps) => {
+  const { canUndo, canRedo } = useSnapshot(editorStore);
+  const { closeColorPicker } = actions;
   const [activeExplanation, setActiveExplanation] = useState(1);
-
   const [isWindowSaveOpen, setIsWindowSaveOpen] = useState(false);
 
   const handleExplanationClick = () => {
@@ -59,9 +53,9 @@ const Editor = ({ gridRef, setIsColorPickerOpen, isColorPickerOpen }: EditorProp
           <div ref={gridRef}>
             <Grid />
           </div>
-          <div className="editor__buttons">
-            <Button indicate="left" />
-            <Button indicate="right" />
+          <div className={`editor__buttons ${isColorPickerOpen ? 'is-disabled' : ''}`}>
+            <Button indicate="left" disabled={!canUndo} />
+            <Button indicate="right" disabled={!canRedo} />
           </div>
         </div>
         <div className="editor__ui-space">
@@ -102,7 +96,7 @@ const Editor = ({ gridRef, setIsColorPickerOpen, isColorPickerOpen }: EditorProp
       </div>
       {/* colorpicker */}
       <div className="editor__colorpicker">
-        <ColorPicker onClick={setIsColorPickerOpen} isOpen={isColorPickerOpen} />
+        <ColorPicker onClose={closeColorPicker} isOpen={isColorPickerOpen} />
       </div>
     </main>
   );

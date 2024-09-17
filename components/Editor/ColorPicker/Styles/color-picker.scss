@@ -72,6 +72,11 @@
   height: 2rem !important;
 }
 
+.color-picker__button {
+  display: grid;
+  justify-items: end;
+}
+
 .color-picker__corner {
   position: absolute;
   z-index: var(--z-color-picker__corner);
@@ -99,7 +104,7 @@
 }
 
 .color-picker-overlay--is-open {
-  background-color: var(--overlay2);
+  background-color: transparent;
   pointer-events: auto;
 }
 
@@ -212,7 +217,7 @@
   }
 
   .color-picker-overlay--is-open {
-    background-color: var(--overlay2);
+    background-color: transparent;
     pointer-events: auto;
   }
 }
