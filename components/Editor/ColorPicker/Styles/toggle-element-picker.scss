@@ -1,0 +1,97 @@
+@use "@/styles/mixin/mixins" as *;
+
+.toggle-element-picker {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-content: inherit;
+  position: relative;
+  z-index: 0;
+  width: cols(7);
+  justify-content: start;
+}
+
+.toggle-element-picker__button {
+  font-size: 1.6rem;
+  padding: 0.4rem 0.8rem;
+  width: cols(3.5);
+
+  border-top: 0.1rem solid var(--black);
+  border-right: 0.1rem solid var(--black);
+  border-bottom: 0.1rem solid var(--black);
+  border-left: 0.1rem solid var(--black);
+}
+
+.toggle-element-picker__button:nth-child(2) {
+  border-left: none;
+}
+
+.toggle-element-picker__button--is-active {
+  color: var(--black);
+}
+
+.toggle-element-picker__button--is-inactive {
+  background-color: transparent;
+}
+
+.toggle-element-picker__glider {
+  position: absolute;
+  z-index: -1;
+  background-color: var(--active);
+  width: cols(3.5);
+  height: 100%;
+  transition: 0.2s;
+}
+
+.toggle-element-picker__button:nth-child(1).toggle-element-picker__button--is-active ~ .toggle-element-picker__glider {
+  transform: translateX(0%);
+}
+
+.toggle-element-picker__button:nth-child(2).toggle-element-picker__button--is-active ~ .toggle-element-picker__glider {
+  transform: translateX(100%);
+}
+
+@include mq(sp) {
+  .toggle-element-picker {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-content: inherit;
+    position: relative;
+    z-index: 0;
+    width: cols(7);
+    justify-content: start;
+  }
+
+  .toggle-element-picker__button {
+    font-size: 1.4rem;
+    padding: 0.2rem 0.4rem;
+    width: cols(3.5);
+    // color: var(--inactive);
+  }
+
+  .toggle-element-picker__button--is-active {
+    color: var(--black);
+  }
+
+  .toggle-element-picker__button--is-inactive {
+    background-color: transparent;
+  }
+
+  .toggle-element-picker__glider {
+    position: absolute;
+    z-index: -1;
+    background-color: var(--active);
+    width: cols(3.5);
+    height: 100%;
+    transition: 0.2s;
+  }
+
+  .toggle-element-picker__button:nth-child(1).toggle-element-picker__button--is-active
+    ~ .toggle-element-picker__glider {
+    transform: translateX(0%);
+  }
+
+  .toggle-element-picker__button:nth-child(2).toggle-element-picker__button--is-active
+    ~ .toggle-element-picker__glider {
+    transform: translateX(100%);
+  }
+}

@@ -1,0 +1,32 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-setting {
+  display: grid;
+  align-items: center;
+  grid-template-columns: auto auto;
+  justify-items: center;
+  justify-content: center;
+  padding: 1.8rem 2.4rem;
+  column-gap: 0.8rem;
+}
+
+.button-setting__text {
+  font-size: 2.4rem;
+}
+
+.button-setting__icon {
+  display: grid;
+}
+
+.button-setting__icon svg {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.button-setting--new {
+  background-color: var(--new);
+}
+
+.button-setting--delete {
+  background-color: var(--danger);
+}

@@ -143,7 +143,7 @@ const GridCell = React.memo(
 
         const activeScale = isActive ? 1.1 : 1.0;
         const activeZoom = isActive ? 0.01 : 0;
-        const activeFrame = isActive ? 1 : 0;
+        const activeFrame = isActive ? 1.1 : 0;
 
         const targetScaleX = THREE.MathUtils.lerp(
           groupRef.current.scale.x,

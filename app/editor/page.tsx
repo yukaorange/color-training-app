@@ -11,12 +11,39 @@ import { ColorPicker } from '@/components/Editor/ColorPicker/ColorPicker';
 import { VirtualGrid } from '@/components/Editor/VirtualGrid/VirtualGrid';
 import { actions, editorStore } from '@/store/editorStore';
 
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 
 export default function EditorAndVirtualGrid() {
   const gridRef = useRef<HTMLDivElement>(null);
   const { isColorPickerOpen } = useSnapshot(editorStore);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem('editorStore');
+    if (savedState) {
+      try {
+        const parsedState = JSON.parse(savedState);
+        if (parsedState.cellColors && Array.isArray(parsedState.cellColors)) {
+          editorStore.cellColors = parsedState.cellColors;
+          editorStore.tempCellColors = parsedState.cellColors;
+        }
+        if (parsedState.history && Array.isArray(parsedState.history)) {
+          editorStore.history = parsedState.history;
+        }
+        if (typeof parsedState.historyIndex === 'number') {
+          editorStore.historyIndex = parsedState.historyIndex;
+        }
+        if (typeof parsedState.canUndo === 'boolean') {
+          editorStore.canUndo = parsedState.canUndo;
+        }
+        if (typeof parsedState.canRedo === 'boolean') {
+          editorStore.canRedo = parsedState.canRedo;
+        }
+      } catch (error) {
+        console.error('Failed to parse saved state:', error);
+      }
+    }
+  }, []);
 
   return (
     <>

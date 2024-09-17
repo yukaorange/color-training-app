@@ -1,6 +1,7 @@
 import '@/components/Editor/ColorPicker/styles/color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/toggle-color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/button-done.scss';
+import '@/components/Editor/ColorPicker/styles/toggle-element-picker.scss';
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useSnapshot } from 'valtio';
@@ -11,7 +12,6 @@ import Image from 'next/image';
 import Colorful from '@uiw/react-color-colorful';
 import { hexToHsva } from '@uiw/color-convert';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
-import { set } from 'lodash';
 
 interface ColorPickerProps {
   onClose: () => void;
@@ -57,7 +57,6 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
   const handleDoneClick = useCallback(() => {
     applyColorChange();
     onClose();
-    updateChangedFlag();
   }, []);
 
   return (
@@ -72,18 +71,21 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
         <div className="color-picker__inner">
           <div className="color-picker__library">
             <div className="color-picker__element-selector">
-              <button
-                onClick={() => setSelectedElement('square')}
-                className={selectedElement === 'square' ? 'active' : ''}
-              >
-                Square
-              </button>
-              <button
-                onClick={() => setSelectedElement('circle')}
-                className={selectedElement === 'circle' ? 'active' : ''}
-              >
-                Circle
-              </button>
+              <div className="toggle-element-picker">
+                <button
+                  onClick={() => setSelectedElement('square')}
+                  className={`toggle-element-picker__button toggle-element-picker__button${selectedElement === 'square' ? '--is-active' : '--is-inactive'} _en`}
+                >
+                  Square
+                </button>
+                <button
+                  onClick={() => setSelectedElement('circle')}
+                  className={`toggle-element-picker__button toggle-element-picker__button${selectedElement === 'circle' ? '--is-active' : '--is-inactive'} _en`}
+                >
+                  Circle
+                </button>
+                <div className="toggle-element-picker__glider"></div>
+              </div>
             </div>
             <div className="color-picker__palette">
               <Colorful color={hsva} onChange={handleColorChange} disableAlpha={true} />

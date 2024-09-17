@@ -3,6 +3,8 @@
 .button-editor {
   display: grid;
 
+  transition: 0.2s;
+
   cursor: pointer;
 }
 
@@ -22,20 +24,32 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .button-editor:hover {
+  }
   .button-editor:hover .button-editor__icon {
   }
+
+  .button-editor:active {
+    translate: 0.2rem 0.4rem;
+  }
+  .button-editor:nth-child(2):active {
+    translate: -0.2rem 0.4rem;
+  }
+
   .button-editor:hover #button__frame {
+    fill: var(--black);
   }
   .button-editor:hover #button__arrow {
-    fill: var(--active);
+    fill: var(--white);
   }
   .button-editor--is-disabled:hover {
+    cursor: auto;
   }
   .button-editor--is-disabled:hover #button__arrow {
     fill: var(--black);
   }
   .button-editor--is-disabled:hover #button__frame {
-    stroke: var(--black);
+    fill: none;
   }
 }
 

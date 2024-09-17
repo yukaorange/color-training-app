@@ -1,4 +1,4 @@
-import { proxy } from 'valtio';
+import { proxy, subscribe } from 'valtio';
 
 interface CellColors {
   square: string;
@@ -42,6 +42,55 @@ export const editorStore = proxy<EditorStore>({
   canRedo: false,
 });
 
+const isValidColor = (color: string): boolean => {
+  return /^#[0-9A-F]{6}$/i.test(color);
+};
+
+const loadState = () => {
+  if (typeof window === 'undefined') return;
+  const savedState = localStorage.getItem('editorStore');
+
+  if (savedState) {
+    try {
+      const parsedState = JSON.parse(savedState);
+
+      if (Array.isArray(parsedState.cellXolors)) {
+        parsedState.cellColors = parsedState.cellColors.map((cell: any) => {
+          return {
+            square: isValidColor(cell.square) ? cell.square : initialCellColors.square,
+            circle: isValidColor(cell.circle) ? cell.circle : initialCellColors.circle,
+          };
+        });
+
+        return parsedState;
+      }
+    } catch (error) {
+      console.error('failded to parse saved state', error);
+    }
+  }
+
+  return {};
+};
+
+const savedState = loadState();
+
+const saveState = () => {
+  if (typeof window === 'undefined') return;
+  const state = {
+    cellColors: editorStore.cellColors,
+    history: editorStore.history,
+    historyIndex: editorStore.historyIndex,
+    canUndo: editorStore.canUndo,
+    canRedo: editorStore.canRedo,
+  };
+
+  localStorage.setItem('editorStore', JSON.stringify(state));
+};
+
+subscribe(editorStore, () => {
+  saveState();
+});
+
 export const actions = {
   setActiveCell: (cell: number | null) => {
     editorStore.activeCell = cell;
@@ -82,12 +131,13 @@ export const actions = {
   openColorPicker: () => {
     editorStore.isColorPickerOpen = true;
     editorStore.tempCellColors = [...editorStore.cellColors];
-    actions.updateChangedFlag()
+    actions.updateChangedFlag();
   },
   closeColorPicker: () => {
     editorStore.isColorPickerOpen = false;
     editorStore.tempCellColors = [...editorStore.cellColors];
     editorStore.activeCell = null;
+    actions.updateChangedFlag();
   },
   updateChangedFlag: () => {
     editorStore.isChanged = editorStore.tempCellColors.some(
@@ -95,8 +145,6 @@ export const actions = {
         cellColor.square !== editorStore.cellColors[index].square ||
         cellColor.circle !== editorStore.cellColors[index].circle
     );
-
-    console.log(editorStore.isChanged);
   },
   undo: () => {
     if (editorStore.historyIndex >= 0) {

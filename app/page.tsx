@@ -79,7 +79,7 @@ export default function Top() {
           </div>
           <div className="top__text-loop">
             <div className="text-loop" style={{ opacity: 0 }}>
-              {Array.from({ length: 2 }).map((_,index) => {
+              {Array.from({ length: 2 }).map((_, index) => {
                 return (
                   <div key={index} className="text-loop__col">
                     <p className="text-loop__text">

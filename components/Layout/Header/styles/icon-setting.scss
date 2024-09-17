@@ -9,6 +9,11 @@
   justify-items: center;
   justify-content: center;
   row-gap: 0.4rem;
+
+  transition: 0.2s;
+  background-size: 200%;
+  background-position: 100% 50%;
+  background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
 }
 
 .icon-setting__icon {
@@ -18,6 +23,31 @@
 
 .icon-setting__text {
   font-size: 1rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .icon-setting:hover {
+    cursor: pointer;
+
+    background-size: 200%;
+    background-position: 0% 50%;
+    background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+  }
+
+  .icon-setting:hover .icon-setting__icon {
+    animation-name: rotation;
+    animation-iteration-count: infinite;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+  }
+
+  .icon-setting:hover .icon-setting__text {
+    color: var(--white);
+  }
+
+  .icon-setting:hover .icon-setting__icon path {
+    fill: var(--white);
+  }
 }
 
 @include mq(sp) {
