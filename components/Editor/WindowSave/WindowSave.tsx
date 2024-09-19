@@ -24,54 +24,6 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     );
   };
 
-  const Arrow = () => {
-    return (
-      <svg
-        width={24}
-        height={16}
-        viewBox="0 0 24 16"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        aria-hidden="true"
-      >
-        <g id="arrow-down">
-          <path
-            id="Vector"
-            d="M0 0.83786L12 8.00002L24 0.83786V3.22644L12 10.3886L0 3.22644V0.83786Z"
-            fill="#0D0D0D"
-          />
-          <path
-            id="Vector_2"
-            d="M0 5.61142L12 12.7736L24 5.61142V8L12 15.1622L0 8V5.61142Z"
-            fill="#0D0D0D"
-          />
-        </g>
-      </svg>
-    );
-  };
-
-  const Corner = () => {
-    return (
-      <svg
-        width={40}
-        height={40}
-        viewBox="0 0 40 40"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path d="M0 0V40L40 0H0Z" fill="#5f5f5f" />
-      </svg>
-    );
-  };
-
-  const ButtonSave = () => {
-    return (
-      <div className="button-save">
-        <div className="button-save__text _en">Sign In</div>
-      </div>
-    );
-  };
-
   return (
     <>
       <div className={`window-save ${isOpen ? 'window-save--is-open' : ''}`}>
@@ -111,5 +63,47 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
         onClick={onClick}
       ></div>
     </>
+  );
+};
+
+const Arrow = () => {
+  return (
+    <svg
+      width={24}
+      height={16}
+      viewBox="0 0 24 16"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <g id="arrow-down">
+        <path
+          id="Vector"
+          d="M0 0.83786L12 8.00002L24 0.83786V3.22644L12 10.3886L0 3.22644V0.83786Z"
+          fill="#0D0D0D"
+        />
+        <path
+          id="Vector_2"
+          d="M0 5.61142L12 12.7736L24 5.61142V8L12 15.1622L0 8V5.61142Z"
+          fill="#0D0D0D"
+        />
+      </g>
+    </svg>
+  );
+};
+
+const Corner = () => {
+  return (
+    <svg width={40} height={40} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0V40L40 0H0Z" fill="#5f5f5f" />
+    </svg>
+  );
+};
+
+const ButtonSave = () => {
+  return (
+    <div className="button-save">
+      <div className="button-save__text _en">Sign In</div>
+    </div>
   );
 };

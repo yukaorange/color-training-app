@@ -21,6 +21,7 @@
 
 .button-editor--is-disabled {
   opacity: 0.2;
+  pointer-events: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -30,10 +31,10 @@
   }
 
   .button-editor:active {
-    translate: 0.2rem 0.4rem;
+    translate: 0rem 0.2rem;
   }
   .button-editor:nth-child(2):active {
-    translate: -0.2rem 0.4rem;
+    translate: 0rem 0.2rem;
   }
 
   .button-editor:hover #button__frame {
@@ -56,6 +57,13 @@
 @include mq(sp) {
   .button-editor {
     display: grid;
+  }
+
+  .button-editor:active {
+    translate: 0rem 0.2rem;
+  }
+  .button-editor:nth-child(2):active {
+    translate: 0rem 0.2rem;
   }
 
   .button-editor__icon {

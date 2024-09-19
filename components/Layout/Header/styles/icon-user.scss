@@ -6,7 +6,7 @@
   border: 0.1rem solid var(--black);
 
   transition: 0.2s;
-  background-size: 200%;
+  background-size: 220%;
   background-position: 100% 50%;
   background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
 }
@@ -22,7 +22,6 @@
   .icon-user:hover {
     cursor: pointer;
 
-    background-size: 200%;
     background-position: 0% 50%;
     background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
   }

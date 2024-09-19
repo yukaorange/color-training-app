@@ -87,8 +87,7 @@ export default function Top() {
                       色彩表示グリッドに着色し、色彩感覚を養うためのアプリケーションです。
                     </p>
                     <p className="text-loop__text text-loop--en">
-                      This is an application for developing color sense by coloring a 6x6 grid of 3D
-                      color display cubes.
+                      This is an application for developing color sense by coloring a 6x6 grid.
                     </p>
                   </div>
                 );

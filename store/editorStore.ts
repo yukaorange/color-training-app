@@ -9,6 +9,14 @@ interface HistoryEntry {
   cellColors: CellColors[];
 }
 
+interface ArchivedSet {
+  id: string;
+  title: string;
+  cellColors: CellColors[];
+  createdAt: Date;
+  modifiedAt: Date;
+}
+
 interface EditorStore {
   activeCell: number | null;
   isColorPickerOpen: boolean;
@@ -21,6 +29,7 @@ interface EditorStore {
   isChanged: boolean;
   canUndo: boolean;
   canRedo: boolean;
+  archivedSets: ArchivedSet[];
 }
 
 const initialCellColors: CellColors = {
@@ -40,6 +49,7 @@ export const editorStore = proxy<EditorStore>({
   isChanged: false,
   canUndo: false,
   canRedo: false,
+  archivedSets: [],
 });
 
 const isValidColor = (color: string): boolean => {
@@ -54,7 +64,7 @@ const loadState = () => {
     try {
       const parsedState = JSON.parse(savedState);
 
-      if (Array.isArray(parsedState.cellXolors)) {
+      if (Array.isArray(parsedState.cellColors)) {
         parsedState.cellColors = parsedState.cellColors.map((cell: any) => {
           return {
             square: isValidColor(cell.square) ? cell.square : initialCellColors.square,
@@ -64,6 +74,16 @@ const loadState = () => {
 
         return parsedState;
       }
+
+      if (Array.isArray(parsedState.archivedSets)) {
+        parsedState.archivedSets = parsedState.archivedSets.map((set: any) => ({
+          ...set,
+          cellColors: set.cellColors.map((cell: any) => ({
+            square: isValidColor(cell.square) ? cell.square : initialCellColors.square,
+            circle: isValidColor(cell.circle) ? cell.circle : initialCellColors.circle,
+          })),
+        }));
+      }
     } catch (error) {
       console.error('failded to parse saved state', error);
     }
@@ -72,10 +92,9 @@ const loadState = () => {
   return {};
 };
 
-const savedState = loadState();
-
 const saveState = () => {
   if (typeof window === 'undefined') return;
+
   const state = {
     cellColors: editorStore.cellColors,
     history: editorStore.history,
@@ -118,15 +137,21 @@ export const actions = {
   applyColorChange: () => {
     editorStore.cellColors = [...editorStore.tempCellColors];
 
-    editorStore.history = [
-      ...editorStore.history.slice(0, editorStore.historyIndex + 1),
-      { cellColors: editorStore.cellColors },
-    ]; // indexまでのhistoryを並べ、その後に新しいhistoryを追加（更新のアルゴリズム）
-
-    editorStore.historyIndex++;
+    // historyIndexが-1なら新しい履歴を開始
+    if (editorStore.historyIndex === -1) {
+      editorStore.history = [{ cellColors: editorStore.cellColors }];
+      editorStore.historyIndex = 0;
+    } else {
+      editorStore.history = [
+        ...editorStore.history.slice(0, editorStore.historyIndex + 1),
+        { cellColors: editorStore.cellColors },
+      ];
+      editorStore.historyIndex++;
+    }
 
     editorStore.canUndo = true;
     editorStore.canRedo = false;
+    editorStore.isChanged = true;
   },
   openColorPicker: () => {
     editorStore.isColorPickerOpen = true;
@@ -147,33 +172,93 @@ export const actions = {
     );
   },
   undo: () => {
-    if (editorStore.historyIndex >= 0) {
+    if (editorStore.historyIndex > -1) {
       editorStore.historyIndex--;
       editorStore.cellColors =
         editorStore.historyIndex === -1
           ? [...editorStore.initialCellColors]
           : [...editorStore.history[editorStore.historyIndex].cellColors];
-
       editorStore.tempCellColors = [...editorStore.cellColors];
 
       editorStore.canUndo = editorStore.historyIndex > -1;
       editorStore.canRedo = true;
+      editorStore.isChanged = editorStore.historyIndex !== -1;
     }
   },
   redo: () => {
     if (editorStore.historyIndex < editorStore.history.length - 1) {
       editorStore.historyIndex++;
       editorStore.cellColors = [...editorStore.history[editorStore.historyIndex].cellColors];
-
       editorStore.tempCellColors = [...editorStore.cellColors];
 
       editorStore.canUndo = true;
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
+      editorStore.isChanged = true;
     }
   },
   resetToInitial: () => {
     editorStore.cellColors = [...editorStore.initialCellColors];
+    editorStore.tempCellColors = [...editorStore.cellColors];
     editorStore.history = [];
     editorStore.historyIndex = -1;
+    editorStore.canUndo = false;
+    editorStore.canRedo = false;
+    editorStore.isChanged = false;
+  },
+  generateRandomColors: () => {
+    const generateRandomColor = () => {
+      return (
+        '#' +
+        Math.floor(Math.random() * 16777215)
+          .toString(16)
+          .padStart(6, '0')
+      );
+    };
+
+    const newCellColors = Array(36)
+      .fill(null)
+      .map(() => {
+        return {
+          square: generateRandomColor(),
+          circle: generateRandomColor(),
+        };
+      });
+
+    editorStore.cellColors = newCellColors;
+    editorStore.tempCellColors = [...editorStore.cellColors];
+    editorStore.history = [{ cellColors: newCellColors }];
+    editorStore.historyIndex = 0;
+    editorStore.canUndo = true;
+    editorStore.canRedo = false;
+    editorStore.isChanged = false;
+  },
+  archiveCurrentSet: (title: string) => {
+    const newArvhiveSet: ArchivedSet = {
+      id: Date.now().toString(),
+      title: title,
+      cellColors: editorStore.cellColors,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+    };
+  },
+  loadArchivedSet: (id: string) => {
+    const archivedSet = editorStore.archivedSets.find((set) => {
+      return set.id === id;
+    });
+
+    if (archivedSet) {
+      editorStore.cellColors = [...archivedSet.cellColors];
+      editorStore.tempCellColors = [...archivedSet.cellColors];
+      editorStore.history = [];
+      editorStore.historyIndex = -1;
+      editorStore.canUndo = false;
+      editorStore.canRedo = false;
+      editorStore.isChanged = false;
+    }
+  },
+  deleteArchivedSet: (id: string) => {
+    editorStore.archivedSets = editorStore.archivedSets.filter((set) => {
+      return set.id !== id;
+    });
   },
 };

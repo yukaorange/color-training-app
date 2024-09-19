@@ -7,6 +7,8 @@ import '@/components/Layout/Header/styles/overlay-setting.scss';
 import '@/components/Layout/Header/styles/window-setting.scss';
 import '@/components/Layout/Header/styles/button-setting.scss';
 
+import { WindowConfirmation } from '@/components/Layout/Header/WindowConfirmation/WindowConfirmation';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -14,15 +16,41 @@ import { actions } from '@/store/editorStore';
 
 export const Header = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
-  const { resetToInitial } = actions;
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
+  const [confirmMessage, setConfirmMessage] = useState({
+    main: '',
+    sub: '',
+  });
+
+  const { resetToInitial, generateRandomColors } = actions;
 
   const toggleSetting = () => {
     setIsSettingOpen((prev) => !prev);
   };
 
+  const openConfirmation = (action: () => void, message: { main: string; sub: string }) => {
+    setConfirmAction(() => action);
+    setConfirmMessage(message);
+    setIsConfirmOpen(true);
+  };
+
+  const closeConfirmation = () => {
+    setIsConfirmOpen(false);
+  };
+
   const handleNewCreation = () => {
-    resetToInitial();
-    setIsSettingOpen(false);
+    openConfirmation(
+      () => {
+        resetToInitial();
+        setIsSettingOpen(false);
+        closeConfirmation();
+      },
+      {
+        main: '新規作成しますか？',
+        sub: '現在の編集内容は破棄されます。',
+      }
+    );
   };
 
   const handleClose = () => {
@@ -30,11 +58,31 @@ export const Header = () => {
   };
 
   const handleDelete = () => {
-    setIsSettingOpen(false);
+    openConfirmation(
+      () => {
+        resetToInitial();
+        setIsSettingOpen(false);
+        closeConfirmation();
+      },
+      {
+        main: '現在の内容を削除しますか？',
+        sub: 'この操作は元に戻せません。',
+      }
+    );
   };
 
-  const handleRandomCreation = () => {
-    setIsSettingOpen(false);
+  const handleRandomGeneration = () => {
+    openConfirmation(
+      () => {
+        generateRandomColors();
+        setIsSettingOpen(false);
+        closeConfirmation();
+      },
+      {
+        main: 'ランダムに色を生成しますか？',
+        sub: '現在の編集内容は破棄されます。',
+      }
+    );
   };
 
   return (
@@ -58,17 +106,22 @@ export const Header = () => {
       >
         <div className="window-setting__inner">
           <div className="window-setting__buttons">
-            <div className="button-setting button-setting--new">
+            <div className="button-setting button-setting--new" onClick={handleNewCreation}>
               <div className="button-setting__text _en">NEW</div>
               <div className="button-setting__icon">
                 <IconAdd />
               </div>
             </div>
-            <div className="button-setting button-setting--delete">
+            <div className="button-setting button-setting--delete" onClick={handleDelete}>
               <div className="button-setting__text _en">DELETE</div>
               <div className="button-setting__icon">
                 <IconDanger />
               </div>
+            </div>
+          </div>
+          <div className="window-setting__buttons">
+            <div className="button-setting button-setting--random" onClick={handleRandomGeneration}>
+              <div className="button-setting__text _en">RANDOM</div>
             </div>
           </div>
         </div>
@@ -81,9 +134,16 @@ export const Header = () => {
         </div>
       </div>
       <div
-        className={`overlay-setting ${isSettingOpen ? 'overlay-setting--is-active' : 'overlay-setting--is-inactive'}`}
-        onClick={toggleSetting}
+        className={`overlay-setting ${isSettingOpen ? 'overlay-setting--is-open' : 'overlay-setting--is-close'}`}
+        onClick={handleClose}
       ></div>
+      <WindowConfirmation
+        isOpen={isConfirmOpen}
+        onConfirm={confirmAction}
+        onCancel={closeConfirmation}
+        message={confirmMessage.main}
+        subMessage={confirmMessage.sub}
+      />
     </>
   );
 };
@@ -251,7 +311,7 @@ const ButtonClose = ({ onClick }: { onClick: () => void }) => {
         `}
         </style>
       </defs>
-      <g id="_レイヤー_1-2" data-name="レイヤー_1">
+      <g id="" data-name="">
         <g id="button-close__lines">
           <line className="cls-1" x1=".75" y1=".75" x2="17.42" y2="17.42" />
           <line className="cls-1" x1="24.08" y1="17.42" x2="40.75" y2=".75" />
