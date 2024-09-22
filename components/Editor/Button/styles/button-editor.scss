@@ -37,20 +37,32 @@
     translate: 0rem 0.2rem;
   }
 
-  .button-editor:hover #button__frame {
-    fill: var(--black);
+  .button-editor.button-editor--left:hover #button__frame {
+    // fill: var(--black);
   }
-  .button-editor:hover #button__arrow {
-    fill: var(--white);
+  .button-editor.button-editor--left:hover #button__frame {
+    // fill: var(--black);
+  }
+  .button-editor.button-editor--left:hover #button__arrow {
+    animation-name: arrow-move-left;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-duration: 1.5s;
+  }
+  .button-editor.button-editor--right:hover #button__arrow {
+    animation-name: arrow-move-right;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+    animation-duration: 1.5s;
   }
   .button-editor--is-disabled:hover {
     cursor: auto;
   }
   .button-editor--is-disabled:hover #button__arrow {
-    fill: var(--black);
+    // fill: var(--black);
   }
   .button-editor--is-disabled:hover #button__frame {
-    fill: none;
+    // fill: none;
   }
 }
 

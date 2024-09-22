@@ -1,4 +1,5 @@
 import { proxy, subscribe } from 'valtio';
+import { isEqual } from 'lodash';
 
 interface CellColors {
   square: string;
@@ -15,6 +16,8 @@ interface ArchivedSet {
   cellColors: CellColors[];
   createdAt: Date;
   modifiedAt: Date;
+  history: HistoryEntry[];
+  historyIndex: number;
 }
 
 interface EditorStore {
@@ -24,15 +27,20 @@ interface EditorStore {
   cellColors: CellColors[];
   initialCellColors: CellColors[];
   tempCellColors: CellColors[];
+  localTitle: string;
   history: HistoryEntry[];
   historyIndex: number;
-  isChanged: boolean;
+  lastArchivedId: number;
+  isColorChanged: boolean;
+  isHistoryChanged: boolean;
   canUndo: boolean;
   canRedo: boolean;
   archivedSets: ArchivedSet[];
+  isLoggedIn: boolean;
+  currentSetId: string | null;
 }
 
-const initialCellColors: CellColors = {
+export const initialCellColors: CellColors = {
   square: '#f5f5f5',
   circle: '#a9a9a9',
 };
@@ -44,52 +52,21 @@ export const editorStore = proxy<EditorStore>({
   cellColors: Array(36).fill(initialCellColors),
   initialCellColors: Array(36).fill(initialCellColors),
   tempCellColors: Array(36).fill(initialCellColors),
+  localTitle: '',
   history: [],
-  historyIndex: -1,
-  isChanged: false,
+  historyIndex: 0,
+  lastArchivedId: 0,
+  isColorChanged: false,
+  isHistoryChanged: false,
   canUndo: false,
   canRedo: false,
   archivedSets: [],
+  isLoggedIn: false,
+  currentSetId: null,
 });
 
 const isValidColor = (color: string): boolean => {
   return /^#[0-9A-F]{6}$/i.test(color);
-};
-
-const loadState = () => {
-  if (typeof window === 'undefined') return;
-  const savedState = localStorage.getItem('editorStore');
-
-  if (savedState) {
-    try {
-      const parsedState = JSON.parse(savedState);
-
-      if (Array.isArray(parsedState.cellColors)) {
-        parsedState.cellColors = parsedState.cellColors.map((cell: any) => {
-          return {
-            square: isValidColor(cell.square) ? cell.square : initialCellColors.square,
-            circle: isValidColor(cell.circle) ? cell.circle : initialCellColors.circle,
-          };
-        });
-
-        return parsedState;
-      }
-
-      if (Array.isArray(parsedState.archivedSets)) {
-        parsedState.archivedSets = parsedState.archivedSets.map((set: any) => ({
-          ...set,
-          cellColors: set.cellColors.map((cell: any) => ({
-            square: isValidColor(cell.square) ? cell.square : initialCellColors.square,
-            circle: isValidColor(cell.circle) ? cell.circle : initialCellColors.circle,
-          })),
-        }));
-      }
-    } catch (error) {
-      console.error('failded to parse saved state', error);
-    }
-  }
-
-  return {};
 };
 
 const saveState = () => {
@@ -101,6 +78,8 @@ const saveState = () => {
     historyIndex: editorStore.historyIndex,
     canUndo: editorStore.canUndo,
     canRedo: editorStore.canRedo,
+    archivedSets: editorStore.archivedSets,
+    currentSetId: editorStore.currentSetId,
   };
 
   localStorage.setItem('editorStore', JSON.stringify(state));
@@ -116,6 +95,7 @@ export const actions = {
   },
   toggleColorPicker: () => {
     editorStore.isColorPickerOpen = !editorStore.isColorPickerOpen;
+
     if (!editorStore.isColorPickerOpen) {
       editorStore.activeCell = null;
     }
@@ -130,28 +110,32 @@ export const actions = {
           ? { ...cellColor, [editorStore.selectedElement]: color }
           : cellColor;
       });
-
       editorStore.tempCellColors = newCellColors;
+      actions.updateColorChangedFlag();
     }
   },
+  setIsColorChanged: (value: boolean) => {
+    editorStore.isColorChanged = value;
+  },
+  updateColorChangedFlag: () => {
+    editorStore.isColorChanged = !isEqual(editorStore.cellColors, editorStore.tempCellColors);
+  },
   applyColorChange: () => {
-    editorStore.cellColors = [...editorStore.tempCellColors];
+    if (!isEqual(editorStore.cellColors, editorStore.tempCellColors)) {
+      editorStore.cellColors = [...editorStore.tempCellColors];
 
-    // historyIndexが-1なら新しい履歴を開始
-    if (editorStore.historyIndex === -1) {
-      editorStore.history = [{ cellColors: editorStore.cellColors }];
-      editorStore.historyIndex = 0;
-    } else {
       editorStore.history = [
         ...editorStore.history.slice(0, editorStore.historyIndex + 1),
         { cellColors: editorStore.cellColors },
       ];
-      editorStore.historyIndex++;
-    }
 
-    editorStore.canUndo = true;
-    editorStore.canRedo = false;
-    editorStore.isChanged = true;
+      editorStore.historyIndex++;
+
+      editorStore.canUndo = true;
+      editorStore.canRedo = false;
+      editorStore.isColorChanged = false;
+      actions.updateHistoryChangedFlag();
+    }
   },
   openColorPicker: () => {
     editorStore.isColorPickerOpen = true;
@@ -165,24 +149,22 @@ export const actions = {
     actions.updateChangedFlag();
   },
   updateChangedFlag: () => {
-    editorStore.isChanged = editorStore.tempCellColors.some(
+    editorStore.isColorChanged = editorStore.tempCellColors.some(
       (cellColor, index) =>
         cellColor.square !== editorStore.cellColors[index].square ||
         cellColor.circle !== editorStore.cellColors[index].circle
     );
   },
   undo: () => {
-    if (editorStore.historyIndex > -1) {
+    if (editorStore.historyIndex > 0) {
       editorStore.historyIndex--;
-      editorStore.cellColors =
-        editorStore.historyIndex === -1
-          ? [...editorStore.initialCellColors]
-          : [...editorStore.history[editorStore.historyIndex].cellColors];
+      editorStore.cellColors = [...editorStore.history[editorStore.historyIndex].cellColors];
       editorStore.tempCellColors = [...editorStore.cellColors];
 
-      editorStore.canUndo = editorStore.historyIndex > -1;
+      editorStore.canUndo = editorStore.historyIndex > 0;
       editorStore.canRedo = true;
-      editorStore.isChanged = editorStore.historyIndex !== -1;
+      editorStore.isColorChanged = false;
+      actions.updateColorChangedFlag();
     }
   },
   redo: () => {
@@ -193,17 +175,20 @@ export const actions = {
 
       editorStore.canUndo = true;
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
-      editorStore.isChanged = true;
+      editorStore.isColorChanged = false;
+      actions.updateColorChangedFlag();
     }
   },
   resetToInitial: () => {
     editorStore.cellColors = [...editorStore.initialCellColors];
     editorStore.tempCellColors = [...editorStore.cellColors];
-    editorStore.history = [];
-    editorStore.historyIndex = -1;
+    editorStore.history = [{ cellColors: [...editorStore.cellColors] }];
+    editorStore.historyIndex = 0;
     editorStore.canUndo = false;
     editorStore.canRedo = false;
-    editorStore.isChanged = false;
+    editorStore.isColorChanged = false;
+    editorStore.localTitle = '';
+    actions.updateHistoryChangedFlag();
   },
   generateRandomColors: () => {
     const generateRandomColor = () => {
@@ -226,39 +211,94 @@ export const actions = {
 
     editorStore.cellColors = newCellColors;
     editorStore.tempCellColors = [...editorStore.cellColors];
-    editorStore.history = [{ cellColors: newCellColors }];
-    editorStore.historyIndex = 0;
+    editorStore.history = editorStore.history.slice(0, editorStore.historyIndex + 1);
+    editorStore.history.push({ cellColors: newCellColors });
+    editorStore.historyIndex++;
+
     editorStore.canUndo = true;
     editorStore.canRedo = false;
-    editorStore.isChanged = false;
+    editorStore.isColorChanged = false;
+    actions.updateHistoryChangedFlag();
+  },
+  setIsHistoryChanged: (value: boolean) => {
+    editorStore.isHistoryChanged = true;
+  },
+  setCurrentSetId: (id: string | null) => {
+    editorStore.currentSetId = id;
+  },
+  setLocalTitle: (title: string) => {
+    editorStore.localTitle = title;
+  },
+  resetLocalTitle: () => {
+    editorStore.localTitle = '';
   },
   archiveCurrentSet: (title: string) => {
+    editorStore.lastArchivedId++;
+    const newId = editorStore.lastArchivedId.toString().padStart(6, '0');
+
     const newArvhiveSet: ArchivedSet = {
-      id: Date.now().toString(),
+      id: newId,
       title: title,
       cellColors: editorStore.cellColors,
       createdAt: new Date(),
       modifiedAt: new Date(),
+      history: editorStore.history,
+      historyIndex: editorStore.historyIndex,
     };
+
+    editorStore.archivedSets = [...editorStore.archivedSets, newArvhiveSet];
+    editorStore.currentSetId = newId;
+    editorStore.isColorChanged = false;
+    editorStore.isHistoryChanged = false;
+    return newId;
   },
   loadArchivedSet: (id: string) => {
-    const archivedSet = editorStore.archivedSets.find((set) => {
-      return set.id === id;
-    });
+    const archivedSet = editorStore.archivedSets.find((set) => set.id === id);
 
     if (archivedSet) {
       editorStore.cellColors = [...archivedSet.cellColors];
       editorStore.tempCellColors = [...archivedSet.cellColors];
-      editorStore.history = [];
-      editorStore.historyIndex = -1;
-      editorStore.canUndo = false;
-      editorStore.canRedo = false;
-      editorStore.isChanged = false;
+      editorStore.history = archivedSet.history || [{ cellColors: [...archivedSet.cellColors] }];
+      editorStore.historyIndex = archivedSet.historyIndex || 0;
+      editorStore.canUndo = editorStore.historyIndex > 0;
+      editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
+      editorStore.isColorChanged = false;
+      editorStore.isHistoryChanged = false;
+      editorStore.currentSetId = archivedSet.id;
+
+      actions.updateHistoryChangedFlag();
     }
   },
   deleteArchivedSet: (id: string) => {
     editorStore.archivedSets = editorStore.archivedSets.filter((set) => {
       return set.id !== id;
     });
+
+    if (editorStore.currentSetId === id) {
+      editorStore.currentSetId = null;
+    }
+  },
+  updateArchivedSet: (id: string, title: string) => {
+    editorStore.archivedSets = editorStore.archivedSets.map((set) => {
+      if (set.id === id) {
+        return {
+          ...set,
+          title: title,
+          cellColors: editorStore.cellColors,
+          modifiedAt: new Date(),
+          history: editorStore.history,
+          historyIndex: editorStore.historyIndex,
+        };
+      }
+      return set;
+    });
+    editorStore.isColorChanged = false;
+    editorStore.isHistoryChanged = false;
+  },
+  setLoggedIn: (idLoggedIn: boolean) => {
+    editorStore.isLoggedIn = idLoggedIn;
+  },
+  updateHistoryChangedFlag: () => {
+    editorStore.isHistoryChanged = editorStore.historyIndex !== 0 || editorStore.history.length > 1;
   },
 };

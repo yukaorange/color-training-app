@@ -5,14 +5,26 @@
   padding-block: 1.8rem;
   padding-inline: 2.4rem;
   background-color: var(--active);
+  border: 0.1rem solid var(--active);
   display: grid;
   justify-items: center;
+  cursor: pointer;
+}
+
+.button-save.button-save--disabled {
+  border: 0.1rem solid var(--inactive);
+  background-color: transparent;
+  cursor: auto;
 }
 
 .button-save__text {
   font-weight: 500;
   font-size: text(24);
   letter-spacing: 0.15em;
+}
+
+.button-save.button-save--disabled .button-save__text {
+  color: var(--inactive);
 }
 
 @include mq(sp) {

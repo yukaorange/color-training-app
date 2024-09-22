@@ -19,9 +19,9 @@ interface ColorPickerProps {
 }
 
 export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
-  const { selectedElement, activeCell, tempCellColors, cellColors, isChanged } =
+  const { selectedElement, activeCell, tempCellColors, cellColors, isColorChanged } =
     useSnapshot(editorStore);
-  const { setSelectedElement, setTempColor, applyColorChange, updateChangedFlag } = actions;
+  const { setSelectedElement, setTempColor, applyColorChange, updateColorChangedFlag } = actions;
   const [currentHex, setCurrentHex] = useState('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -48,7 +48,6 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
 
       timeoutRef.current = setTimeout(() => {
         setTempColor(color.hex);
-        updateChangedFlag();
       }, 300);
     },
     [setTempColor]
@@ -92,7 +91,7 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
             </div>
             <div className="color-picker__button _en">
               <button
-                className={`button-done ${isChanged ? '' : 'button-done--is-disabled'}`}
+                className={`button-done ${isColorChanged ? '' : 'button-done--is-disabled'}`}
                 onClick={handleDoneClick}
               >
                 <span className="button-done__text">done</span>

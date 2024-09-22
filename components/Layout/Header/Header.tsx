@@ -9,10 +9,13 @@ import '@/components/Layout/Header/styles/button-setting.scss';
 
 import { WindowConfirmation } from '@/components/Layout/Header/WindowConfirmation/WindowConfirmation';
 
+import { useSnapshot } from 'valtio';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
 import { actions } from '@/store/editorStore';
+import { editorStore } from '@/store/editorStore';
 
 export const Header = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
@@ -23,7 +26,16 @@ export const Header = () => {
     sub: '',
   });
 
-  const { resetToInitial, generateRandomColors } = actions;
+  const { currentSetId, isHistoryChanged, localTitle } = useSnapshot(editorStore);
+
+  const {
+    resetToInitial,
+    generateRandomColors,
+    updateArchivedSet,
+    archiveCurrentSet,
+    setCurrentSetId,
+    resetLocalTitle,
+  } = actions;
 
   const toggleSetting = () => {
     setIsSettingOpen((prev) => !prev);
@@ -42,13 +54,24 @@ export const Header = () => {
   const handleNewCreation = () => {
     openConfirmation(
       () => {
+        if (currentSetId || isHistoryChanged) {
+          const titleToUse = localTitle.trim() || 'Untitled';
+          if (currentSetId) {
+            updateArchivedSet(currentSetId as string, titleToUse);
+          } else {
+            archiveCurrentSet(titleToUse);
+          }
+        }
+
         resetToInitial();
+        setCurrentSetId(null);
+        resetLocalTitle();
         setIsSettingOpen(false);
         closeConfirmation();
       },
       {
         main: '新規作成しますか？',
-        sub: '現在の編集内容は破棄されます。',
+        sub: '現在の編集内容はアーカイブされます。',
       }
     );
   };

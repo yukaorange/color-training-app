@@ -1,6 +1,10 @@
+'use client';
+
 import '@/components/Editor/Button/styles/button-editor.scss';
 
-import { actions } from '@/store/editorStore';
+import { actions,editorStore } from '@/store/editorStore';
+import { useSnapshot } from 'valtio';
+
 
 interface ButtonProps {
   indicate: string;
@@ -8,6 +12,7 @@ interface ButtonProps {
 }
 
 export const Button = ({ indicate, disabled }: ButtonProps) => {
+  const { canUndo, canRedo } = useSnapshot(editorStore);
   const handleClick = () => {
     if (indicate === 'right') {
       actions.redo();
@@ -18,7 +23,7 @@ export const Button = ({ indicate, disabled }: ButtonProps) => {
 
   return (
     <div
-      className={`button-editor button-editor--${indicate} button-editor--${disabled ? 'is-disabled ' : ''}`}
+      className={`button-editor button-editor--${indicate} ${disabled ? 'button-editor--is-disabled ' : ''}`}
       onClick={handleClick}
     >
       {indicate === 'right' ? (

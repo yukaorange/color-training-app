@@ -9,10 +9,13 @@ import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
 
 import '@/app/styles/layout.scss';
 import { useRef } from 'react';
+import { useLoadState } from '@/hooks/useLoadState';
 
 export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const pathname = usePathname();
   const showHeader = pathname !== '/';
+
+  useLoadState();
 
   const layoutRef = useRef<HTMLDivElement>(null);
 

@@ -1,8 +1,13 @@
+'use client';
+
 import '@/components/Editor/WindowSave/styles/window-save.scss';
 import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
 
+import { useState, useEffect } from 'react';
+import { useSnapshot } from 'valtio';
+import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
 
 interface WindowSaveProps {
@@ -11,6 +16,75 @@ interface WindowSaveProps {
 }
 
 export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
+  const {
+    isLoggedIn,
+    currentSetId,
+    lastArchivedId,
+    archivedSets,
+    isColorChanged,
+    isHistoryChanged,
+    localTitle,
+  } = useSnapshot(editorStore);
+  const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
+
+  useEffect(() => {
+    if (currentSetId) {
+      const currentSet = archivedSets.find((set) => {
+        return set.id === currentSetId;
+      });
+
+      if (currentSet) {
+        setLocalTitle(currentSet.title);
+      }
+    } else {
+      setLocalTitle('');
+    }
+  }, [currentSetId, archivedSets]);
+
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setLocalTitle(newTitle);
+  };
+
+  const isChanged =
+    isHistoryChanged ||
+    (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
+
+  const nextArchivedIdToDisplay = (lastArchivedId + 1).toString().padStart(6, '0');
+
+  const handleSaveOrUpdate = () => {
+    if (localTitle.trim()) {
+      if (currentSetId) {
+        updateArchivedSet(currentSetId, localTitle.trim());
+      } else {
+        const newId = archiveCurrentSet(localTitle.trim());
+        setCurrentSetId(newId);
+      }
+      onClick();
+    }
+  };
+
+  const getButtonText = () => {
+    // if (!isLoggedIn) return 'Sign In';
+    if (!currentSetId) return 'Archive';
+    return isChanged ? 'Update' : 'Saved';
+  };
+
+  const ButtonSaveOrUpdate = () => {
+    const buttonText = getButtonText();
+
+    const isDisabled = (!currentSetId && !localTitle.trim()) || (!isChanged && currentSetId);
+
+    return (
+      <div
+        className={`button-save ${isDisabled ? 'button-save--disabled' : ''}`}
+        onClick={isDisabled ? undefined : handleSaveOrUpdate}
+      >
+        <div className="button-save__text _en">{buttonText}</div>
+      </div>
+    );
+  };
+
   const ToggleWindowSave = ({ isOpen }: { isOpen: boolean }) => {
     return (
       <>
@@ -37,18 +111,26 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
           <div className="project">
             <div className="project__row">
               <div className="project__label _en">ID</div>
-              <div className="project__content _en">000</div>
+              <div className="project__content _en">{currentSetId || nextArchivedIdToDisplay}</div>
             </div>
             <div className="project__row">
               <div className="project__label _en">Title</div>
-              <input type="text" className="project__content" placeholder="タイトル" />
+              <input
+                type="text"
+                className="project__content"
+                placeholder={localTitle == '' ? 'edit!' : localTitle}
+                value={localTitle}
+                onChange={handleTitleChange}
+              />
             </div>
             <div className="project__row">
               <div className="project__label _en">Date</div>
-              <div className="project__daproject__content _en">2024/01/01</div>
+              <div className="project__daproject__content _en">
+                {new Date().toISOString().split('T')[0]}
+              </div>
             </div>
           </div>
-          <ButtonSave />
+          <ButtonSaveOrUpdate />
         </div>
         <div className="window-save__corner">
           <Corner />
@@ -97,13 +179,5 @@ const Corner = () => {
     <svg width={40} height={40} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0 0V40L40 0H0Z" fill="#5f5f5f" />
     </svg>
-  );
-};
-
-const ButtonSave = () => {
-  return (
-    <div className="button-save">
-      <div className="button-save__text _en">Sign In</div>
-    </div>
   );
 };
