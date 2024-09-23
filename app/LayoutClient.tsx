@@ -14,8 +14,9 @@ import { useLoadState } from '@/hooks/useLoadState';
 export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const pathname = usePathname();
   const showHeader = pathname !== '/';
+  const showMeasure = pathname !== '/archive';
 
-  useLoadState();
+  // useLoadState();
 
   const layoutRef = useRef<HTMLDivElement>(null);
 
@@ -26,7 +27,7 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
       {/* <div className="dummy" ref={layoutRef}></div> */}
       <div className="layout">
         {showHeader && <Header />}
-        <Measure />
+        {showMeasure && <Measure />}
         {children}
         <BgGrid />
       </div>

@@ -8,6 +8,7 @@
   --z-editor__inner__grid: 1;
   --z-editor__inner__buttons: 1;
   --z-editor__save: 20;
+  --z-editor__footer:30;
   --z-editor__color-picker: 25;
 
   position: relative;
@@ -100,6 +101,7 @@
 
 .editor__footer {
   position: absolute;
+  z-index: var(--z-editor__footer);
   bottom: 0;
   left: 0;
   padding-bottom: 3.2rem;

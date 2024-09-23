@@ -59,3 +59,65 @@
   width: 3.2rem;
   height: 3.2rem;
 }
+
+@include mq(sp) {
+  .window-setting {
+    position: fixed;
+    z-index: var(--z-index-setting);
+    width: cols(8);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    opacity: 0;
+    transition: 0.2s;
+    pointer-events: none;
+    border: 0.2rem var(--black) solid;
+    background-color: var(--white);
+  }
+
+  .window-setting.window-setting--is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .window-setting__inner {
+    padding-block: 6rem;
+    padding-inline: calc(var(--col) * 1);
+    position: relative;
+    z-index: 0;
+    display: grid;
+    row-gap: 5rem;
+  }
+
+  .window-setting__buttons {
+    display: grid;
+    row-gap: 2rem;
+  }
+
+  .window-setting__corner {
+    position: absolute;
+    z-index: -1;
+    top: 0.4rem;
+    left: 0.4rem;
+    display: grid;
+  }
+
+  .window-setting__corner svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .window-setting__close {
+    display: grid;
+    position: absolute;
+    z-index: 1;
+    cursor: pointer;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .window-setting__close svg {
+    width: 2rem;
+    height: 2rem;
+  }
+}

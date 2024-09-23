@@ -5,7 +5,7 @@ import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
@@ -26,43 +26,44 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     localTitle,
   } = useSnapshot(editorStore);
   const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
+  const [inputValue, setInputValue] = useState(localTitle);
 
   useEffect(() => {
-    if (currentSetId) {
-      const currentSet = archivedSets.find((set) => {
-        return set.id === currentSetId;
-      });
-
-      if (currentSet) {
-        setLocalTitle(currentSet.title);
-      }
-    } else {
-      setLocalTitle('');
-    }
-  }, [currentSetId, archivedSets]);
+    setInputValue(localTitle);
+  }, [localTitle]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newTitle = e.target.value;
-    setLocalTitle(newTitle);
+    setInputValue(e.target.value);
   };
 
-  const isChanged =
-    isHistoryChanged ||
-    (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
+  const handleTitleBlur = () => {
+    setLocalTitle(inputValue);
+  };
 
   const nextArchivedIdToDisplay = (lastArchivedId + 1).toString().padStart(6, '0');
 
-  const handleSaveOrUpdate = () => {
+  const currentSetIdToDisplay = currentSetId?.toString().padStart(6, '0');
+
+  const handleSaveOrUpdate = useCallback(() => {
     if (localTitle.trim()) {
-      if (currentSetId) {
-        updateArchivedSet(currentSetId, localTitle.trim());
-      } else {
-        const newId = archiveCurrentSet(localTitle.trim());
-        setCurrentSetId(newId);
+      try {
+        if (currentSetId) {
+          updateArchivedSet(currentSetId, localTitle.trim());
+        } else {
+          const newId = archiveCurrentSet(localTitle.trim());
+          setCurrentSetId(newId);
+        }
+        onClick();
+      } catch (err) {
+        console.error(err);
       }
-      onClick();
     }
-  };
+  }, [currentSetId, localTitle, updateArchivedSet, archiveCurrentSet, setCurrentSetId, onClick]);
+
+  const isChanged =
+    isHistoryChanged ||
+    isColorChanged ||
+    (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
 
   const getButtonText = () => {
     // if (!isLoggedIn) return 'Sign In';
@@ -73,15 +74,17 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   const ButtonSaveOrUpdate = () => {
     const buttonText = getButtonText();
 
-    const isDisabled = (!currentSetId && !localTitle.trim()) || (!isChanged && currentSetId);
+    const isDisabled =
+      (!currentSetId && !localTitle.trim()) || ((!isChanged && currentSetId) as boolean);
 
     return (
-      <div
+      <button
         className={`button-save ${isDisabled ? 'button-save--disabled' : ''}`}
         onClick={isDisabled ? undefined : handleSaveOrUpdate}
+        disabled={isDisabled}
       >
         <div className="button-save__text _en">{buttonText}</div>
-      </div>
+      </button>
     );
   };
 
@@ -111,7 +114,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
           <div className="project">
             <div className="project__row">
               <div className="project__label _en">ID</div>
-              <div className="project__content _en">{currentSetId || nextArchivedIdToDisplay}</div>
+              <div className="project__content _en">
+                {currentSetIdToDisplay || nextArchivedIdToDisplay}
+              </div>
             </div>
             <div className="project__row">
               <div className="project__label _en">Title</div>
@@ -119,8 +124,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
                 type="text"
                 className="project__content"
                 placeholder={localTitle == '' ? 'edit!' : localTitle}
-                value={localTitle}
+                value={inputValue}
                 onChange={handleTitleChange}
+                onBlur={handleTitleBlur}
               />
             </div>
             <div className="project__row">

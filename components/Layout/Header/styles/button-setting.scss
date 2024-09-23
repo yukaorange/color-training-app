@@ -33,18 +33,69 @@
 }
 
 .button-setting--random {
-  // background-color: var(--active);
   border: 0.1rem solid var(--black);
-
   transition: 0.2s;
-  background-size: 220%;
-  background-position: 100% 50%;
-  background-image: linear-gradient(90deg, var(--active) 50%, transparent 50%);
+  position: relative;
+  z-index: 0;
+}
+
+.button-setting__mask {
+  background-color: var(--active);
+  mask: url("/images/setting/mask.png");
+  mask-size: 600% 105%;
+  mask-position: 100% 50%;
+  mask-repeat: no-repeat;
+  mask-mode: luminance;
+  position: absolute;
+  z-index: -1;
+  inset: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .button-setting--random:hover {
     background-position: 0% 50%;
     border: 0.1rem solid var(--active);
+  }
+
+  .button-setting--random:hover .button-setting__mask {
+    animation-name: moveMask;
+    animation-duration: 1s;
+    animation-timing-function: steps(5);
+    animation-fill-mode: forwards;
+  }
+}
+
+@include mq(sp) {
+  .button-setting {
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto auto;
+    justify-items: center;
+    justify-content: center;
+    padding: 1.4rem 1.6rem;
+    column-gap: 0.4rem;
+    cursor: pointer;
+  }
+
+  .button-setting__text {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  .button-setting__icon {
+    display: grid;
+  }
+
+  .button-setting__icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .button-setting--new {
+    background-color: var(--new);
+  }
+
+  .button-setting--delete {
+    background-color: var(--danger);
   }
 }

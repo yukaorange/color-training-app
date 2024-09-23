@@ -75,6 +75,7 @@ const Editor = ({ gridRef, isColorPickerOpen }: EditorProps) => {
 
   return (
     <main className="editor">
+      <h2 className="reader-only">editor</h2>
       <div className="editor__inner">
         <div className="editor__grid">
           <div ref={gridRef}>

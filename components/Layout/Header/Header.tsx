@@ -7,7 +7,7 @@ import '@/components/Layout/Header/styles/overlay-setting.scss';
 import '@/components/Layout/Header/styles/window-setting.scss';
 import '@/components/Layout/Header/styles/button-setting.scss';
 
-import { WindowConfirmation } from '@/components/Layout/Header/WindowConfirmation/WindowConfirmation';
+import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
 
 import { useSnapshot } from 'valtio';
 
@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { actions } from '@/store/editorStore';
 import { editorStore } from '@/store/editorStore';
+import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
@@ -25,6 +26,9 @@ export const Header = () => {
     main: '',
     sub: '',
   });
+
+  const pathname = usePathname();
+  const disableEditorAction = pathname !== '/editor';
 
   const { currentSetId, isHistoryChanged, localTitle } = useSnapshot(editorStore);
 
@@ -57,7 +61,7 @@ export const Header = () => {
         if (currentSetId || isHistoryChanged) {
           const titleToUse = localTitle.trim() || 'Untitled';
           if (currentSetId) {
-            updateArchivedSet(currentSetId as string, titleToUse);
+            updateArchivedSet(currentSetId, titleToUse);
           } else {
             archiveCurrentSet(titleToUse);
           }
@@ -71,7 +75,7 @@ export const Header = () => {
       },
       {
         main: '新規作成しますか？',
-        sub: '現在の編集内容はアーカイブされます。',
+        sub: '現在の編集内容は記録されます。',
       }
     );
   };
@@ -89,7 +93,7 @@ export const Header = () => {
       },
       {
         main: '現在の内容を削除しますか？',
-        sub: 'この操作は元に戻せません。',
+        sub: '現在の編集内容がリセットされます。',
       }
     );
   };
@@ -113,14 +117,14 @@ export const Header = () => {
       <header className="header">
         <div className="header__inner">
           <Link href="/" className="header__title-logo">
-            <div className="header__title _en">Color Training</div>
+            <h1 className="header__title _en">Color Training</h1>
             <div className="header__logo">
               <Logo />
             </div>
           </Link>
           <div className="header__buttons">
             <IconUser isLogin={false} />
-            <SettingIcon onClick={toggleSetting} />
+            <SettingIcon onClick={toggleSetting} disable={disableEditorAction} />
           </div>
         </div>
       </header>
@@ -145,6 +149,7 @@ export const Header = () => {
           <div className="window-setting__buttons">
             <div className="button-setting button-setting--random" onClick={handleRandomGeneration}>
               <div className="button-setting__text _en">RANDOM</div>
+              <div className="button-setting__mask"></div>
             </div>
           </div>
         </div>
@@ -205,7 +210,7 @@ const IconUser = ({ isLogin }: { isLogin: boolean }) => {
   );
 };
 
-const SettingIcon = ({ onClick }: { onClick: () => void }) => {
+const SettingIcon = ({ onClick, disable }: { onClick: () => void; disable: boolean }) => {
   const Icon = () => {
     return (
       <svg
@@ -227,9 +232,9 @@ const SettingIcon = ({ onClick }: { onClick: () => void }) => {
 
   return (
     <>
-      <div className="icon-setting" onClick={onClick}>
+      <div className={`icon-setting ${disable ? 'icon-setting--disable' : ''}`} onClick={onClick}>
         <Icon />
-        <div className="icon-setting__text _en">setting</div>
+        <div className="icon-setting__text _en">editor</div>
       </div>
     </>
   );

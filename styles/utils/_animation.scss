@@ -129,3 +129,43 @@
     translate: 0% 0;
   }
 }
+
+@keyframes blink {
+  0% {
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+  }
+}
+
+// @keyframes moveMask {
+//   from {
+//     mask-position: 100% 50%;
+//   }
+//   to {
+//     mask-position: 0% 50%;
+//   }
+// }
+
+@keyframes moveMask {
+  0% {
+    mask-position: 100% 50%;
+  }
+  20% {
+    mask-position: 80% 50%;
+  }
+  40% {
+    mask-position: 60% 50%;
+  }
+  60% {
+    mask-position: 40% 50%;
+  }
+  80% {
+    mask-position: 20% 50%;
+  }
+  100% {
+    mask-position: 0% 50%;
+  }
+}

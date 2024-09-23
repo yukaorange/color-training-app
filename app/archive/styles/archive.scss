@@ -1,0 +1,61 @@
+@use "@/styles/mixin/mixins" as *;
+
+.archive {
+  padding-top: 13rem;
+  padding-inline: calc(var(--col) * 1 + var(--gap) * 1 + var(--margin) * 1);
+  padding-bottom: 5rem;
+}
+
+.archive__inner {
+  border-right: 0.2rem solid var(--black);
+}
+
+.archive__header {
+  padding-inline: calc(var(--col) * 1 + var(--gap) * 1);
+  padding-top: 2.4rem;
+  padding-bottom: 2.75rem;
+  position: relative;
+  z-index: 0;
+}
+
+.archive__heading {
+  font-size: text(48);
+  font-weight: 400;
+  line-height: 1;
+}
+
+.archive__frame {
+  position: absolute;
+  display: grid;
+  top: 0;
+  left: 0;
+}
+
+.archive__frame svg {
+  width: calc(100% + 0.15rem);
+  height: 10.1rem;
+}
+
+.archive__body {
+  padding-top: 3.2rem;
+  padding-bottom: 5rem;
+  padding-inline: calc(var(--col) * 1 + var(--gap) * 1);
+  // border-right: 0.2rem solid var(--black);
+  border-left: 0.2rem solid var(--black);
+  border-bottom: 0.2rem solid var(--black);
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  row-gap: 2.4rem;
+}
+
+.archive__footer {
+  position: fixed;
+  z-index: var(--z-editor__footer);
+  bottom: 0;
+  left: 0;
+  padding-bottom: 3.2rem;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}

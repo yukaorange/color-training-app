@@ -87,8 +87,11 @@
   }
 
   .button-top:hover .button-top__frame {
-    opacity: 1;
     --offset: 0;
+    opacity: 1;
+    animation-name:blink;
+    animation-duration: 0.01s;
+    animation-iteration-count: infinite;
   }
 }
 

@@ -1,0 +1,81 @@
+@use "@/styles/mixin/mixins" as *;
+
+.archive-item {
+  position: relative;
+  z-index: 0;
+  width: cols(9);
+  padding-block: 3.2rem;
+  padding-inline: 2.4rem;
+  border: 0.1rem solid var(--black);
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.archive-item--current {
+  background-color: var(--inactive);
+  border-color: var(--inactive);
+  pointer-events: none;
+}
+
+.archive-item__inner {
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+}
+
+.archive-item__corner {
+  position: absolute;
+  z-index: -1;
+  top: 0.8rem;
+  left: 0.8rem;
+}
+
+.archive-item__indicator {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.archive-item__icon {
+  display: grid;
+}
+
+.archive-item__icon svg {
+  width: 4rem;
+  height: 4rem;
+}
+
+.archive-item__delete {
+  margin-top: auto;
+  position: relative;
+}
+
+.archive-item__body {
+  display: grid;
+  row-gap: 1.6rem;
+}
+
+.archive-item__row {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 1.6rem;
+}
+
+.archive-item__title {
+  width: calc(var(--col) * 1 + var(--gap) * 1);
+  font-weight: 500;
+}
+
+.archive-item__content {
+  letter-spacing: 0.15em;
+  width: calc(var(--col) * 6 + var(--gap) * 5);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .archive-item:hover {
+    background-color: var(--active);
+  }
+
+  .archive-item:has(.archive-item__delete:hover) {
+    background-color: var(--danger);
+  }
+}

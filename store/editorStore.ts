@@ -11,7 +11,7 @@ interface HistoryEntry {
 }
 
 interface ArchivedSet {
-  id: string;
+  id: number;
   title: string;
   cellColors: CellColors[];
   createdAt: Date;
@@ -31,13 +31,13 @@ interface EditorStore {
   history: HistoryEntry[];
   historyIndex: number;
   lastArchivedId: number;
+  currentSetId: number | null;
   isColorChanged: boolean;
   isHistoryChanged: boolean;
   canUndo: boolean;
   canRedo: boolean;
   archivedSets: ArchivedSet[];
   isLoggedIn: boolean;
-  currentSetId: string | null;
 }
 
 export const initialCellColors: CellColors = {
@@ -45,7 +45,70 @@ export const initialCellColors: CellColors = {
   circle: '#a9a9a9',
 };
 
-export const editorStore = proxy<EditorStore>({
+const createMockArchivedSets = () => {
+  const mockSets: ArchivedSet[] = [];
+  const currentDate = new Date();
+
+  for (let i = 1; i <= 10; i++) {
+    const createdDate = new Date();
+    const modifiedDate = new Date();
+
+    const mockCellColors: CellColors[] = Array(36)
+      .fill(null)
+      .map(() => ({
+        square: `#${Math.floor(16777215 * 0.5)
+          .toString(16)
+          .padStart(6, '0')}`,
+        circle: `#${Math.floor(16777215).toString(16).padStart(6, '0')}`,
+      }));
+
+    const mockHistory: HistoryEntry[] = [
+      { cellColors: mockCellColors },
+      {
+        cellColors: mockCellColors.map((color) => ({
+          ...color,
+          square: `#${Math.floor(16777215 * 0.54)
+            .toString(16)
+            .padStart(6, '0')}`,
+        })),
+      },
+    ];
+
+    mockSets.push({
+      id: i,
+      title: `アーカイブセット ${i}`,
+      cellColors: mockCellColors,
+      createdAt: createdDate,
+      modifiedAt: modifiedDate,
+      history: mockHistory,
+      historyIndex: 1,
+    });
+  }
+
+  return mockSets;
+};
+
+// export const editorStore = proxy<EditorStore>({
+//   activeCell: null,
+//   isColorPickerOpen: false,
+//   selectedElement: 'square',
+//   cellColors: Array(36).fill(initialCellColors),
+//   initialCellColors: Array(36).fill(initialCellColors),
+//   tempCellColors: Array(36).fill(initialCellColors),
+//   localTitle: '',
+//   history: [],
+//   historyIndex: 0,
+//   lastArchivedId: 0,
+//   currentSetId: null,
+//   isColorChanged: false,
+//   isHistoryChanged: false,
+//   canUndo: false,
+//   canRedo: false,
+//   archivedSets: [],
+//   isLoggedIn: false,
+// });
+
+const initialState: EditorStore = {
   activeCell: null,
   isColorPickerOpen: false,
   selectedElement: 'square',
@@ -55,15 +118,17 @@ export const editorStore = proxy<EditorStore>({
   localTitle: '',
   history: [],
   historyIndex: 0,
-  lastArchivedId: 0,
+  lastArchivedId: 10,
+  currentSetId: null,
   isColorChanged: false,
   isHistoryChanged: false,
   canUndo: false,
   canRedo: false,
-  archivedSets: [],
+  archivedSets: createMockArchivedSets(),
   isLoggedIn: false,
-  currentSetId: null,
-});
+};
+
+export const editorStore = proxy<EditorStore>(initialState);
 
 const isValidColor = (color: string): boolean => {
   return /^#[0-9A-F]{6}$/i.test(color);
@@ -223,7 +288,7 @@ export const actions = {
   setIsHistoryChanged: (value: boolean) => {
     editorStore.isHistoryChanged = true;
   },
-  setCurrentSetId: (id: string | null) => {
+  setCurrentSetId: (id: number | null) => {
     editorStore.currentSetId = id;
   },
   setLocalTitle: (title: string) => {
@@ -234,7 +299,7 @@ export const actions = {
   },
   archiveCurrentSet: (title: string) => {
     editorStore.lastArchivedId++;
-    const newId = editorStore.lastArchivedId.toString().padStart(6, '0');
+    const newId = editorStore.lastArchivedId;
 
     const newArvhiveSet: ArchivedSet = {
       id: newId,
@@ -250,9 +315,10 @@ export const actions = {
     editorStore.currentSetId = newId;
     editorStore.isColorChanged = false;
     editorStore.isHistoryChanged = false;
+    editorStore.localTitle = title;
     return newId;
   },
-  loadArchivedSet: (id: string) => {
+  loadArchivedSet: (id: number) => {
     const archivedSet = editorStore.archivedSets.find((set) => set.id === id);
 
     if (archivedSet) {
@@ -265,11 +331,10 @@ export const actions = {
       editorStore.isColorChanged = false;
       editorStore.isHistoryChanged = false;
       editorStore.currentSetId = archivedSet.id;
-
-      actions.updateHistoryChangedFlag();
+      editorStore.localTitle = archivedSet.title;
     }
   },
-  deleteArchivedSet: (id: string) => {
+  deleteArchivedSet: (id: number) => {
     editorStore.archivedSets = editorStore.archivedSets.filter((set) => {
       return set.id !== id;
     });
@@ -278,7 +343,7 @@ export const actions = {
       editorStore.currentSetId = null;
     }
   },
-  updateArchivedSet: (id: string, title: string) => {
+  updateArchivedSet: (id: number, title: string) => {
     editorStore.archivedSets = editorStore.archivedSets.map((set) => {
       if (set.id === id) {
         return {
@@ -294,6 +359,7 @@ export const actions = {
     });
     editorStore.isColorChanged = false;
     editorStore.isHistoryChanged = false;
+    editorStore.localTitle = title;
   },
   setLoggedIn: (idLoggedIn: boolean) => {
     editorStore.isLoggedIn = idLoggedIn;

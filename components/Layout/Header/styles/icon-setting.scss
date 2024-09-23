@@ -1,19 +1,55 @@
 @use "@/styles/mixin/mixins" as *;
 
 .icon-setting {
-  width: 7.2rem;
-  height: 8rem;
+  --width: 7.2rem;
+  --height: 8rem;
+  --diagonal: 8rem;
+  // --diagonal: calc(sqrt(var(--width) * var(--width) + var(--height) * var(--height)));
+  width: var(--width);
+  height: var(--height);
   border: 0.1rem solid var(--black);
   display: grid;
   align-content: center;
   justify-items: center;
   justify-content: center;
   row-gap: 0.4rem;
+  background-color: var(--white);
 
   transition: 0.2s;
   background-size: 220%;
   background-position: 100% 50%;
   background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+}
+
+.icon-setting--disable {
+  cursor: auto;
+  pointer-events: none;
+  position: relative;
+  z-index: 0;
+}
+
+.icon-setting--disable:before {
+  content: "";
+  position: absolute;
+  width: var(--diagonal);
+  height: 0.1rem;
+  background-color: var(--black);
+  translate: -50% -50%;
+  top: calc(50% - 0.3rem);
+  left: 50%;
+  rotate: 48deg;
+}
+
+.icon-setting--disable:after {
+  content: "";
+  position: absolute;
+  width: var(--diagonal);
+  height: 0.1rem;
+  background-color: var(--black);
+  translate: -50% -50%;
+  top: calc(50% - 0.3rem);
+  left: 50%;
+  rotate: -48deg;
 }
 
 .icon-setting__icon {

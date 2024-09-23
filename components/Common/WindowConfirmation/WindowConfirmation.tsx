@@ -1,13 +1,13 @@
-import '@/components/Layout/Header/WindowConfirmation/styles/window-confirmation.scss';
-import '@/components/Layout/Header/WindowConfirmation/styles/overlay-confirm.scss';
-import '@/components/Layout/Header/WindowConfirmation/styles/button-confirm.scss';
+import '@/components/Common/WindowConfirmation/styles/window-confirmation.scss';
+import '@/components/Common/WindowConfirmation/styles/overlay-confirm.scss';
+import '@/components/Common/WindowConfirmation/styles/button-confirm.scss';
 
 interface WindowConfirmationProps {
   isOpen: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   message: string;
-  subMessage: string;
+  subMessage: string; 
 }
 
 export const WindowConfirmation = ({
