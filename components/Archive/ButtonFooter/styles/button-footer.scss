@@ -19,6 +19,13 @@
   display: grid;
   width: 2.4rem;
   height: 1.43rem;
+
+  position: relative;
+  z-index: 0;
+
+  animation-name: button-footer;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
 
 .button-footer__icon img {

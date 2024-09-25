@@ -1,8 +1,10 @@
 import '@/components/Archive/ArchiveItem/styles/archive-item.scss';
 import '@/components/Archive/ArchiveItem/styles/button-archive.scss';
 
+import GSAP from 'gsap';
 import { forwardRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useRef } from 'react';
 
 interface ArchiveItemProps {
   onClick: () => void;
@@ -55,7 +57,7 @@ export const ArchiveItem = forwardRef<HTMLDivElement, ArchiveItemProps>(
               <div className="archive-item__content _en">{formatDate(item.modifiedAt)}</div>
             </div>
           </div>
-          <div className="archive-item__indicator">
+          <div className="archive-item__buttons">
             <div className="archive-item__icon">
               {isCurrent ? null : (
                 <IconColor
@@ -80,9 +82,12 @@ export const ArchiveItem = forwardRef<HTMLDivElement, ArchiveItemProps>(
           <Corner />
         </div>
         <div
-          className={`_en ${isCurrent ? 'archive-item__indication archive-item__indication--current' : 'archive-item__indication archive-item__indication--waiting'}`}
+          className={`_en ${isCurrent ? 'archive-item__indication archive-item__indication--current' : 'archive-item__indication archive-item__indication--editting'}`}
         >
-          {isCurrent ? 'Editting...' : 'Import ->'}
+          {isCurrent ? <EdittingText /> : 'Import ->'}
+        </div>
+        <div className="archive-item__indication archive-item__indication--delete _en">
+          Delete
         </div>
       </div>
     );
@@ -203,5 +208,16 @@ const IconColor = ({
         </clipPath>
       </defs>
     </svg>
+  );
+};
+
+const EdittingText = () => {
+  return (
+    <div className="archive-item__indication-text">
+      Editting
+      <span>.</span>
+      <span>.</span>
+      <span>.</span>
+    </div>
   );
 };

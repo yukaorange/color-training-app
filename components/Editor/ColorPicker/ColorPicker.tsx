@@ -87,7 +87,7 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
               </div>
             </div>
             <div className="color-picker__palette">
-              <Colorful color={hsva} onChange={handleColorChange} disableAlpha={true} />
+              {isOpen && <Colorful color={hsva} onChange={handleColorChange} disableAlpha={true} />}
             </div>
             <div className="color-picker__button _en">
               <button
@@ -113,6 +113,8 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
       <div
         className={`color-picker-overlay ${isOpen ? 'color-picker-overlay--is-open' : ''}`}
         onClick={onClose}
+        tabIndex={isOpen ? 0 : -1}
+        aria-hidden={!isOpen}
       ></div>
     </>
   );

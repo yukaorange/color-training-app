@@ -87,7 +87,7 @@ const createMockArchivedSets = () => {
     mockSets.push({
       id: i,
       title: `アーカイブセットダミストダミー${i}`,
-      cellColors: mockCellColors,
+      cellColors: mockHistory[mockHistory.length - 1].cellColors,
       createdAt: createdDate,
       modifiedAt: modifiedDate,
       history: mockHistory,

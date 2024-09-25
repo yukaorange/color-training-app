@@ -8,7 +8,7 @@ interface MarqueeProps {
 
 export const Marquee = ({ number }: MarqueeProps) => {
   return (
-    <div className={`marquee-editor marquee-editor--${number} `}>
+    <div className={`marquee-editor marquee-editor--${number} `} tabIndex={-1} aria-hidden={true}>
       {Array.from({ length: 6 }).map((_, index) => {
         return (
           <div className="marquee-editor__inner" key={index}>

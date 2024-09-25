@@ -5,7 +5,7 @@ import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, KeyboardEvent } from 'react';
 import { useSnapshot } from 'valtio';
 import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
@@ -27,17 +27,33 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   } = useSnapshot(editorStore);
   const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
   const [inputValue, setInputValue] = useState(localTitle);
+  const [showAlert, setShowAlert] = useState(false);
 
   useEffect(() => {
     setInputValue(localTitle);
   }, [localTitle]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+    const newValue = e.target.value;
+
+    if (newValue.length <= 20) {
+      setInputValue(e.target.value);
+      setShowAlert(false);
+    } else {
+      setShowAlert(true);
+    }
   };
 
   const handleTitleBlur = () => {
     setLocalTitle(inputValue);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' || e.key === 'Tab') {
+      e.preventDefault();
+      handleTitleBlur();
+      e.currentTarget.blur();
+    }
   };
 
   const handleSaveOrUpdate = useCallback(() => {
@@ -84,7 +100,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     const buttonText = getButtonText();
 
     const isDisabled =
-      (!currentSetId && !localTitle.trim()) || ((!isChanged && currentSetId) as boolean);
+      (!currentSetId && !localTitle.trim()) || //編集対象がセットされていない&タイトルが書かれていない
+      ((!isChanged && currentSetId) as boolean) || //編集対象がセットされているが、変更がない
+      showAlert; //バリデーションエラー
 
     return (
       <button
@@ -103,7 +121,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
 
   return (
     <>
-      <div className={`window-save ${isOpen ? 'window-save--is-open' : ''}`}>
+      <div
+        className={`window-save ${isOpen && 'window-save--is-open'} ${showAlert && 'window-save--alert'}`}
+      >
         <div
           className={`window-save__toggle ${isOpen ? 'window-save__toggle--is-open' : ''}`}
           onClick={onClick}
@@ -127,6 +147,7 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
                 value={inputValue}
                 onChange={handleTitleChange}
                 onBlur={handleTitleBlur}
+                onKeyDown={handleKeyDown}
               />
             </div>
             <div className="project__row">
@@ -145,6 +166,11 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
           <Marquee number={1} />
           <Marquee number={2} />
         </div>
+        {showAlert && (
+          <>
+            <div className="window-save__alert _en">Keep under 20</div>
+          </>
+        )}
       </div>
       <div
         className={`window-save__overlay ${isOpen ? 'window-save__overlay--is-open' : ''}`}

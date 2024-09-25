@@ -6,6 +6,7 @@ import '@/components/Layout/Header/styles/icon-setting.scss';
 
 import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
 import { WindowSetting } from '@/components/Layout/Header/WindowSetting/WindowSetting';
+import { WindowUser } from '@/components/Layout/Header/WindowUser/WindowUser';
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -15,6 +16,7 @@ import Link from 'next/link';
 
 export const Header = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
+  const [isUserOpen, setIsUserOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
   const [confirmMessage, setConfirmMessage] = useState({
@@ -29,6 +31,10 @@ export const Header = () => {
     setIsSettingOpen((prev) => !prev);
   };
 
+  const toggleUser = () => {
+    setIsUserOpen((prev) => !prev);
+  };
+
   const openConfirmation = (action: () => void, message: { main: string; sub: string }) => {
     setConfirmAction(() => action);
     setConfirmMessage(message);
@@ -39,8 +45,13 @@ export const Header = () => {
     setIsConfirmOpen(false);
   };
 
-  const allClose = () => {
+  const settingClose = () => {
     setIsSettingOpen(false);
+    closeConfirmation();
+  };
+
+  const userClose = () => {
+    setIsUserOpen(false);
     closeConfirmation();
   };
 
@@ -55,7 +66,7 @@ export const Header = () => {
             </div>
           </Link>
           <div className="header__buttons">
-            <IconUser isLogin={false} />
+            <IconUser isLogin={false} onClick={toggleUser} />
             <SettingIcon onClick={toggleSetting} disable={disableEditorAction} />
           </div>
         </div>
@@ -64,10 +75,12 @@ export const Header = () => {
       <WindowSetting
         isOpen={isSettingOpen}
         onClose={() => {
-          allClose();
+          settingClose();
         }}
         openConfirmation={openConfirmation}
       />
+
+      <WindowUser isOpen={isUserOpen} onClose={userClose} />
 
       <WindowConfirmation
         isOpen={isConfirmOpen}
@@ -84,9 +97,10 @@ const Logo = () => {
   return <Image src="/images/header/logo.svg" alt="to be muscle" width={72} height={72} />;
 };
 
-const IconUser = ({ isLogin }: { isLogin: boolean }) => {
+const IconUser = ({ isLogin, onClick }: { isLogin: boolean; onClick: () => void }) => {
   return (
     <svg
+      onClick={onClick}
       className={`icon-user ${isLogin ? 'icon-user--is-login' : ''}`}
       width="72"
       height="80"

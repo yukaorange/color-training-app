@@ -178,3 +178,39 @@
     background-position: 100% 50%;
   }
 }
+
+@keyframes button-footer {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 0.2rem;
+  }
+  100% {
+    translate: 0 0;
+  }
+}
+
+@keyframes twinkling-dot {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes blinking-text {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

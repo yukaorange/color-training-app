@@ -24,6 +24,16 @@
   pointer-events: auto;
 }
 
+.window-save--alert::after {
+  content: "";
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  background-color: var(--inactive);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 .window-save--is-open {
   translate: 0 0;
 }
@@ -84,6 +94,22 @@
 .window-save__overlay--is-open {
   background-color: var(--overlay);
   pointer-events: auto;
+}
+
+.window-save__alert {
+  position: absolute;
+  z-index: 20;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  color: var(--danger);
+  font-size: text(24);
+  font-weight: 500;
+  pointer-events: none;
+
+  animation-name: blinking-text;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
 }
 
 @include mq(sp) {
