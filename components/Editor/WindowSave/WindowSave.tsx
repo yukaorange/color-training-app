@@ -40,10 +40,6 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     setLocalTitle(inputValue);
   };
 
-  const nextArchivedIdToDisplay = (lastArchivedId + 1).toString().padStart(6, '0');
-
-  const currentSetIdToDisplay = currentSetId?.toString().padStart(6, '0');
-
   const handleSaveOrUpdate = useCallback(() => {
     if (localTitle.trim()) {
       try {
@@ -71,6 +67,19 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     return isChanged ? 'Update' : 'Saved';
   };
 
+  const ToggleWindowSave = ({ isOpen }: { isOpen: boolean }) => {
+    return (
+      <>
+        <div className={`toggle-window-save ${isOpen ? 'toggle-window-save--close' : ''} _en`}>
+          <div className="toggle-window-save__text">{isOpen ? 'CLOSE' : 'SAVE'}</div>
+          <div className="toggle-window-save__icon">
+            <Arrow />
+          </div>
+        </div>
+      </>
+    );
+  };
+
   const ButtonSaveOrUpdate = () => {
     const buttonText = getButtonText();
 
@@ -88,18 +97,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     );
   };
 
-  const ToggleWindowSave = ({ isOpen }: { isOpen: boolean }) => {
-    return (
-      <>
-        <div className={`toggle-window-save ${isOpen ? 'toggle-window-save--close' : ''} _en`}>
-          <div className="toggle-window-save__text">{isOpen ? 'CLOSE' : 'SAVE'}</div>
-          <div className="toggle-window-save__icon">
-            <Arrow />
-          </div>
-        </div>
-      </>
-    );
-  };
+  const nextArchivedIdToDisplay = (lastArchivedId + 1).toString().padStart(6, '0');
+
+  const currentSetIdToDisplay = currentSetId?.toString().padStart(6, '0');
 
   return (
     <>

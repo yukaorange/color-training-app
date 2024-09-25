@@ -3,20 +3,15 @@
 import '@/components/Layout/Header/styles/header.scss';
 import '@/components/Layout/Header/styles/icon-user.scss';
 import '@/components/Layout/Header/styles/icon-setting.scss';
-import '@/components/Layout/Header/styles/overlay-setting.scss';
-import '@/components/Layout/Header/styles/window-setting.scss';
-import '@/components/Layout/Header/styles/button-setting.scss';
 
 import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
+import { WindowSetting } from '@/components/Layout/Header/WindowSetting/WindowSetting';
 
-import { useSnapshot } from 'valtio';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
-import { actions } from '@/store/editorStore';
-import { editorStore } from '@/store/editorStore';
-import { usePathname } from 'next/navigation';
 
 export const Header = () => {
   const [isSettingOpen, setIsSettingOpen] = useState(false);
@@ -29,17 +24,6 @@ export const Header = () => {
 
   const pathname = usePathname();
   const disableEditorAction = pathname !== '/editor';
-
-  const { currentSetId, isHistoryChanged, localTitle } = useSnapshot(editorStore);
-
-  const {
-    resetToInitial,
-    generateRandomColors,
-    updateArchivedSet,
-    archiveCurrentSet,
-    setCurrentSetId,
-    resetLocalTitle,
-  } = actions;
 
   const toggleSetting = () => {
     setIsSettingOpen((prev) => !prev);
@@ -55,61 +39,9 @@ export const Header = () => {
     setIsConfirmOpen(false);
   };
 
-  const handleNewCreation = () => {
-    openConfirmation(
-      () => {
-        if (currentSetId || isHistoryChanged) {
-          const titleToUse = localTitle.trim() || 'Untitled';
-          if (currentSetId) {
-            updateArchivedSet(currentSetId, titleToUse);
-          } else {
-            archiveCurrentSet(titleToUse);
-          }
-        }
-
-        resetToInitial();
-        setCurrentSetId(null);
-        resetLocalTitle();
-        setIsSettingOpen(false);
-        closeConfirmation();
-      },
-      {
-        main: '新規作成しますか？',
-        sub: '現在の編集内容は記録されます。',
-      }
-    );
-  };
-
-  const handleClose = () => {
+  const allClose = () => {
     setIsSettingOpen(false);
-  };
-
-  const handleDelete = () => {
-    openConfirmation(
-      () => {
-        resetToInitial();
-        setIsSettingOpen(false);
-        closeConfirmation();
-      },
-      {
-        main: '現在の内容を削除しますか？',
-        sub: '現在の編集内容がリセットされます。',
-      }
-    );
-  };
-
-  const handleRandomGeneration = () => {
-    openConfirmation(
-      () => {
-        generateRandomColors();
-        setIsSettingOpen(false);
-        closeConfirmation();
-      },
-      {
-        main: 'ランダムに色を生成しますか？',
-        sub: '現在の編集内容は破棄されます。',
-      }
-    );
+    closeConfirmation();
   };
 
   return (
@@ -128,43 +60,15 @@ export const Header = () => {
           </div>
         </div>
       </header>
-      <div
-        className={`window-setting ${isSettingOpen ? 'window-setting--is-open' : 'window-setting--is-close'}`}
-      >
-        <div className="window-setting__inner">
-          <div className="window-setting__buttons">
-            <div className="button-setting button-setting--new" onClick={handleNewCreation}>
-              <div className="button-setting__text _en">NEW</div>
-              <div className="button-setting__icon">
-                <IconAdd />
-              </div>
-            </div>
-            <div className="button-setting button-setting--delete" onClick={handleDelete}>
-              <div className="button-setting__text _en">DELETE</div>
-              <div className="button-setting__icon">
-                <IconDanger />
-              </div>
-            </div>
-          </div>
-          <div className="window-setting__buttons">
-            <div className="button-setting button-setting--random" onClick={handleRandomGeneration}>
-              <div className="button-setting__text _en">RANDOM</div>
-              <div className="button-setting__mask"></div>
-            </div>
-          </div>
-        </div>
 
-        <div className="window-setting__corner">
-          <Corner />
-        </div>
-        <div className="window-setting__close">
-          <ButtonClose onClick={handleClose} />
-        </div>
-      </div>
-      <div
-        className={`overlay-setting ${isSettingOpen ? 'overlay-setting--is-open' : 'overlay-setting--is-close'}`}
-        onClick={handleClose}
-      ></div>
+      <WindowSetting
+        isOpen={isSettingOpen}
+        onClose={() => {
+          allClose();
+        }}
+        openConfirmation={openConfirmation}
+      />
+
       <WindowConfirmation
         isOpen={isConfirmOpen}
         onConfirm={confirmAction}
@@ -237,116 +141,5 @@ const SettingIcon = ({ onClick, disable }: { onClick: () => void; disable: boole
         <div className="icon-setting__text _en">editor</div>
       </div>
     </>
-  );
-};
-
-const IconAdd = () => {
-  return (
-    <svg
-      id="icon-add"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 37 37"
-      width={37}
-      height={37}
-      className="icon-add"
-    >
-      <defs>
-        <style>
-          {`
-          .cls-1 {
-            fill: none;
-          }
-          .cls-1, .cls-2 {
-            stroke: currentColor;
-            stroke-miterlimit: 10;
-          }
-        `}
-        </style>
-      </defs>
-      <g id="layer">
-        <line className="cls-2" x1="18.5" y1="5" x2="18.5" y2="32" />
-        <line className="cls-2" x1="5" y1="18.5" x2="32" y2="18.5" />
-        <polyline className="cls-1" points=".5 5 .5 .5 5 .5" />
-        <polyline className="cls-1" points="32 .5 36.5 .5 36.5 5" />
-        <polyline className="cls-1" points="36.5 32 36.5 36.5 32 36.5" />
-        <polyline className="cls-1" points=".5 32 .5 36.5 5 36.5" />
-      </g>
-    </svg>
-  );
-};
-
-const IconDanger = () => {
-  return (
-    <svg
-      width={24}
-      height={24}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="icon-danger"
-    >
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M12 2.98828L22.2924 21H1.70764L12 2.98828ZM4.29241 19.5H19.7076L12 6.01163L4.29241 19.5Z"
-        fill="currentColor"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M11.25 15L11.25 10.5L12.75 10.5L12.75 15L11.25 15Z"
-        fill="currentColor"
-      />
-      <path
-        fillRule="evenodd"
-        clipRule="evenodd"
-        d="M11.25 17.25L11.25 15.75L12.75 15.75L12.75 17.25L11.25 17.25Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-};
-
-const Corner = () => {
-  return (
-    <svg width={40} height={40} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 0V40L40 0H0Z" fill="#5f5f5f" />
-    </svg>
-  );
-};
-
-const ButtonClose = ({ onClick }: { onClick: () => void }) => {
-  return (
-    <svg
-      id="button-close"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 41.5 41.5"
-      width={41.5}
-      height={41.5}
-      className="button-close"
-      onClick={onClick}
-    >
-      <defs>
-        <style>
-          {`
-          .cls-1 {
-            fill: none;
-            stroke: currentColor;
-            stroke-linecap: round;
-            stroke-miterlimit: 10;
-            stroke-width: 1.5px;
-          }
-        `}
-        </style>
-      </defs>
-      <g id="" data-name="">
-        <g id="button-close__lines">
-          <line className="cls-1" x1=".75" y1=".75" x2="17.42" y2="17.42" />
-          <line className="cls-1" x1="24.08" y1="17.42" x2="40.75" y2=".75" />
-          <line className="cls-1" x1="24.08" y1="24.08" x2="40.75" y2="40.75" />
-          <line className="cls-1" x1=".75" y1="40.75" x2="17.42" y2="24.08" />
-        </g>
-      </g>
-    </svg>
   );
 };

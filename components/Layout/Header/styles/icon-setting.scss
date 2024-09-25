@@ -4,7 +4,7 @@
   --width: 7.2rem;
   --height: 8rem;
   --diagonal: 8rem;
-  // --diagonal: calc(sqrt(var(--width) * var(--width) + var(--height) * var(--height)));
+
   width: var(--width);
   height: var(--height);
   border: 0.1rem solid var(--black);
@@ -88,6 +88,12 @@
 
 @include mq(sp) {
   .icon-setting {
+    --width: 4rem;
+    --height: 4rem;
+    --diagonal: 4rem;
+
+    width: var(--width);
+    height: var(--height);
     width: 4rem;
     height: 4rem;
     border: 0.1rem solid var(--black);
@@ -107,5 +113,29 @@
     font-size: 1rem;
 
     display: none;
+  }
+
+  .icon-setting--disable:before {
+    content: "";
+    position: absolute;
+    width: var(--diagonal);
+    height: 0.1rem;
+    background-color: var(--black);
+    translate: -50% -50%;
+    top: calc(50% - 0rem);
+    left: 50%;
+    rotate: 48deg;
+  }
+
+  .icon-setting--disable:after {
+    content: "";
+    position: absolute;
+    width: var(--diagonal);
+    height: 0.1rem;
+    background-color: var(--black);
+    translate: -50% -50%;
+    top: calc(50% - 0rem);
+    left: 50%;
+    rotate: -48deg;
   }
 }

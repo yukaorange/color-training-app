@@ -1,0 +1,47 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-archive {
+  font-size: text(14);
+  // background-color: var(--danger);
+  pointer-events: auto;
+  position: relative;
+  z-index: 10;
+  display: grid;
+  cursor: pointer;
+}
+
+.button-archive--editting {
+  opacity: 1;
+  pointer-events: none;
+  display: grid;
+  padding: 0.3rem;
+}
+
+.button-archive--editting svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+@include mq(sp) {
+  .button-archive {
+    font-size: text(14);
+    // background-color: var(--danger);
+    pointer-events: auto;
+    position: relative;
+    z-index: 10;
+    display: grid;
+    cursor: pointer;
+  }
+
+  .button-archive--editting {
+    opacity: 1;
+    pointer-events: none;
+    display: grid;
+    padding: 0.3rem;
+  }
+
+  .button-archive--editting svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+}

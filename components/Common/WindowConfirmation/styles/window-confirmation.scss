@@ -179,14 +179,14 @@
   .window-confirmation__corner {
     position: absolute;
     z-index: -1;
-    top: 0.8rem;
-    left: 0.8rem;
+    top: 0.4rem;
+    left: 0.4rem;
     display: grid;
   }
 
   .window-confirmation__corner svg {
-    width: 4rem;
-    height: 4rem;
+    width: 1.4rem;
+    height: 1.4rem;
   }
 
   .window-confirmation__close {

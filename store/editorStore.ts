@@ -49,9 +49,18 @@ const createMockArchivedSets = () => {
   const mockSets: ArchivedSet[] = [];
   const currentDate = new Date();
 
-  for (let i = 1; i <= 10; i++) {
+  for (let i = 1; i <= 30; i++) {
     const createdDate = new Date();
     const modifiedDate = new Date();
+
+    const initialCellColors: CellColors[] = Array(36)
+      .fill(null)
+      .map(() => {
+        return {
+          square: '#f5f5f5',
+          circle: '#a9a9a9',
+        };
+      });
 
     const mockCellColors: CellColors[] = Array(36)
       .fill(null)
@@ -63,11 +72,12 @@ const createMockArchivedSets = () => {
       }));
 
     const mockHistory: HistoryEntry[] = [
+      { cellColors: initialCellColors },
       { cellColors: mockCellColors },
       {
         cellColors: mockCellColors.map((color) => ({
           ...color,
-          square: `#${Math.floor(16777215 * 0.54)
+          square: `#${Math.floor(16777215 * 0.2)
             .toString(16)
             .padStart(6, '0')}`,
         })),
@@ -76,12 +86,12 @@ const createMockArchivedSets = () => {
 
     mockSets.push({
       id: i,
-      title: `アーカイブセット ${i}`,
+      title: `アーカイブセットダミストダミー${i}`,
       cellColors: mockCellColors,
       createdAt: createdDate,
       modifiedAt: modifiedDate,
       history: mockHistory,
-      historyIndex: 1,
+      historyIndex: mockHistory.length - 1,
     });
   }
 
@@ -322,16 +332,29 @@ export const actions = {
     const archivedSet = editorStore.archivedSets.find((set) => set.id === id);
 
     if (archivedSet) {
-      editorStore.cellColors = [...archivedSet.cellColors];
-      editorStore.tempCellColors = [...archivedSet.cellColors];
       editorStore.history = archivedSet.history || [{ cellColors: [...archivedSet.cellColors] }];
-      editorStore.historyIndex = archivedSet.historyIndex || 0;
+      editorStore.historyIndex = Math.min(
+        archivedSet.historyIndex || 0,
+        editorStore.history.length - 1
+      );
+
+      const currentHistoryEntry = editorStore.history[editorStore.historyIndex].cellColors;
+
+      editorStore.cellColors = [...currentHistoryEntry];
+      editorStore.tempCellColors = [...currentHistoryEntry];
+
       editorStore.canUndo = editorStore.historyIndex > 0;
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
+
+      // console.log(editorStore.canUndo, editorStore.canRedo, editorStore.historyIndex);
+
       editorStore.isColorChanged = false;
       editorStore.isHistoryChanged = false;
+
       editorStore.currentSetId = archivedSet.id;
       editorStore.localTitle = archivedSet.title;
+    } else {
+      console.error(`アーカイブが見つかりませんでした:No${id}`);
     }
   },
   deleteArchivedSet: (id: number) => {
