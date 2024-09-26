@@ -128,13 +128,14 @@ const initialState: EditorStore = {
   localTitle: '',
   history: [],
   historyIndex: 0,
-  lastArchivedId: 10,
+  lastArchivedId: 0, //本番は0から開始
   currentSetId: null,
   isColorChanged: false,
   isHistoryChanged: false,
   canUndo: false,
   canRedo: false,
-  archivedSets: createMockArchivedSets(),
+  // archivedSets: createMockArchivedSets(),
+  archivedSets: [],
   isLoggedIn: false,
 };
 
@@ -239,7 +240,10 @@ export const actions = {
       editorStore.canUndo = editorStore.historyIndex > 0;
       editorStore.canRedo = true;
       editorStore.isColorChanged = false;
+      editorStore.isHistoryChanged = false;
+
       actions.updateColorChangedFlag();
+      actions.updateHistoryChangedFlag();
     }
   },
   redo: () => {
@@ -250,8 +254,11 @@ export const actions = {
 
       editorStore.canUndo = true;
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
+
       editorStore.isColorChanged = false;
+      editorStore.isHistoryChanged = false;
       actions.updateColorChangedFlag();
+      actions.updateHistoryChangedFlag();
     }
   },
   resetToInitial: () => {

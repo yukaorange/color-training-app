@@ -132,6 +132,7 @@
   .button-setting--random {
     border: none;
     position: relative;
+    background-color: var(--active);
     z-index: 0;
   }
 }

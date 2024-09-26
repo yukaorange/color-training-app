@@ -72,21 +72,21 @@
 }
 
 .marquee__icon {
-  width: 9rem;
-  aspect-ratio: 1/1;
+  display: grid;
 }
 
-.marquee__icon img {
-  object-fit: contain;
+.marquee__icon svg {
+  width: 9rem;
+  height: 9rem;
 }
 
 .marquee__decoration {
-  width: 24rem;
-  aspect-ratio: 120/30;
+  display: grid;
 }
 
-.marquee__decoration img {
-  object-fit: contain;
+.marquee__decoration svg {
+  width: 24rem;
+  height: 6rem;
 }
 
 @include mq(sp) {
@@ -161,18 +161,20 @@
   }
 
   .marquee__icon {
-    width: 4.4rem;
+    display: grid;
   }
 
-  .marquee__icon img {
-    object-fit: contain;
+  .marquee__icon svg {
+    width: 4.4rem;
+    height: 4.4rem;
   }
 
   .marquee__decoration {
-    width: 12rem;
+    display: grid;
   }
 
-  .marquee__decoration img {
-    object-fit: contain;
+  .marquee__decoration svg {
+    width: 12rem;
+    height: 3rem;
   }
 }

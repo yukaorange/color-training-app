@@ -77,6 +77,8 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     isColorChanged ||
     (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
 
+  console.log(currentSetId);
+
   const getButtonText = () => {
     // if (!isLoggedIn) return 'Sign In';
     if (!currentSetId) return 'Archive';

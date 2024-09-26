@@ -136,11 +136,11 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
             <animate
               attributeName="color-interpolation-filters"
               values="sRGB; linear-rgb; sRGB"
-              dur="10s"
+              dur="5s"
               repeatCount="indefinite"
             />
             <feColorMatrix type="hueRotate" values="0">
-              <animate attributeName="values" values="0; 60; 0" dur="5s" repeatCount="indefinite" />
+              <animate attributeName="values" values="0; 360; 0" dur="5s" repeatCount="indefinite" />
             </feColorMatrix>
           </filter>
         </svg>
