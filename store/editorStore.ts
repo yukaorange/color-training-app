@@ -240,7 +240,6 @@ export const actions = {
       editorStore.canUndo = editorStore.historyIndex > 0;
       editorStore.canRedo = true;
       editorStore.isColorChanged = false;
-      editorStore.isHistoryChanged = false;
 
       actions.updateColorChangedFlag();
       actions.updateHistoryChangedFlag();
@@ -256,7 +255,7 @@ export const actions = {
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
 
       editorStore.isColorChanged = false;
-      editorStore.isHistoryChanged = false;
+
       actions.updateColorChangedFlag();
       actions.updateHistoryChangedFlag();
     }

@@ -77,7 +77,20 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     isColorChanged ||
     (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
 
-  console.log(currentSetId);
+  console.log(
+    'currentSetID:',
+    currentSetId,"\n",
+    'isHistoryChanged:',
+    isHistoryChanged,"\n",
+    'isColorChanged:',
+    isColorChanged,"\n",
+    'localTitle:',
+    localTitle,"\n",
+    'archivedSets:',
+    archivedSets,"\n",
+    'isChanged:',
+    isChanged
+  );
 
   const getButtonText = () => {
     // if (!isLoggedIn) return 'Sign In';
