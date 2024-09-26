@@ -49,7 +49,7 @@ const createMockArchivedSets = () => {
   const mockSets: ArchivedSet[] = [];
   const currentDate = new Date();
 
-  for (let i = 1; i <= 30; i++) {
+  for (let i = 1; i <= 10; i++) {
     const createdDate = new Date();
     const modifiedDate = new Date();
 

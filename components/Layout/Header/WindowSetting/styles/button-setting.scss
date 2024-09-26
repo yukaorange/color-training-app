@@ -51,7 +51,36 @@
   inset: 0;
 }
 
+.button-setting-svg-filter {
+  height: 0;
+  width: 0;
+}
+
 @media (hover: hover) and (pointer: fine) {
+  .button-setting--new {
+    // background: linear-gradient(90deg, var(--new) 25%, #efff10, #bbff00, var(--new));
+    // background-size: 800%;
+    // background-position: 0% 50%;
+  }
+
+  .button-setting--new:hover {
+    // animation-name: new-button-background;
+    // animation-iteration-count: infinite;
+    // animation-duration: 10s;
+    // animation-timing-function: var(--linear);
+    // filter: url(#color-change-filter);
+    filter: url(#color-change-filter);
+  }
+
+  .button-setting--delete:hover {
+    // animation-name: blinking-button-delete;
+    animation-name: color-change;
+    animation-iteration-count: infinite;
+    // animation-duration: 0.01s;
+    animation-duration: 0.01s;
+    animation-timing-function: var(--linear);
+  }
+
   .button-setting--random:hover {
     background-position: 0% 50%;
     border: 0.1rem solid var(--active);
@@ -92,10 +121,17 @@
   }
 
   .button-setting--new {
-    background-color: var(--new);
+    // background-color: var(--new);
+    filter: url(#color-change-filter);
   }
 
   .button-setting--delete {
     background-color: var(--danger);
+  }
+
+  .button-setting--random {
+    border: none;
+    position: relative;
+    z-index: 0;
   }
 }

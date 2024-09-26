@@ -214,3 +214,17 @@
     opacity: 0;
   }
 }
+
+@keyframes color-change {
+  0%,
+  100% {
+    background-color: #a200ff;
+  }
+  33% {
+    background-color: #ff009d;
+  }
+  66% {
+    background-color: #ff006a;
+
+  }
+}

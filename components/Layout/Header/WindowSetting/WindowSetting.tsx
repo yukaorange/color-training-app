@@ -130,6 +130,21 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
         className={`overlay-setting ${isOpen ? 'overlay-setting--is-open' : 'overlay-setting--is-close'}`}
         onClick={onClose}
       ></div>
+      <div className="button-setting-svg-filter">
+        <svg width="0" height="0">
+          <filter id="color-change-filter">
+            <animate
+              attributeName="color-interpolation-filters"
+              values="sRGB; linear-rgb; sRGB"
+              dur="10s"
+              repeatCount="indefinite"
+            />
+            <feColorMatrix type="hueRotate" values="0">
+              <animate attributeName="values" values="0; 60; 0" dur="5s" repeatCount="indefinite" />
+            </feColorMatrix>
+          </filter>
+        </svg>
+      </div>
     </>
   );
 };
