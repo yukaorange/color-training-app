@@ -5,7 +5,7 @@ import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
 
-import { useState, useEffect, useCallback, KeyboardEvent } from 'react';
+import { useState, useEffect, useCallback, KeyboardEvent, useRef } from 'react';
 import { useSnapshot } from 'valtio';
 import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
@@ -28,6 +28,7 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
   const [inputValue, setInputValue] = useState(localTitle);
   const [showAlert, setShowAlert] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     setInputValue(localTitle);
@@ -54,15 +55,19 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
       handleTitleBlur();
       e.currentTarget.blur();
     }
+
+    if (e.key === 'Enter' && buttonRef.current && !buttonRef.current.disabled) {
+      handleSaveOrUpdate();
+    }
   };
 
-  const handleSaveOrUpdate = useCallback(() => {
+  const handleSaveOrUpdate = useCallback(async () => {
     if (localTitle.trim()) {
       try {
         if (currentSetId) {
-          updateArchivedSet(currentSetId, localTitle.trim());
+          await updateArchivedSet(currentSetId, localTitle.trim());
         } else {
-          const newId = archiveCurrentSet(localTitle.trim());
+          const newId = (await archiveCurrentSet(localTitle.trim())) as number;
           setCurrentSetId(newId);
         }
         onClick();
@@ -77,20 +82,25 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     isColorChanged ||
     (currentSetId && localTitle !== archivedSets.find((set) => set.id === currentSetId)?.title);
 
-  console.log(
-    'currentSetID:',
-    currentSetId,"\n",
-    'isHistoryChanged:',
-    isHistoryChanged,"\n",
-    'isColorChanged:',
-    isColorChanged,"\n",
-    'localTitle:',
-    localTitle,"\n",
-    'archivedSets:',
-    archivedSets,"\n",
-    'isChanged:',
-    isChanged
-  );
+  // console.log(
+  //   'currentSetID:',
+  //   currentSetId,
+  //   '\n',
+  //   'isHistoryChanged:',
+  //   isHistoryChanged,
+  //   '\n',
+  //   'isColorChanged:',
+  //   isColorChanged,
+  //   '\n',
+  //   'localTitle:',
+  //   localTitle,
+  //   '\n',
+  //   'archivedSets:',
+  //   archivedSets,
+  //   '\n',
+  //   'isChanged:',
+  //   isChanged
+  // );
 
   const getButtonText = () => {
     // if (!isLoggedIn) return 'Sign In';
@@ -117,10 +127,12 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     const isDisabled =
       (!currentSetId && !localTitle.trim()) || //編集対象がセットされていない&タイトルが書かれていない
       ((!isChanged && currentSetId) as boolean) || //編集対象がセットされているが、変更がない
-      showAlert; //バリデーションエラー
+      showAlert || //バリデーションエラー
+      localTitle == ''; //タイトルが空になっている
 
     return (
       <button
+        ref={buttonRef}
         className={`button-save ${isDisabled ? 'button-save--disabled' : ''}`}
         onClick={isDisabled ? undefined : handleSaveOrUpdate}
         disabled={isDisabled}

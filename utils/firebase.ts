@@ -2,6 +2,8 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { doc, getDoc, setDoc, updateDoc, deleteField } from 'firebase/firestore';
 import { editorStore } from '@/store/editorStore';
+import { actions } from '@/store/editorStore';
+import { create, update } from 'lodash';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -34,20 +36,18 @@ interface ArchivedSet {
   historyIndex: number;
 }
 
-const DOCUMENT = 'userId';
-const USER_ID = 'takaoka';
+const USER_ID = 'userId'; // Should replace 'userId' to the actual user ID
 
 export const fetchUserData = async () => {
+  const userDocRef = doc(db, 'users', USER_ID);
+  const userDocSnap = await getDoc(userDocRef);
+
   try {
-    const userDocRef = doc(db, 'users', DOCUMENT);
-
-    const userDocSnap = await getDoc(userDocRef);
-
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
 
-      editorStore.currentSetId = userData.currentSetId || -1;
-      editorStore.lastArchivedId = userData.lastArchivedId || -1;
+      editorStore.currentSetId = userData.currentSetId ?? null;
+      editorStore.lastArchivedId = userData.lastArchivedId ?? 0;
 
       editorStore.archivedSets = Object.entries(userData.archivedSets || {}).map(([id, data]) => {
         const archivedSet = data as ArchivedSet;
@@ -66,43 +66,51 @@ export const fetchUserData = async () => {
         };
       });
 
-      console.log('User data fetched successfully:', editorStore);
-    } else {
-      await setDoc(userDocRef, {
-        currentSetId: -1,
-        lastArchivedId: -1,
-        archivedSets: {},
-      });
-      editorStore.currentSetId = -1;
-      editorStore.lastArchivedId = -1;
-      editorStore.archivedSets = [];
+      if (editorStore.currentSetId !== null) {
+        const currentSet = editorStore.archivedSets.find((set) => {
+          return set.id === editorStore.currentSetId;
+        });
 
-      console.log('New user document created');
+        if (currentSet) {
+          // console.log('Current set found:', currentSet, '\n', 'currentSet.id:', currentSet.id);
+
+          actions.loadArchivedSet(currentSet.id);
+        }
+      }
+
+      // console.log('User data fetched successfully:', editorStore);
+    } else {
+      actions.resetToInitial();
+
+      console.log('User document does not exist. Initializing with empty data.');
     }
   } catch (err) {
     console.error(err);
   }
 };
 
-export const createArchivedSet = async (newSet: ArchivedSet) => {
+export const archiveCurrentSetToStore = async (newSet: ArchivedSet) => {
   try {
-    const userDocRef = doc(db, 'users', DOCUMENT);
+    const userDocRef = doc(db, 'users', USER_ID);
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
       const userData = userDocSnap.data();
-      const newLastArchivedId = Math.max(userData.lastArchivedId || 0, newSet.id);
 
       await updateDoc(userDocRef, {
-        [`archivedSets.${newSet.id}`]: newSet,
+        [`archivedSets.${newSet.id}`]: {
+          ...newSet,
+          createdAt: newSet.createdAt.toISOString(),
+          modifiedAt: newSet.modifiedAt.toISOString(),
+        },
+        lastArchivedId: newSet.id,
         currentSetId: newSet.id,
-        lastArchivedId: newLastArchivedId,
       });
 
-      console.log('New archived set created:', newSet);
-      return newLastArchivedId;
+      console.log('Archived set created successfully:', newSet);
+      return newSet.id;
     } else {
-      throw new Error('User document does not exist');
+      throw new Error('User document does not exist.');
     }
   } catch (err) {
     console.error('Error creating archived set:', err);
@@ -110,69 +118,29 @@ export const createArchivedSet = async (newSet: ArchivedSet) => {
   }
 };
 
-export const updateArchivedSet = async (
-  id: number,
-  updates: Partial<Omit<ArchivedSet, 'id' | 'createdAt'>>
-) => {
+export const updateArchivedSetInStore = async (updatedSet: ArchivedSet) => {
   try {
-    const userDocRef = doc(db, 'users', DOCUMENT);
-    const userDocSnap = await getDoc(userDocRef);
-
-    if (userDocSnap.exists()) {
-      const now = new Date();
-      const updatedSet = {
-        ...updates,
-        modifiedAt: now,
-      };
-
-      await updateDoc(userDocRef, {
-        [`archivedSets.${id}`]: updatedSet,
-      });
-
-      console.log('Archived set updated in Firestore:', id);
-      return updatedSet;
-    } else {
-      throw new Error('User document does not exist');
-    }
-  } catch (err) {
-    console.error('Error updating archived set:', err);
-    throw err;
-  }
-};
-
-export const deleteArchivedSet = async (id: number) => {
-  try {
-    const userDocRef = doc(db, 'users', DOCUMENT);
+    const userDocRef = doc(db, 'users', USER_ID);
     const userDocSnap = await getDoc(userDocRef);
 
     if (userDocSnap.exists()) {
       await updateDoc(userDocRef, {
-        [`archivedSets.${id}`]: deleteField(),
+        [`archivedSets.${updatedSet.id}`]: {
+          ...updatedSet,
+          createdAt: updatedSet.createdAt.toISOString(),
+          modifiedAt: updatedSet.modifiedAt.toISOString(),
+        },
+        currentSetId: updatedSet.id,
       });
 
-      const userData = userDocSnap.data();
-      if (userData.currentSetId === id) {
-        await updateDoc(userDocRef, { currentSetId: -1 });
-      }
-
-      console.log('Archived set deleted:', id);
+      console.log('Archived set updated successfully:', updatedSet);
+      return updatedSet.id;
     } else {
-      throw new Error('User document does not exist');
+      throw new Error('User document does not exist.');
     }
   } catch (err) {
-    console.error('Error deleting archived set:', err);
-    throw err;
+    console.error(err);
   }
 };
 
-export const setCurrentSetId = async (id: number) => {
-  try {
-    const userDocRef = doc(db, 'users', DOCUMENT);
-    await updateDoc(userDocRef, { currentSetId: id });
-    editorStore.currentSetId = id;
-    console.log('Current set ID updated:', id);
-  } catch (err) {
-    console.error('Error updating current set ID:', err);
-    throw err;
-  }
-};
+export const deleteArchivedSet = async () => {};

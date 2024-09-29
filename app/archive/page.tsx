@@ -79,14 +79,14 @@ export default function Archive() {
   const handleLoad = useCallback(
     (id: number) => {
       openConfirmation(
-        () => {
+        async () => {
           if (currentSetId || isHistoryChanged) {
             const titleToUse = localTitle.trim() || '無題';
 
             if (currentSetId) {
-              updateArchivedSet(currentSetId, titleToUse);
+              await updateArchivedSet(currentSetId, titleToUse);
             } else {
-              archiveCurrentSet(titleToUse);
+              await archiveCurrentSet(titleToUse);
             }
           }
 

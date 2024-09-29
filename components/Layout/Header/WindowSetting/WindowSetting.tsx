@@ -27,14 +27,14 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
 
   const handleNewCreation = () => {
     openConfirmation(
-      () => {
+      async () => {
         if (currentSetId || isHistoryChanged) {
           const titleToUse = localTitle.trim() || '無題';
 
           if (currentSetId) {
-            updateArchivedSet(currentSetId, titleToUse);
+            await updateArchivedSet(currentSetId, titleToUse);
           } else {
-            archiveCurrentSet(titleToUse);
+            await archiveCurrentSet(titleToUse);
           }
         }
 
@@ -45,7 +45,7 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
       },
       {
         main: '新規作成しますか？',
-        sub: '現在の編集内容は記録されます。',
+        sub: '現在の編集内容は保存されます。',
       }
     );
   };
@@ -57,7 +57,7 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
         onClose();
       },
       {
-        main: '削除しますか？',
+        main: 'リセットしますか？',
         sub: '編集内容が破棄されます。',
       }
     );
@@ -78,10 +78,10 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
 
   interface ButtonSettingProps {
     onClick: () => void;
-    type: 'new' | 'delete';
+    type: 'new' | 'reset';
   }
   const ButtonSetting = ({ onClick, type }: ButtonSettingProps) => {
-    const text = type == 'new' ? 'NEW' : 'DELETE';
+    const text = type == 'new' ? 'NEW' : 'RESET';
     const icon = type == 'new' ? <IconAdd /> : <IconDanger />;
 
     return (
@@ -140,7 +140,12 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
               repeatCount="indefinite"
             />
             <feColorMatrix type="hueRotate" values="0">
-              <animate attributeName="values" values="0; 360; 0" dur="5s" repeatCount="indefinite" />
+              <animate
+                attributeName="values"
+                values="0; 360; 0"
+                dur="5s"
+                repeatCount="indefinite"
+              />
             </feColorMatrix>
           </filter>
         </svg>

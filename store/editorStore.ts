@@ -1,5 +1,6 @@
 import { proxy, subscribe } from 'valtio';
 import { isEqual } from 'lodash';
+import { archiveCurrentSetToStore, updateArchivedSetInStore } from '@/utils/firebase';
 
 interface CellColors {
   square: string;
@@ -45,58 +46,58 @@ export const initialCellColors: CellColors = {
   circle: '#a9a9a9',
 };
 
-const createMockArchivedSets = () => {
-  const mockSets: ArchivedSet[] = [];
-  const currentDate = new Date();
+// const createMockArchivedSets = () => {
+//   const mockSets: ArchivedSet[] = [];
+//   const currentDate = new Date();
 
-  for (let i = 1; i <= 10; i++) {
-    const createdDate = new Date();
-    const modifiedDate = new Date();
+//   for (let i = 1; i <= 10; i++) {
+//     const createdDate = new Date();
+//     const modifiedDate = new Date();
 
-    const initialCellColors: CellColors[] = Array(36)
-      .fill(null)
-      .map(() => {
-        return {
-          square: '#f5f5f5',
-          circle: '#a9a9a9',
-        };
-      });
+//     const initialCellColors: CellColors[] = Array(36)
+//       .fill(null)
+//       .map(() => {
+//         return {
+//           square: '#f5f5f5',
+//           circle: '#a9a9a9',
+//         };
+//       });
 
-    const mockCellColors: CellColors[] = Array(36)
-      .fill(null)
-      .map(() => ({
-        square: `#${Math.floor(16777215 * 0.5)
-          .toString(16)
-          .padStart(6, '0')}`,
-        circle: `#${Math.floor(16777215).toString(16).padStart(6, '0')}`,
-      }));
+//     const mockCellColors: CellColors[] = Array(36)
+//       .fill(null)
+//       .map(() => ({
+//         square: `#${Math.floor(16777215 * 0.5)
+//           .toString(16)
+//           .padStart(6, '0')}`,
+//         circle: `#${Math.floor(16777215).toString(16).padStart(6, '0')}`,
+//       }));
 
-    const mockHistory: HistoryEntry[] = [
-      { cellColors: initialCellColors },
-      { cellColors: mockCellColors },
-      {
-        cellColors: mockCellColors.map((color) => ({
-          ...color,
-          square: `#${Math.floor(16777215 * 0.2)
-            .toString(16)
-            .padStart(6, '0')}`,
-        })),
-      },
-    ];
+//     const mockHistory: HistoryEntry[] = [
+//       { cellColors: initialCellColors },
+//       { cellColors: mockCellColors },
+//       {
+//         cellColors: mockCellColors.map((color) => ({
+//           ...color,
+//           square: `#${Math.floor(16777215 * 0.2)
+//             .toString(16)
+//             .padStart(6, '0')}`,
+//         })),
+//       },
+//     ];
 
-    mockSets.push({
-      id: i,
-      title: `アーカイブセットダミストダミー${i}`,
-      cellColors: mockHistory[mockHistory.length - 1].cellColors,
-      createdAt: createdDate,
-      modifiedAt: modifiedDate,
-      history: mockHistory,
-      historyIndex: mockHistory.length - 1,
-    });
-  }
+//     mockSets.push({
+//       id: i,
+//       title: `アーカイブセットダミストダミー${i}`,
+//       cellColors: mockHistory[mockHistory.length - 1].cellColors,
+//       createdAt: createdDate,
+//       modifiedAt: modifiedDate,
+//       history: mockHistory,
+//       historyIndex: mockHistory.length - 1,
+//     });
+//   }
 
-  return mockSets;
-};
+//   return mockSets;
+// };
 
 // export const editorStore = proxy<EditorStore>({
 //   activeCell: null,
@@ -119,23 +120,29 @@ const createMockArchivedSets = () => {
 // });
 
 const initialState: EditorStore = {
-  activeCell: null,
+  //Editor UI (real time editing)
   isColorPickerOpen: false,
+  activeCell: null,
   selectedElement: 'square',
-  cellColors: Array(36).fill(initialCellColors),
   initialCellColors: Array(36).fill(initialCellColors),
   tempCellColors: Array(36).fill(initialCellColors),
-  localTitle: '',
-  history: [],
-  historyIndex: 0,
-  lastArchivedId: 0, //本番は0から開始
-  currentSetId: null,
+  cellColors: Array(36).fill(initialCellColors),
   isColorChanged: false,
-  isHistoryChanged: false,
   canUndo: false,
   canRedo: false,
-  // archivedSets: createMockArchivedSets(),
+  currentSetId: null,
+
+  //Save / load (data of single set)
+  history: [{ cellColors: Array(36).fill(initialCellColors) }],
+  historyIndex: 0,
+  isHistoryChanged: false,
+  localTitle: '',
+  lastArchivedId: 0, //本番は0から開始
+
+  //Archive (user archive)
   archivedSets: [],
+
+  //user
   isLoggedIn: false,
 };
 
@@ -205,6 +212,8 @@ export const actions = {
         { cellColors: editorStore.cellColors },
       ];
 
+      console.log('applyColorChange and comfirm history', editorStore.history);
+
       editorStore.historyIndex++;
 
       editorStore.canUndo = true;
@@ -239,7 +248,8 @@ export const actions = {
 
       editorStore.canUndo = editorStore.historyIndex > 0;
       editorStore.canRedo = true;
-      editorStore.isColorChanged = false;
+
+      // editorStore.isColorChanged = false;
 
       actions.updateColorChangedFlag();
       actions.updateHistoryChangedFlag();
@@ -254,7 +264,7 @@ export const actions = {
       editorStore.canUndo = true;
       editorStore.canRedo = editorStore.historyIndex < editorStore.history.length - 1;
 
-      editorStore.isColorChanged = false;
+      // editorStore.isColorChanged = false;
 
       actions.updateColorChangedFlag();
       actions.updateHistoryChangedFlag();
@@ -313,36 +323,52 @@ export const actions = {
   resetLocalTitle: () => {
     editorStore.localTitle = '';
   },
-  archiveCurrentSet: (title: string) => {
-    editorStore.lastArchivedId++;
-    const newId = editorStore.lastArchivedId;
+  archiveCurrentSet: async (title: string) => {
+    try {
+      editorStore.lastArchivedId++;
+      const newId = editorStore.lastArchivedId;
 
-    const newArvhiveSet: ArchivedSet = {
-      id: newId,
-      title: title,
-      cellColors: editorStore.cellColors,
-      createdAt: new Date(),
-      modifiedAt: new Date(),
-      history: editorStore.history,
-      historyIndex: editorStore.historyIndex,
-    };
+      const newArvhiveSet: ArchivedSet = {
+        id: newId,
+        title: title,
+        cellColors: editorStore.cellColors,
+        createdAt: new Date(),
+        modifiedAt: new Date(),
+        history:
+          editorStore.history.length > 0
+            ? editorStore.history
+            : [{ cellColors: editorStore.cellColors }],
+        historyIndex: editorStore.history.length > 0 ? editorStore.historyIndex : 0,
+      };
 
-    editorStore.archivedSets = [...editorStore.archivedSets, newArvhiveSet];
-    editorStore.currentSetId = newId;
-    editorStore.isColorChanged = false;
-    editorStore.isHistoryChanged = false;
-    editorStore.localTitle = title;
-    return newId;
+      editorStore.archivedSets = [...editorStore.archivedSets, newArvhiveSet];
+      editorStore.currentSetId = newId;
+      editorStore.isColorChanged = false;
+      editorStore.isHistoryChanged = false;
+      editorStore.localTitle = title;
+
+      await archiveCurrentSetToStore(newArvhiveSet);
+
+      return newId;
+    } catch (err) {
+      console.error(err);
+
+      editorStore.lastArchivedId--;
+      editorStore.archivedSets = editorStore.archivedSets.slice(0, -1);
+      editorStore.currentSetId =
+        editorStore.archivedSets.length > 0
+          ? editorStore.archivedSets[editorStore.archivedSets.length - 1].id
+          : null;
+    }
   },
   loadArchivedSet: (id: number) => {
     const archivedSet = editorStore.archivedSets.find((set) => set.id === id);
 
     if (archivedSet) {
       editorStore.history = archivedSet.history || [{ cellColors: [...archivedSet.cellColors] }];
-      editorStore.historyIndex = Math.min(
-        archivedSet.historyIndex || 0,
-        editorStore.history.length - 1
-      );
+      editorStore.historyIndex = archivedSet.historyIndex || 0;
+
+      console.log('historyIdex', editorStore.historyIndex, '\n', 'history', editorStore.history);
 
       const currentHistoryEntry = editorStore.history[editorStore.historyIndex].cellColors;
 
@@ -372,23 +398,32 @@ export const actions = {
       editorStore.currentSetId = null;
     }
   },
-  updateArchivedSet: (id: number, title: string) => {
-    editorStore.archivedSets = editorStore.archivedSets.map((set) => {
-      if (set.id === id) {
-        return {
-          ...set,
-          title: title,
-          cellColors: editorStore.cellColors,
-          modifiedAt: new Date(),
-          history: editorStore.history,
-          historyIndex: editorStore.historyIndex,
-        };
+  updateArchivedSet: async (id: number, title: string) => {
+    try {
+      const updatedSetIndex = editorStore.archivedSets.findIndex((set) => set.id === id);
+
+      if (updatedSetIndex === -1) {
+        throw new Error(`アーカイブが見つかりませんでした:No${id}`);
       }
-      return set;
-    });
-    editorStore.isColorChanged = false;
-    editorStore.isHistoryChanged = false;
-    editorStore.localTitle = title;
+
+      const updatedArchivedSet: ArchivedSet = {
+        ...editorStore.archivedSets[updatedSetIndex],
+        title,
+        cellColors: editorStore.cellColors,
+        modifiedAt: new Date(),
+        history: editorStore.history,
+        historyIndex: editorStore.historyIndex,
+      };
+
+      await updateArchivedSetInStore(updatedArchivedSet);
+
+      editorStore.archivedSets[updatedSetIndex] = updatedArchivedSet;
+      editorStore.isColorChanged = false;
+      editorStore.isHistoryChanged = false;
+      editorStore.localTitle = title;
+    } catch (err) {
+      console.error(err);
+    }
   },
   setLoggedIn: (idLoggedIn: boolean) => {
     editorStore.isLoggedIn = idLoggedIn;
