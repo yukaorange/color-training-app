@@ -11,7 +11,6 @@ import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
 
 import { waitingStore, waitingActions } from '@/store/waitingStore';
-import { Waiting } from '@/components/Layout/Waiting/Waiting';
 
 interface WindowSaveProps {
   onClick: () => void;

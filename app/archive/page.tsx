@@ -4,6 +4,8 @@ import '@/app/archive/styles/archive.scss';
 
 import { ArchiveItem } from '@/components/Archive/ArchiveItem/ArchiveItem';
 
+import { waitingStore, waitingActions } from '@/store/waitingStore';
+
 import GSAP from 'gsap';
 import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { useSnapshot } from 'valtio';
@@ -19,6 +21,8 @@ const ITEMS_PER_PAGE = 10;
 
 export default function Archive() {
   const { currentSetId, isHistoryChanged, localTitle, archivedSets } = useSnapshot(editorStore);
+  const { setIsWaiting } = waitingActions;
+  const { isWaiting } = useSnapshot(waitingStore);
   const { updateArchivedSet, archiveCurrentSet, deleteArchivedSet, loadArchivedSet } = actions;
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
@@ -72,6 +76,9 @@ export default function Archive() {
           const itemToDelete = archiveItemRefs.current[id];
 
           const tl = GSAP.timeline({
+            onStart: () => {
+              setIsWaiting(true);
+            },
             onComplete: () => {
               const deleteFlow = async () => {
                 try {
@@ -88,6 +95,8 @@ export default function Archive() {
                   }
                 } catch (err) {
                   console.error(err);
+                } finally {
+                  setIsWaiting(false);
                 }
               };
               deleteFlow();
@@ -120,20 +129,19 @@ export default function Archive() {
       openConfirmation(
         async () => {
           if (currentSetId || isHistoryChanged) {
-            const titleToUse = localTitle.trim() || '無題';
+            try {
+              setIsWaiting(true);
+              const titleToUse = localTitle.trim() || '無題';
 
-            if (currentSetId) {
-              console.log('updating');
-
-              await updateArchivedSet(currentSetId, titleToUse);
-
-              console.log('updated');
-            } else {
-              console.log('archiving');
-
-              await archiveCurrentSet(titleToUse);
-
-              console.log('archived');
+              if (currentSetId) {
+                await updateArchivedSet(currentSetId, titleToUse);
+              } else {
+                await archiveCurrentSet(titleToUse);
+              }
+            } catch (err) {
+              console.error(err);
+            } finally {
+              setIsWaiting(false);
             }
           }
 

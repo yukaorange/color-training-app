@@ -6,6 +6,7 @@ import { useSnapshot } from 'valtio';
 
 import { actions } from '@/store/editorStore';
 import { editorStore } from '@/store/editorStore';
+import { waitingStore, waitingActions } from '@/store/waitingStore';
 
 interface WindowSettingProps {
   isOpen: boolean;
@@ -25,24 +26,34 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
     resetLocalTitle,
   } = actions;
 
+  const { setIsWaiting } = waitingActions;
+  const { isWaiting } = useSnapshot(waitingStore);
+
   const handleNewCreation = () => {
     openConfirmation(
       async () => {
         if (currentSetId || isHistoryChanged) {
-          const titleToUse = localTitle.trim() || '無題';
+          setIsWaiting(true);
+          try {
+            const titleToUse = localTitle.trim() || '無題';
 
-          if (currentSetId) {
-            console.log('updating');
+            if (currentSetId) {
+              console.log('updating');
 
-            await updateArchivedSet(currentSetId, titleToUse);
+              await updateArchivedSet(currentSetId, titleToUse);
 
-            console.log('updated');
-          } else {
-            console.log('archiving');
+              console.log('updated');
+            } else {
+              console.log('archiving');
 
-            await archiveCurrentSet(titleToUse);
+              await archiveCurrentSet(titleToUse);
 
-            console.log('archived');
+              console.log('archived');
+            }
+          } catch (err) {
+            console.error(err);
+          } finally {
+            setIsWaiting(false);
           }
         }
 
@@ -86,7 +97,7 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
 
   interface ButtonSettingProps {
     onClick: () => void;
-    type: 'new' | 'reset';
+    type: 'new' | 'delete';
   }
   const ButtonSetting = ({ onClick, type }: ButtonSettingProps) => {
     const text = type == 'new' ? 'NEW' : 'RESET';

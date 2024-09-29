@@ -8,7 +8,7 @@
   --z-editor__inner__grid: 1;
   --z-editor__inner__buttons: 1;
   --z-editor__save: 20;
-  --z-editor__footer:30;
+  --z-editor__footer: 30;
   --z-editor__color-picker: 25;
 
   position: relative;
@@ -50,11 +50,13 @@
 }
 
 .editor__buttons {
-  position: absolute;
+  position: fixed;
   z-index: var(--z-editor__inner__buttons);
-  top: calc(50% + 24rem + 6.4rem);
-  left: 50%;
-  translate: -50% -50%;
+  // top: calc(50% + 24rem + 6.4rem);
+  // left: 50%;
+  bottom: 2.4rem;
+  right: calc(var(--col) * 1 + var(--margin) * 1);
+  translate: 0% -50%;
   display: grid;
   grid-template-columns: repeat(2, auto);
   align-items: center;
@@ -139,6 +141,7 @@
     z-index: var(--z-editor__inner__buttons);
     top: 0;
     left: 0;
+    right: auto;
     translate: 0 0;
 
     display: grid;

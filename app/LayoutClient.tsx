@@ -49,7 +49,7 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
     loadData();
   }, []);
 
-  console.log('waiting in layout', isWaiting);
+  // console.log('waiting in layout', isWaiting);
 
   return (
     <>
