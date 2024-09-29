@@ -26,16 +26,23 @@ export default function Top() {
     const marquees = element.querySelectorAll('.marquee');
 
     const tl = GSAP.timeline();
-    tl.set(element, { opacity: 0 });
 
-    tl.to(element, { delay: 0.5, opacity: 1, duration: 0.2, ease: 'power2.out' });
+    tl.set(element, { opacity: 0.5 });
 
+    tl.to(element, {
+      delay: 0.5,
+      opacity: 1,
+      duration: 0.2,
+      ease: 'power2.out',
+      // onUpdate: () => {
+      //   console.log('animation');
+      // },
+    });
     tl.to(marqueeContainer, {
       opacity: 1,
       duration: 0.2,
       ease: 'power2.out',
     });
-
     tl.to(marquees, {
       delay: 0.5,
       duration: 0,
@@ -45,15 +52,15 @@ export default function Top() {
         });
       },
     });
-
     tl.to(textLoop, {
       delay: 0.2,
       opacity: 1,
       duration: 0.5,
       ease: 'power2.out',
+      // onUpdate: () => {
+      //   console.log('animation');
+      // },
     });
-
-    tl.to(textLoop, {});
   }, []);
 
   const handleNavigate = (href: string) => {

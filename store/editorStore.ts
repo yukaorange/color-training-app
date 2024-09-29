@@ -1,6 +1,10 @@
 import { proxy, subscribe } from 'valtio';
 import { isEqual } from 'lodash';
-import { archiveCurrentSetToStore, updateArchivedSetInStore } from '@/utils/firebase';
+import {
+  archiveCurrentSetToStore,
+  updateArchivedSetInStore,
+  deleteArchivedSetInStore,
+} from '@/utils/firebase';
 
 interface CellColors {
   square: string;
@@ -368,7 +372,7 @@ export const actions = {
       editorStore.history = archivedSet.history || [{ cellColors: [...archivedSet.cellColors] }];
       editorStore.historyIndex = archivedSet.historyIndex || 0;
 
-      console.log('historyIdex', editorStore.historyIndex, '\n', 'history', editorStore.history);
+      // console.log('historyIdex', editorStore.historyIndex, '\n', 'history', editorStore.history);
 
       const currentHistoryEntry = editorStore.history[editorStore.historyIndex].cellColors;
 
@@ -389,13 +393,20 @@ export const actions = {
       console.error(`アーカイブが見つかりませんでした:No${id}`);
     }
   },
-  deleteArchivedSet: (id: number) => {
-    editorStore.archivedSets = editorStore.archivedSets.filter((set) => {
-      return set.id !== id;
-    });
+  deleteArchivedSet: async (id: number) => {
+    try {
+      await deleteArchivedSetInStore(id);
 
-    if (editorStore.currentSetId === id) {
-      editorStore.currentSetId = null;
+      editorStore.archivedSets = editorStore.archivedSets.filter((set) => {
+        return set.id !== id;
+      });
+
+      if (editorStore.currentSetId === id) {
+        editorStore.currentSetId = null;
+        actions.resetToInitial();
+      }
+    } catch (err) {
+      console.error(err);
     }
   },
   updateArchivedSet: async (id: number, title: string) => {

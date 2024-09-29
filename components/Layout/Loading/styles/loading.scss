@@ -1,0 +1,95 @@
+@use "@/styles/mixin/mixins" as *;
+
+.loading-icon {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  background-color: var(--white);
+  z-index: var(--z-index-loading);
+  display: grid;
+  place-items: center;
+}
+
+.loading-icon__inner {
+  --width: 41.84rem;
+  --height: 37.75;
+  position: relative;
+}
+
+.loading-icon__frame {
+  display: grid;
+  position: relative;
+  grid-template-columns: auto auto;
+  overflow: hidden;
+  width: calc(var(--width));
+}
+
+.loading-icon__bar {
+  display: grid;
+  overflow: hidden;
+  width: calc(var(--width));
+  animation-name: loading-animation;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
+  animation-duration: 5s;
+  animation-timing-function: linear;
+}
+
+.loading-icon__bar svg {
+  position: relative;
+  width: calc(var(--width));
+  height: var(--height);
+  position: relative;
+}
+
+.loading-icon__bar:nth-child(2) {
+  left: -0.01rem;
+}
+
+@include mq(sp) {
+  .loading {
+    position: fixed;
+    inset: 0;
+    background-color: var(--white);
+    z-index: var(--z-index-loading);
+    display: grid;
+    place-items: center;
+  }
+
+  .loading-icon__inner {
+    --width: 20.84rem;
+    --height: 17.75;
+    position: relative;
+  }
+
+  .loading-icon__frame {
+    display: grid;
+    position: relative;
+    grid-template-columns: auto auto;
+    overflow: hidden;
+    width: calc(var(--width));
+  }
+
+  .loading-icon__bar {
+    display: grid;
+    overflow: hidden;
+    width: calc(var(--width));
+    animation-name: loading-animation;
+    animation-iteration-count: infinite;
+    animation-fill-mode: forwards;
+    animation-duration: 5s;
+    animation-timing-function: linear;
+  }
+
+  .loading-icon__bar svg {
+    position: relative;
+    width: calc(var(--width));
+    height: var(--height);
+    position: relative;
+  }
+
+  .loading-icon__bar:nth-child(2) {
+    left: -0.01rem;
+  }
+}

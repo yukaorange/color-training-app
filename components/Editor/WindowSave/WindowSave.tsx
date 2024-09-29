@@ -10,6 +10,9 @@ import { useSnapshot } from 'valtio';
 import { editorStore, actions } from '@/store/editorStore';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
 
+import { waitingStore, waitingActions } from '@/store/waitingStore';
+import { Waiting } from '@/components/Layout/Waiting/Waiting';
+
 interface WindowSaveProps {
   onClick: () => void;
   isOpen: boolean;
@@ -26,6 +29,8 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     localTitle,
   } = useSnapshot(editorStore);
   const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
+  const { setIsWaiting } = waitingActions;
+  const { isWaiting } = useSnapshot(waitingStore);
   const [inputValue, setInputValue] = useState(localTitle);
   const [showAlert, setShowAlert] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -33,6 +38,10 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   useEffect(() => {
     setInputValue(localTitle);
   }, [localTitle]);
+
+  useEffect(() => {
+    console.log('isWaiting changed:', isWaiting);
+  }, [isWaiting]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
@@ -64,6 +73,8 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   const handleSaveOrUpdate = useCallback(async () => {
     if (localTitle.trim()) {
       try {
+        setIsWaiting(true);
+
         if (currentSetId) {
           await updateArchivedSet(currentSetId, localTitle.trim());
         } else {
@@ -73,6 +84,8 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
         onClick();
       } catch (err) {
         console.error(err);
+      } finally {
+        setIsWaiting(false);
       }
     }
   }, [currentSetId, localTitle, updateArchivedSet, archiveCurrentSet, setCurrentSetId, onClick]);

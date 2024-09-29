@@ -32,9 +32,17 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
           const titleToUse = localTitle.trim() || '無題';
 
           if (currentSetId) {
+            console.log('updating');
+
             await updateArchivedSet(currentSetId, titleToUse);
+
+            console.log('updated');
           } else {
+            console.log('archiving');
+
             await archiveCurrentSet(titleToUse);
+
+            console.log('archived');
           }
         }
 

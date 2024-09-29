@@ -42,7 +42,7 @@
 .button-setting__mask {
   background-color: var(--active);
   mask: url("/images/setting/mask.png");
-  mask-size: 600% 105%;
+  mask-size: 1200% 105%;
   mask-position: 100% 50%;
   mask-repeat: no-repeat;
   mask-mode: luminance;
@@ -88,7 +88,7 @@
 
   .button-setting--random:hover .button-setting__mask {
     animation-name: moveMask;
-    animation-duration: 1s;
+    animation-duration: 0.3s;
     animation-timing-function: steps(5);
     animation-fill-mode: forwards;
   }

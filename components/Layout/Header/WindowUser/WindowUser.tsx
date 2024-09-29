@@ -29,7 +29,6 @@ export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
       <div className={`window-user ${isOpen ? 'window-user--is-open' : 'window-user--is-close'}`}>
         <div className="window-user__inner">
           <button onClick={onClose}>Close</button>
-
           {!isLoggedIn ? (
             <>
               {activeView === 'login' ? (

@@ -11,14 +11,18 @@
   //z-index
   --z-index-header: 1000;
   --z-index-virtual-grid: -10;
-  
+
   --z-index-overlay-setting: 2000;
   --z-index-overlay-user: 2500;
   --z-index-overlay-confirm: 3000;
+  --z-index-overlay-loading: 4000;
+  --z-index-overlay-waiting: 5000;
 
   --z-index-setting: 2001;
   --z-index-user: 2501;
   --z-index-confirm: 3001;
+  --z-index-loading: 4001;
+  --z-index-waiting: 5001;
 
   --z-index-webgl: 10;
   --z-index-layout: 0;

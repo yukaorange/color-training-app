@@ -1,0 +1,17 @@
+@use "@/styles/mixin/mixins" as *;
+
+.pagination {
+  display: grid;
+  grid-template-columns: 3rem auto 3rem;
+  align-items: center;
+  column-gap: 2.4rem;
+}
+
+@include mq(sp) {
+  .pagination {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    align-items: center;
+    column-gap: 1.4rem;
+  }
+}

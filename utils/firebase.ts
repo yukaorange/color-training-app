@@ -38,6 +38,41 @@ interface ArchivedSet {
 
 const USER_ID = 'userId'; // Should replace 'userId' to the actual user ID
 
+/**
+ * Create
+ */
+export const archiveCurrentSetToStore = async (newSet: ArchivedSet) => {
+  try {
+    const userDocRef = doc(db, 'users', USER_ID);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const userData = userDocSnap.data();
+
+      await updateDoc(userDocRef, {
+        [`archivedSets.${newSet.id}`]: {
+          ...newSet,
+          createdAt: newSet.createdAt.toISOString(),
+          modifiedAt: newSet.modifiedAt.toISOString(),
+        },
+        lastArchivedId: newSet.id,
+        currentSetId: newSet.id,
+      });
+
+      console.log('Archived set created successfully:', newSet);
+      return newSet.id;
+    } else {
+      throw new Error('User document does not exist.');
+    }
+  } catch (err) {
+    console.error('Error creating archived set:', err);
+    throw err;
+  }
+};
+
+/**
+ * Read
+ */
 export const fetchUserData = async () => {
   const userDocRef = doc(db, 'users', USER_ID);
   const userDocSnap = await getDoc(userDocRef);
@@ -89,35 +124,9 @@ export const fetchUserData = async () => {
   }
 };
 
-export const archiveCurrentSetToStore = async (newSet: ArchivedSet) => {
-  try {
-    const userDocRef = doc(db, 'users', USER_ID);
-    const userDocSnap = await getDoc(userDocRef);
-
-    if (userDocSnap.exists()) {
-      const userData = userDocSnap.data();
-
-      await updateDoc(userDocRef, {
-        [`archivedSets.${newSet.id}`]: {
-          ...newSet,
-          createdAt: newSet.createdAt.toISOString(),
-          modifiedAt: newSet.modifiedAt.toISOString(),
-        },
-        lastArchivedId: newSet.id,
-        currentSetId: newSet.id,
-      });
-
-      console.log('Archived set created successfully:', newSet);
-      return newSet.id;
-    } else {
-      throw new Error('User document does not exist.');
-    }
-  } catch (err) {
-    console.error('Error creating archived set:', err);
-    throw err;
-  }
-};
-
+/**
+ * Update
+ */
 export const updateArchivedSetInStore = async (updatedSet: ArchivedSet) => {
   try {
     const userDocRef = doc(db, 'users', USER_ID);
@@ -143,4 +152,29 @@ export const updateArchivedSetInStore = async (updatedSet: ArchivedSet) => {
   }
 };
 
-export const deleteArchivedSet = async () => {};
+/**
+ * Delete
+ */
+export const deleteArchivedSetInStore = async (id: number) => {
+  try {
+    const userDocRef = doc(db, 'users', USER_ID);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      await updateDoc(userDocRef, {
+        [`archivedSets.${id}`]: deleteField(),
+      });
+
+      if (editorStore.currentSetId === id) {
+        await updateDoc(userDocRef, { currentSetId: null });
+      }
+
+      console.log('Archived set deleted successfully:', id);
+      return id;
+    } else {
+      throw new Error('User document does not exist.');
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};

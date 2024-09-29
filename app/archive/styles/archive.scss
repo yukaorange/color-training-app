@@ -3,11 +3,13 @@
 .archive {
   padding-top: 13rem;
   padding-inline: calc(var(--col) * 1 + var(--gap) * 1 + var(--margin) * 1);
-  padding-bottom: 5rem;
+  padding-bottom: 10rem;
 }
 
 .archive__inner {
   border-right: 0.2rem solid var(--black);
+  position: relative;
+  z-index: 0;
 }
 
 .archive__header {
@@ -38,7 +40,7 @@
 
 .archive__body {
   padding-top: 3.2rem;
-  padding-bottom: 5rem;
+  padding-bottom: 10rem;
   padding-inline: calc(var(--col) * 1 + var(--gap) * 1);
   // border-right: 0.2rem solid var(--black);
   border-left: 0.2rem solid var(--black);
@@ -47,6 +49,16 @@
   grid-template-columns: auto auto;
   justify-content: space-between;
   row-gap: 2.4rem;
+}
+
+.archive__pagination {
+  display: grid;
+  justify-items: center;
+  position: absolute;
+  z-index: 1;
+  bottom: 2.4rem;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .archive__footer {
@@ -64,7 +76,7 @@
   .archive {
     padding-top: 8rem;
     padding-inline: calc(var(--margin) * 1);
-    padding-bottom: 5rem;
+    padding-bottom: 8rem;
   }
 
   .archive__inner {
@@ -116,6 +128,16 @@
     grid-template-columns: auto;
     justify-content: start;
     row-gap: 0.8rem;
+  }
+
+  .archive__pagination {
+    display: grid;
+    justify-items: center;
+    position: absolute;
+    z-index: 1;
+    bottom: 1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .archive__footer {

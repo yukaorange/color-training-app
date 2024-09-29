@@ -1,0 +1,9 @@
+@use "@/styles/mixin/mixins" as *;
+
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-overlay-loading);
+  background-color: #fff;
+  opacity: 0.5;
+}

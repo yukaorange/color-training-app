@@ -5,20 +5,21 @@ import '@/app/archive/styles/archive.scss';
 import { ArchiveItem } from '@/components/Archive/ArchiveItem/ArchiveItem';
 
 import GSAP from 'gsap';
-import React, { useState, useCallback, useRef } from 'react';
+import React, { useState, useCallback, useRef, useMemo } from 'react';
 import { useSnapshot } from 'valtio';
 import { editorStore, actions } from '@/store/editorStore';
 import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
 import { ButtonFooter } from '@/components/Archive/ButtonFooter/ButtonFooter';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { set } from 'lodash';
+import { Pagination } from '@/components/Archive/Pagination/pagination';
+
+const ITEMS_PER_PAGE = 10;
 
 export default function Archive() {
-  const { currentSetId, isHistoryChanged, localTitle } = useSnapshot(editorStore);
-  const { updateArchivedSet, archiveCurrentSet } = actions;
-  const { archivedSets } = useSnapshot(editorStore);
-
-  const { deleteArchivedSet, loadArchivedSet, setCurrentSetId } = actions;
+  const { currentSetId, isHistoryChanged, localTitle, archivedSets } = useSnapshot(editorStore);
+  const { updateArchivedSet, archiveCurrentSet, deleteArchivedSet, loadArchivedSet } = actions;
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
   const [confirmMessage, setConfirmMessage] = useState({
@@ -26,8 +27,31 @@ export default function Archive() {
     sub: '',
   });
   const archiveItemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
-
   const router = useRouter();
+
+  const totalPages = Math.ceil(archivedSets.length / ITEMS_PER_PAGE);
+
+  const initialPage = useMemo(() => {
+    if (currentSetId) {
+      const index = archivedSets.findIndex((set) => {
+        return set.id === currentSetId;
+      });
+
+      if (index !== -1) {
+        return Math.floor(index / ITEMS_PER_PAGE) + 1;
+      }
+    }
+    return totalPages;
+  }, [currentSetId, archivedSets, totalPages]);
+
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const currentItems = useMemo(() => {
+    const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
+    const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
+
+    return archivedSets.slice(indexOfFirstItem, indexOfLastItem);
+  }, [archivedSets, currentPage]);
 
   const openConfirmation = (action: () => void, message: { main: string; sub: string }) => {
     setConfirmAction(() => action);
@@ -44,14 +68,29 @@ export default function Archive() {
       e.stopPropagation();
 
       openConfirmation(
-        () => {
+        async () => {
           const itemToDelete = archiveItemRefs.current[id];
-
-          console.log(itemToDelete);
 
           const tl = GSAP.timeline({
             onComplete: () => {
-              deleteArchivedSet(id);
+              const deleteFlow = async () => {
+                try {
+                  console.log('deleting');
+
+                  await deleteArchivedSet(id);
+
+                  console.log('deleted');
+
+                  const newTotalPages = Math.ceil((archivedSets.length - 1) / ITEMS_PER_PAGE);
+
+                  if (currentPage > newTotalPages) {
+                    setCurrentPage(newTotalPages);
+                  }
+                } catch (err) {
+                  console.error(err);
+                }
+              };
+              deleteFlow();
             },
           });
 
@@ -84,9 +123,17 @@ export default function Archive() {
             const titleToUse = localTitle.trim() || '無題';
 
             if (currentSetId) {
+              console.log('updating');
+
               await updateArchivedSet(currentSetId, titleToUse);
+
+              console.log('updated');
             } else {
+              console.log('archiving');
+
               await archiveCurrentSet(titleToUse);
+
+              console.log('archived');
             }
           }
 
@@ -104,6 +151,10 @@ export default function Archive() {
     [loadArchivedSet, openConfirmation, closeConfirmation, router]
   );
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
   return (
     <>
       <main className="archive">
@@ -115,7 +166,7 @@ export default function Archive() {
             </div>
           </header>
           <div className="archive__body">
-            {archivedSets.map((item, index) => {
+            {currentItems.map((item, index) => {
               const isCurrent = item.id === editorStore.currentSetId;
 
               return (
@@ -132,10 +183,17 @@ export default function Archive() {
               );
             })}
           </div>
-          <footer className="archive__footer">
-            <ButtonFooter />
-          </footer>
+          <div className="archive__pagination">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
         </div>
+        <footer className="archive__footer">
+          <ButtonFooter />
+        </footer>
       </main>
       <WindowConfirmation
         isOpen={isConfirmOpen}
