@@ -23,6 +23,10 @@
   grid-template-columns: auto auto;
   overflow: hidden;
   width: calc(var(--width));
+  // animation-name: blink;
+  // animation-fill-mode: forwards;
+  // animation-iteration-count: infinite;
+  // animation-duration: 0.001s;
 }
 
 .loading-icon__bar {
@@ -32,7 +36,7 @@
   animation-name: loading-animation;
   animation-iteration-count: infinite;
   animation-fill-mode: forwards;
-  animation-duration: 5s;
+  animation-duration: 3s;
   animation-timing-function: linear;
 }
 
@@ -41,10 +45,6 @@
   width: calc(var(--width));
   height: var(--height);
   position: relative;
-}
-
-.loading-icon__bar:nth-child(2) {
-  left: -0.01rem;
 }
 
 @include mq(sp) {
@@ -69,6 +69,10 @@
     grid-template-columns: auto auto;
     overflow: hidden;
     width: calc(var(--width));
+    animation-name: randomTwinkling;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-duration: 0.01s;
   }
 
   .loading-icon__bar {
@@ -78,7 +82,7 @@
     animation-name: loading-animation;
     animation-iteration-count: infinite;
     animation-fill-mode: forwards;
-    animation-duration: 5s;
+    animation-duration: 8s;
     animation-timing-function: linear;
   }
 
@@ -87,9 +91,5 @@
     width: calc(var(--width));
     height: var(--height);
     position: relative;
-  }
-
-  .loading-icon__bar:nth-child(2) {
-    left: -0.01rem;
   }
 }

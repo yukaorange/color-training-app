@@ -1,7 +1,12 @@
 import type { Metadata, Viewport } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import ClientProvider from '@/components/ClientProvider/ClientProvider';
+
 import '@/styles/style.scss';
 
 import { LayoutClient } from '@/app/LayoutClient';
+import { Auth } from '@/components/Auth/Auth';
 
 export const metadata: Metadata = {
   title: 'Color Training App',
@@ -15,15 +20,21 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getServerSession(authOptions);
+
   return (
     <html lang="ja">
       <body>
-        <LayoutClient>{children}</LayoutClient>
+        <ClientProvider session={session}>
+          <Auth>
+            <LayoutClient>{children}</LayoutClient>
+          </Auth>
+        </ClientProvider>
       </body>
     </html>
   );

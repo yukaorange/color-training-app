@@ -15,7 +15,7 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
     onPageChange(currentPage + 1);
   };
 
-  const leftDisabled = currentPage === 1;
+  const leftDisabled = currentPage === 1 || totalPages === 0;
   const rightDisabled = currentPage === totalPages;
 
   return (

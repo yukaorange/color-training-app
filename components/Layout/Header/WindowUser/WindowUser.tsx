@@ -4,12 +4,22 @@ import '@/components/Layout/Header/WindowUser/styles/window-user.scss';
 import '@/components/Layout/Header/WindowUser/styles/overlay-user.scss';
 
 import React, { useState } from 'react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useSnapshot } from 'valtio';
 import { editorStore } from '@/store/editorStore';
 
-const LoginForm = () => <div>Login Form</div>;
-const RegisterForm = () => <div>Register Form</div>;
-const UserInfoForm = () => <div>User Info Form</div>;
+import { LoginForm } from '@/components/Layout/Header/WindowUser/LoginForm/LoginForm';
+
+const UserInfo = ({ user, onSignOut }: { user: any; onSignOut: () => void }) => {
+  return (
+    <div className="">
+      <div>Signed in as {user.email}</div>
+      <button className="" onClick={onSignOut}>
+        Sign Out
+      </button>
+    </div>
+  );
+};
 
 interface WindowUserProps {
   isOpen: boolean;
@@ -17,10 +27,16 @@ interface WindowUserProps {
 }
 
 export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
+  const { data: session, status } = useSession();
   const { isLoggedIn } = useSnapshot(editorStore);
   const [activeView, setActiveView] = useState<'login' | 'register' | 'userInfo'>(
     isLoggedIn ? 'userInfo' : 'login'
   );
+
+  const handleSignOut = async () => {
+    await signOut();
+    onClose();
+  };
 
   if (!isOpen) return null;
 
@@ -29,22 +45,12 @@ export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
       <div className={`window-user ${isOpen ? 'window-user--is-open' : 'window-user--is-close'}`}>
         <div className="window-user__inner">
           <button onClick={onClose}>Close</button>
-          {!isLoggedIn ? (
-            <>
-              {activeView === 'login' ? (
-                <>
-                  <LoginForm />
-                  <button onClick={() => setActiveView('register')}>新規登録</button>
-                </>
-              ) : (
-                <>
-                  <RegisterForm />
-                  <button onClick={() => setActiveView('login')}>ログイン</button>
-                </>
-              )}
-            </>
+          {status === 'loading' ? (
+            <div>Loading...</div>
+          ) : status === 'authenticated' ? (
+            <UserInfo user={session.user} onSignOut={handleSignOut} />
           ) : (
-            <UserInfoForm />
+            <LoginForm />
           )}
         </div>
       </div>

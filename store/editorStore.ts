@@ -4,7 +4,7 @@ import {
   archiveCurrentSetToStore,
   updateArchivedSetInStore,
   deleteArchivedSetInStore,
-} from '@/utils/firebase';
+} from '@/app/api/crud';
 
 interface CellColors {
   square: string;

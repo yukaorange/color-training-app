@@ -38,10 +38,6 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     setInputValue(localTitle);
   }, [localTitle]);
 
-  useEffect(() => {
-    console.log('isWaiting changed:', isWaiting);
-  }, [isWaiting]);
-
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
 
@@ -178,8 +174,11 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
               </div>
             </div>
             <div className="project__row">
-              <div className="project__label _en">Title</div>
+              <label htmlFor="titleInput" className="project__label _en">
+                Title
+              </label>
               <input
+                id="titleInput"
                 type="text"
                 className="project__content"
                 placeholder={localTitle == '' ? 'edit!' : localTitle}

@@ -14,7 +14,7 @@ import { Waiting } from '@/components/Layout/Waiting/Waiting';
 
 import { waitingActions, waitingStore } from '@/store/waitingStore';
 
-import { fetchUserData } from '@/utils/firebase';
+import { fetchUserData } from '@/app/api/crud';
 import { useRef, useState, useEffect } from 'react';
 import { Loading } from '@/components/Layout/Loading/Loading';
 import { useSnapshot } from 'valtio';
@@ -56,6 +56,7 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
       <UserAgent />
       <ViewPortCalculator />
       {isWaiting && <Waiting />}
+
       {isLoading ? (
         <Loading ref={loadingRef} />
       ) : (

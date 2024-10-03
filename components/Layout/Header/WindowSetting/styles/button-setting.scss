@@ -40,6 +40,7 @@
 }
 
 .button-setting__mask {
+  // background-color: var(--active);
   background-color: var(--active);
   mask: url("/images/setting/mask.png");
   mask-size: 1200% 105%;
@@ -83,14 +84,17 @@
 
   .button-setting--random:hover {
     background-position: 0% 50%;
-    border: 0.1rem solid var(--active);
+    filter: url(#color-change-filter-2);
+
+    // border: 0.1rem solid var(--active);
   }
 
   .button-setting--random:hover .button-setting__mask {
     animation-name: moveMask;
-    animation-duration: 0.3s;
-    animation-timing-function: steps(5);
+    animation-duration: 0.5s;
+    animation-timing-function: steps(4);
     animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
   }
 }
 

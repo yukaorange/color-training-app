@@ -63,7 +63,10 @@
   column-gap: 0.8rem;
   justify-content: start;
   align-items: center;
-  animation: marquee 8s linear infinite;
+  animation-name: marquee;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .marquee__text {
@@ -152,7 +155,10 @@
     column-gap: 0.4rem;
     justify-content: start;
     align-items: center;
-    animation: marquee 5s linear infinite;
+    animation-name: marquee;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
   .marquee__text {
