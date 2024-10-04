@@ -6,7 +6,6 @@ import ClientProvider from '@/components/ClientProvider/ClientProvider';
 import '@/styles/style.scss';
 
 import { LayoutClient } from '@/app/LayoutClient';
-import { Auth } from '@/components/Auth/Auth';
 
 export const metadata: Metadata = {
   title: 'Color Training App',
@@ -31,9 +30,7 @@ export default async function RootLayout({
     <html lang="ja">
       <body>
         <ClientProvider session={session}>
-          <Auth>
-            <LayoutClient>{children}</LayoutClient>
-          </Auth>
+          <LayoutClient>{children}</LayoutClient>
         </ClientProvider>
       </body>
     </html>

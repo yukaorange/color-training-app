@@ -3,6 +3,7 @@ import { editorStore } from '@/store/editorStore';
 import { actions } from '@/store/editorStore';
 import { getSession } from 'next-auth/react';
 import { db } from '@/app/api/firebase';
+import { getAuth } from 'firebase/auth';
 
 interface CellColors {
   square: string;
@@ -30,9 +31,18 @@ interface UserData {
 }
 
 async function getUserDocRef() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    console.log('user not authenticated');
+    return null;
+  }
+
   const session = await getSession();
 
   console.log('session user :', session?.user);
+  console.log('session user id :', session?.user?.id);
 
   if (!session?.user?.id) {
     // ユーザーがログインしていない場合、セッションストレージを使用
@@ -41,7 +51,12 @@ async function getUserDocRef() {
   }
 
   const userDocRef = doc(db, 'users', session.user.id);
+
+  // console.log('user document:', userDocRef);
+
   const userDocSnap = await getDoc(userDocRef);
+
+  // console.log('user document snap is exist:', userDocSnap.exists());
 
   if (!userDocSnap.exists()) {
     console.log('User document does not exist.');
@@ -115,14 +130,30 @@ export const fetchUserData = async () => {
 
     let userData: UserData;
 
-    if (userDocRef) {
-      const userDocSnap = await getDoc(userDocRef);
-      userData = userDocSnap.data() as UserData;
-      console.log('userdata get from firestore :', userData);
-    } else {
+    if (!userDocRef) {
+      console.log('user not authenticated , use session storage');
       userData = getSessionData();
-      console.log('userdata get from session :', userData);
+    } else {
+      console.log('user authenticated , use fireStore storage');
+
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (!userDocSnap.exists()) {
+        console.log('user document does not exist in firestore , creating new document.');
+
+        userData = {
+          archivedSets: {},
+          lastArchivedId: 0,
+          currentSetId: null,
+        };
+
+        await setDoc(userDocRef, userData);
+      } else {
+        userData = userDocSnap.data() as UserData;
+      }
     }
+
+    console.log('User data:', userData);
 
     editorStore.currentSetId = userData.currentSetId ?? null;
     editorStore.lastArchivedId = userData?.lastArchivedId ?? 0;
@@ -155,7 +186,7 @@ export const fetchUserData = async () => {
       }
     }
 
-    console.log('User data fetched successfully:', editorStore);
+    console.log('User data fetched:', editorStore);
   } catch (err) {
     console.error(err);
   }

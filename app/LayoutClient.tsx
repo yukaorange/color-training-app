@@ -12,6 +12,8 @@ import { Measure } from '@/components/Layout/Measure/Measure';
 import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
 import { Waiting } from '@/components/Layout/Waiting/Waiting';
 
+import { editorStore } from '@/store/editorStore';
+
 import { waitingActions, waitingStore } from '@/store/waitingStore';
 
 import { fetchUserData } from '@/app/api/crud';
@@ -23,6 +25,8 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
   const pathname = usePathname();
   const showHeader = pathname !== '/';
   const showMeasure = pathname !== '/archive';
+
+  const { isLoggedIn } = useSnapshot(editorStore);
 
   const { isWaiting } = useSnapshot(waitingStore);
 
@@ -47,16 +51,13 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
     };
 
     loadData();
-  }, []);
-
-  // console.log('waiting in layout', isWaiting);
+  }, [isLoggedIn]);
 
   return (
     <>
       <UserAgent />
       <ViewPortCalculator />
       {isWaiting && <Waiting />}
-
       {isLoading ? (
         <Loading ref={loadingRef} />
       ) : (

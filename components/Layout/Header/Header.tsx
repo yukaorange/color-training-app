@@ -10,11 +10,14 @@ import { WindowUser } from '@/components/Layout/Header/WindowUser/WindowUser';
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { editorStore } from '@/store/editorStore';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useSnapshot } from 'valtio';
 
 export const Header = () => {
+  const { isLoggedIn } = useSnapshot(editorStore);
   const [isSettingOpen, setIsSettingOpen] = useState(false);
   const [isUserOpen, setIsUserOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -66,7 +69,7 @@ export const Header = () => {
             </div>
           </Link>
           <div className="header__buttons">
-            <IconUser isLogin={false} onClick={toggleUser} />
+            <IconUser isLogin={isLoggedIn} onClick={toggleUser} />
             <SettingIcon onClick={toggleSetting} disable={disableEditorAction} />
           </div>
         </div>

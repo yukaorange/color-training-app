@@ -5,13 +5,15 @@ import { User } from 'next-auth';
 
 import GoogleProvider from 'next-auth/providers/google';
 import { FirestoreAdapter } from '@auth/firebase-adapter';
-import { initFirestore } from '@auth/firebase-adapter';
 import { cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
 const serverFirebaseConfig = {
   projectId: process.env.FIREBASE_PROJECT_ID,
   clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
   privateKey: process.env.FIREBASE_PRIVATE_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
 };
 
 if (
@@ -26,6 +28,10 @@ if (
 const firestore = {
   credential: cert(serverFirebaseConfig),
 };
+
+interface FirebaseToken {
+  firebaseToken?: string;
+}
 
 /**
  * document
@@ -59,10 +65,23 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     // セッションが作成・更新されるたびに呼び出される
-    async session({ session, token }: { session: Session; token: JWT }) {
+    async session({
+      session,
+      token,
+    }: {
+      session: Session & FirebaseToken;
+      token: JWT;
+    }): Promise<Session & FirebaseToken> {
       console.log('session token:', token);
       if (session?.user && token?.sub) {
         session.user.id = token.sub; //ユーザーIDをセッションに追加
+        try {
+          console.log('my id :', token.sub);
+          const firebaseToken = await getAuth().createCustomToken(token.sub); //クライアントサイドでfirebase認証を行うために使用するトークンを作成し、
+          session.firebaseToken = firebaseToken; //sesssionに追加。
+        } catch (err) {
+          console.error('Error caused when create Firebase custom token :', err);
+        }
       }
       console.log('session:', session);
       return session; //セッション情報を返す(このユーザー情報を利用して、fireStoreからユーザーのデータを取り出す。)

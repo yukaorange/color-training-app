@@ -16,45 +16,73 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { set } from 'lodash';
 import { Pagination } from '@/components/Archive/Pagination/pagination';
+import { useEffect } from 'react';
 
 const ITEMS_PER_PAGE = 10;
 
 export default function Archive() {
-  const { currentSetId, isHistoryChanged, localTitle, archivedSets } = useSnapshot(editorStore);
+  const router = useRouter();
+  const snapshot = useSnapshot(editorStore);
+  const { currentSetId, isHistoryChanged, localTitle, archivedSets } = snapshot;
+  // const { isWaiting } = useSnapshot(waitingStore);
   const { setIsWaiting } = waitingActions;
-  const { isWaiting } = useSnapshot(waitingStore);
   const { updateArchivedSet, archiveCurrentSet, deleteArchivedSet, loadArchivedSet } = actions;
+
+  const [currentItems, setCurrentItems] = useState(archivedSets);
+
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [confirmAction, setConfirmAction] = useState<() => void>(() => {});
   const [confirmMessage, setConfirmMessage] = useState({
     main: '',
     sub: '',
   });
+
   const archiveItemRefs = useRef<{ [key: number]: HTMLDivElement | null }>({});
-  const router = useRouter();
 
-  const totalPages = Math.ceil(archivedSets.length / ITEMS_PER_PAGE);
+  const totalPages = useMemo(() => Math.ceil(archivedSets.length / ITEMS_PER_PAGE), [archivedSets]);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const initialPage = useMemo(() => {
+  // const initialPage = useMemo(() => {
+  //   if (currentSetId) {
+  //     const index = archivedSets.findIndex((set) => {
+  //       return set.id === currentSetId;
+  //     });
+
+  //     if (index !== -1) {
+  //       return Math.floor(index / ITEMS_PER_PAGE) + 1;
+  //     }
+  //   }
+  //   return totalPages;
+  // }, [currentSetId, totalPages, archivedSets]);
+  useEffect(() => {
+    let newPage = 1;
     if (currentSetId) {
-      const index = archivedSets.findIndex((set) => {
-        return set.id === currentSetId;
-      });
-
+      const index = archivedSets.findIndex((set) => set.id === currentSetId);
       if (index !== -1) {
-        return Math.floor(index / ITEMS_PER_PAGE) + 1;
+        newPage = Math.floor(index / ITEMS_PER_PAGE) + 1;
       }
     }
-    return totalPages;
-  }, [currentSetId, archivedSets, totalPages]);
+    setCurrentPage(newPage);
+  }, [archivedSets, currentSetId]);
 
-  const [currentPage, setCurrentPage] = useState(initialPage);
-
-  const currentItems = useMemo(() => {
+  useEffect(() => {
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
 
-    return archivedSets.slice(indexOfFirstItem, indexOfLastItem);
+    console.log(
+      'archivedSets : ',
+      archivedSets,
+      'iindexOfFirstItem:',
+      indexOfFirstItem,
+      'indexOfLastItem:',
+      indexOfLastItem,
+      'currentPage :',
+      currentPage,
+      'currentSetId : ',
+      currentSetId
+    );
+
+    setCurrentItems(archivedSets.slice(indexOfFirstItem, indexOfLastItem));
   }, [archivedSets, currentPage]);
 
   const openConfirmation = (action: () => void, message: { main: string; sub: string }) => {
@@ -121,7 +149,7 @@ export default function Archive() {
         }
       );
     },
-    [deleteArchivedSet, openConfirmation, closeConfirmation]
+    [deleteArchivedSet, openConfirmation, closeConfirmation, archivedSets]
   );
 
   const handleLoad = useCallback(
@@ -182,7 +210,7 @@ export default function Archive() {
                   ref={(el) => {
                     archiveItemRefs.current[item.id] = el;
                   }}
-                  key={item.id}
+                  key={`archive-item-${item.id}`}
                   onClick={() => handleLoad(item.id)}
                   isCurrent={isCurrent}
                   item={item}

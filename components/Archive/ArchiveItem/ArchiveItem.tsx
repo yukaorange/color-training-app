@@ -5,6 +5,7 @@ import GSAP from 'gsap';
 import { forwardRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useRef } from 'react';
+import { editorStore } from '@/store/editorStore';
 
 interface ArchiveItemProps {
   onClick: () => void;
@@ -86,9 +87,7 @@ export const ArchiveItem = forwardRef<HTMLDivElement, ArchiveItemProps>(
         >
           {isCurrent ? <EdittingText /> : 'Import ->'}
         </div>
-        <div className="archive-item__indication archive-item__indication--delete _en">
-          Delete
-        </div>
+        <div className="archive-item__indication archive-item__indication--delete _en">Delete</div>
       </div>
     );
   }

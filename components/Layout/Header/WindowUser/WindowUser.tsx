@@ -4,7 +4,7 @@ import '@/components/Layout/Header/WindowUser/styles/window-user.scss';
 import '@/components/Layout/Header/WindowUser/styles/overlay-user.scss';
 
 import React, { useState } from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession,  signOut } from 'next-auth/react';
 import { useSnapshot } from 'valtio';
 import { editorStore } from '@/store/editorStore';
 
