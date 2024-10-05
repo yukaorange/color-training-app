@@ -1,44 +1,26 @@
-import NextAuth, { Account, NextAuthOptions } from 'next-auth'; //認証プロバイダ統合ライブラリ
+import NextAuth, { NextAuthOptions } from 'next-auth'; //認証プロバイダ統合ライブラリ
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { FirestoreAdapter } from '@auth/firebase-adapter';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { Session } from 'next-auth';
 import { JWT } from 'next-auth/jwt';
 import { User } from 'next-auth';
-
-import GoogleProvider from 'next-auth/providers/google';
-import { FirestoreAdapter } from '@auth/firebase-adapter';
-import { cert } from 'firebase-admin/app';
+import { firestore } from '@/app/api/admin';
+import { auth } from '@/app/api/firebase';
 import { getAuth } from 'firebase-admin/auth';
-
-const serverFirebaseConfig = {
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  privateKey: process.env.FIREBASE_PRIVATE_KEY,
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-};
-
-if (
-  !serverFirebaseConfig.projectId ||
-  !serverFirebaseConfig.clientEmail ||
-  !serverFirebaseConfig.privateKey
-) {
-  console.error('Missing serverFirebaseConfig');
-  throw new Error('Missing serverFirebaseConfig');
-}
-
-const firestore = {
-  credential: cert(serverFirebaseConfig),
-};
-
-interface FirebaseToken {
-  firebaseToken?: string;
-}
 
 /**
  * document
  *  https://next-auth.js.org/configuration/options
  *  https://authjs.dev/getting-started/adapters/firebase
  * https://firebase.google.com/docs/auth/web/start?hl=ja
+ * https://next-auth.js.org/providers/credentials
+ * https://zenn.dev/tentel/articles/cc76611f4010c9
  */
+interface FirebaseToken {
+  firebaseToken?: string;
+}
 export const authOptions: NextAuthOptions = {
   providers: [
     //ユーザーはgoogleアカウントでログイン可能になる
@@ -53,9 +35,62 @@ export const authOptions: NextAuthOptions = {
         },
       },
     }),
+    CredentialsProvider({
+      name: 'Sign in',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' },
+        action: {
+          label: 'Action',
+          type: 'text',
+        },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error('Email and password are required');
+        }
+        try {
+          if (credentials.action === 'register') {
+            // Firebaseの認証システムを使用して、メールアドレスとパスワードでユーザーを作成する
+            const userCredential = await createUserWithEmailAndPassword(
+              auth,
+              credentials.email,
+              credentials.password
+            );
+
+            return {
+              id: userCredential.user.uid,
+              email: userCredential.user.email,
+              name: userCredential.user.displayName,
+            };
+          } else if (credentials.action === 'login') {
+            // Firebaseの認証システムを使用して、メールアドレスとパスワードでユーザーを認証する
+            // 認証に成功すると、ユーザーの認証情報（userCredential）が返される
+            const userCredential = await signInWithEmailAndPassword(
+              auth,
+              credentials.email,
+              credentials.password
+            );
+            // 認証成功時、ユーザー情報を含むオブジェクトを返す
+            // このオブジェクトはNextAuthのセッションに保存される
+            return {
+              id: userCredential.user.uid,
+              email: userCredential.user.email,
+              name: userCredential.user.displayName,
+            };
+          } else {
+            throw new Error('Invalid action');
+          }
+        } catch (error) {
+          console.error('Error during email/password sign in:', error);
+          return null;
+        }
+      },
+    }),
   ],
   //認証情報をfirestoreに保存できるようにする
   adapter: FirestoreAdapter(firestore),
+  //認証情報をJWTに変換する
   callbacks: {
     async jwt({ token, user }: { token: JWT; user: User }) {
       console.log('JWT callback fired:', token);
@@ -89,6 +124,7 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30日間有効
   },
 };
 

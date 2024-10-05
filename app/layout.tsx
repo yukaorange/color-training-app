@@ -10,6 +10,9 @@ import { LayoutClient } from '@/app/LayoutClient';
 export const metadata: Metadata = {
   title: 'Color Training App',
   description: 'created by takaoka',
+  icons: {
+    icon: '/favicon/logo.svg',
+  },
 };
 
 export const viewport: Viewport = {

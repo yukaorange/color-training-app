@@ -42,25 +42,18 @@ export default function Archive() {
   const totalPages = useMemo(() => Math.ceil(archivedSets.length / ITEMS_PER_PAGE), [archivedSets]);
   const [currentPage, setCurrentPage] = useState(0);
 
-  // const initialPage = useMemo(() => {
-  //   if (currentSetId) {
-  //     const index = archivedSets.findIndex((set) => {
-  //       return set.id === currentSetId;
-  //     });
-
-  //     if (index !== -1) {
-  //       return Math.floor(index / ITEMS_PER_PAGE) + 1;
-  //     }
-  //   }
-  //   return totalPages;
-  // }, [currentSetId, totalPages, archivedSets]);
   useEffect(() => {
-    let newPage = 1;
+    let newPage = 0;
+
     if (currentSetId) {
       const index = archivedSets.findIndex((set) => set.id === currentSetId);
       if (index !== -1) {
         newPage = Math.floor(index / ITEMS_PER_PAGE) + 1;
       }
+    } else if (archivedSets.length < 1) {
+      newPage = 0;
+    } else {
+      newPage = 1;
     }
     setCurrentPage(newPage);
   }, [archivedSets, currentSetId]);
@@ -72,7 +65,7 @@ export default function Archive() {
     console.log(
       'archivedSets : ',
       archivedSets,
-      'iindexOfFirstItem:',
+      'indexOfFirstItem:',
       indexOfFirstItem,
       'indexOfLastItem:',
       indexOfLastItem,

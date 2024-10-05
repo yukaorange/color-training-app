@@ -1,0 +1,63 @@
+@use "@/styles/mixin/mixins" as *;
+
+.user-info {
+}
+
+.user-info__inner {
+  display: grid;
+  row-gap: 5rem;
+}
+
+.user-info__header {
+  display: grid;
+  row-gap: 1rem;
+  justify-items: center;
+}
+
+.user-info__name {
+  font-size: text(24);
+  font-weight: 500;
+}
+
+.user-info__mail {
+  font-size: text(16);
+  font-weight: 500;
+  word-break: break-all;
+}
+
+.user-info__buttons {
+  display: grid;
+  width: 100%;
+}
+
+@include mq(sp) {
+  .user-info {
+  }
+
+  .user-info__inner {
+    display: grid;
+    row-gap: 2.8rem;
+  }
+
+  .user-info__header {
+    display: grid;
+    row-gap: 0.8rem;
+    justify-items: center;
+  }
+
+  .user-info__name {
+    font-size: text(20);
+    font-weight: 500;
+  }
+
+  .user-info__mail {
+    font-size: text(14);
+    font-weight: 400;
+    word-break: break-all;
+  }
+
+  .user-info__buttons {
+    display: grid;
+    width: 100%;
+  }
+}

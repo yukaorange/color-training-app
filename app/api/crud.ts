@@ -222,9 +222,10 @@ export const updateArchivedSetInStore = async (updatedSet: ArchivedSet) => {
     }
 
     console.log('Archived set updated successfully:', updatedSet);
+
     return updatedSet.id;
   } catch (err) {
-    console.error(err);
+    console.error("error is happened when update archived set in store(session or firebase)",err);
   }
 };
 

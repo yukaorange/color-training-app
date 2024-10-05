@@ -78,7 +78,7 @@
     animation-name: color-change;
     animation-iteration-count: infinite;
     // animation-duration: 0.01s;
-    animation-duration: 0.01s;
+    animation-duration: 1.5s;
     animation-timing-function: var(--linear);
   }
 
@@ -125,8 +125,8 @@
   }
 
   .button-setting--new {
-    // background-color: var(--new);
-    filter: url(#color-change-filter);
+    background-color: var(--new);
+    // filter: url(#color-change-filter);
   }
 
   .button-setting--delete {
@@ -136,7 +136,22 @@
   .button-setting--random {
     border: none;
     position: relative;
-    background-color: var(--active);
+    // background-color: var(--active);
     z-index: 0;
+  }
+
+  .button-setting--random {
+    background-position: 0% 50%;
+    filter: url(#color-change-filter-2);
+
+    // border: 0.1rem solid var(--active);
+  }
+
+  .button-setting--random .button-setting__mask {
+    animation-name: moveMask;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(4);
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
   }
 }

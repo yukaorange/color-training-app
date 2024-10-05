@@ -15,8 +15,10 @@ export const Pagination = ({ currentPage, totalPages, onPageChange }: Pagination
     onPageChange(currentPage + 1);
   };
 
-  const leftDisabled = currentPage === 1 || totalPages === 1;
-  const rightDisabled = currentPage === totalPages || totalPages === 1;
+  // console.log('currentPage : ', currentPage, 'totalPages : ', totalPages);
+
+  const leftDisabled = currentPage === 1 || totalPages === 1 || totalPages === 0;
+  const rightDisabled = currentPage === totalPages || totalPages === 1 || totalPages === 0;
 
   return (
     <nav className="pagination" aria-label="pagination">

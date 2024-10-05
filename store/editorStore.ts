@@ -50,79 +50,6 @@ export const initialCellColors: CellColors = {
   circle: '#a9a9a9',
 };
 
-// const createMockArchivedSets = () => {
-//   const mockSets: ArchivedSet[] = [];
-//   const currentDate = new Date();
-
-//   for (let i = 1; i <= 10; i++) {
-//     const createdDate = new Date();
-//     const modifiedDate = new Date();
-
-//     const initialCellColors: CellColors[] = Array(36)
-//       .fill(null)
-//       .map(() => {
-//         return {
-//           square: '#f5f5f5',
-//           circle: '#a9a9a9',
-//         };
-//       });
-
-//     const mockCellColors: CellColors[] = Array(36)
-//       .fill(null)
-//       .map(() => ({
-//         square: `#${Math.floor(16777215 * 0.5)
-//           .toString(16)
-//           .padStart(6, '0')}`,
-//         circle: `#${Math.floor(16777215).toString(16).padStart(6, '0')}`,
-//       }));
-
-//     const mockHistory: HistoryEntry[] = [
-//       { cellColors: initialCellColors },
-//       { cellColors: mockCellColors },
-//       {
-//         cellColors: mockCellColors.map((color) => ({
-//           ...color,
-//           square: `#${Math.floor(16777215 * 0.2)
-//             .toString(16)
-//             .padStart(6, '0')}`,
-//         })),
-//       },
-//     ];
-
-//     mockSets.push({
-//       id: i,
-//       title: `アーカイブセットダミストダミー${i}`,
-//       cellColors: mockHistory[mockHistory.length - 1].cellColors,
-//       createdAt: createdDate,
-//       modifiedAt: modifiedDate,
-//       history: mockHistory,
-//       historyIndex: mockHistory.length - 1,
-//     });
-//   }
-
-//   return mockSets;
-// };
-
-// export const editorStore = proxy<EditorStore>({
-//   activeCell: null,
-//   isColorPickerOpen: false,
-//   selectedElement: 'square',
-//   cellColors: Array(36).fill(initialCellColors),
-//   initialCellColors: Array(36).fill(initialCellColors),
-//   tempCellColors: Array(36).fill(initialCellColors),
-//   localTitle: '',
-//   history: [],
-//   historyIndex: 0,
-//   lastArchivedId: 0,
-//   currentSetId: null,
-//   isColorChanged: false,
-//   isHistoryChanged: false,
-//   canUndo: false,
-//   canRedo: false,
-//   archivedSets: [],
-//   isLoggedIn: false,
-// });
-
 const initialState: EditorStore = {
   //Editor UI (real time editing)
   isColorPickerOpen: false,
@@ -295,14 +222,30 @@ export const actions = {
       );
     };
 
+    // console.log(
+    //   editorStore.cellColors.forEach((color) => {
+    //     console.log(color);
+    //   })
+    // );
+
     const newCellColors = Array(36)
       .fill(null)
       .map(() => {
-        return {
+        const randomColor = {
           square: generateRandomColor(),
           circle: generateRandomColor(),
         };
+
+        return randomColor;
       });
+    // const newCellColors = editorStore.cellColors.map((cellColor, index) => {
+    //   const initialColor = editorStore.initialCellColors[index];
+
+    //   return {
+    //     square: cellColor.square !== initialColor.square ? cellColor.square : generateRandomColor(),
+    //     circle: cellColor.circle !== initialColor.circle ? cellColor.circle : generateRandomColor(),
+    //   };
+    // });
 
     editorStore.cellColors = newCellColors;
     editorStore.tempCellColors = [...editorStore.cellColors];

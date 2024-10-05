@@ -19,7 +19,6 @@ interface WindowSaveProps {
 
 export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   const {
-    isLoggedIn,
     currentSetId,
     lastArchivedId,
     archivedSets,
@@ -29,16 +28,16 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   } = useSnapshot(editorStore);
   const { archiveCurrentSet, updateArchivedSet, setCurrentSetId, setLocalTitle } = actions;
   const { setIsWaiting } = waitingActions;
-  const { isWaiting } = useSnapshot(waitingStore);
   const [inputValue, setInputValue] = useState(localTitle);
   const [showAlert, setShowAlert] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
     setInputValue(localTitle);
   }, [localTitle]);
 
-  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleTitleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newValue = e.target.value;
 
     if (newValue.length <= 20) {
@@ -53,16 +52,23 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
     setLocalTitle(inputValue);
   };
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' || e.key === 'Tab') {
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleTitleBlur();
-      e.currentTarget.blur();
+      if (!isButtonDisabled()) {
+        handleSaveOrUpdate();
+      }
     }
+  };
 
-    if (e.key === 'Enter' && buttonRef.current && !buttonRef.current.disabled) {
-      handleSaveOrUpdate();
-    }
+  const isButtonDisabled = () => {
+    return (
+      (!currentSetId && !inputValue.trim()) ||
+      ((!isChanged && currentSetId) as boolean) ||
+      showAlert ||
+      inputValue === ''
+    );
   };
 
   const handleSaveOrUpdate = useCallback(async () => {
@@ -111,7 +117,6 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
   // );
 
   const getButtonText = () => {
-    // if (!isLoggedIn) return 'Sign In';
     if (!currentSetId) return 'Archive';
     return isChanged ? 'Update' : 'Saved';
   };
@@ -177,15 +182,16 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
               <label htmlFor="titleInput" className="project__label _en">
                 Title
               </label>
-              <input
+              <textarea
                 id="titleInput"
-                type="text"
+                ref={textareaRef}
                 className="project__content"
                 placeholder={localTitle == '' ? 'edit!' : localTitle}
                 value={inputValue}
                 onChange={handleTitleChange}
                 onBlur={handleTitleBlur}
                 onKeyDown={handleKeyDown}
+                rows={1}
               />
             </div>
             <div className="project__row">

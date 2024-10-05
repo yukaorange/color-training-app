@@ -2,3 +2,36 @@
 
 .login-form {
 }
+
+.login-form__inner {
+  display: grid;
+  row-gap: 6.4rem;
+}
+
+.login-form__header {
+  display: grid;
+  justify-items: center;
+}
+
+.login-form__title {
+  font-size: text(32);
+}
+
+@include mq(sp) {
+  .login-form {
+  }
+
+  .login-form__inner {
+    display: grid;
+    row-gap: 3.2rem;
+  }
+
+  .login-form__header {
+    display: grid;
+    justify-items: center;
+  }
+
+  .login-form__title {
+    font-size: text(20);
+  }
+}

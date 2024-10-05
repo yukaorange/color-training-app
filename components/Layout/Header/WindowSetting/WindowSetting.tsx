@@ -90,7 +90,7 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
       },
       {
         main: '色を生成しますか？',
-        sub: '現在の編集内容は破棄されます。',
+        sub: '現在の編集内容に上書きします。',
       }
     );
   };

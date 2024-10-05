@@ -25,8 +25,11 @@
   font-weight: 400;
   letter-spacing: 0.15em;
   text-overflow: ellipsis;
+  resize: vertical;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  max-height: 2lh;
+  min-height: 1lh;
 }
 
 @include mq(sp) {
