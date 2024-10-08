@@ -2,21 +2,17 @@
 
 import '@/app/archive/styles/archive.scss';
 
-import { ArchiveItem } from '@/components/Archive/ArchiveItem/ArchiveItem';
-
-import { waitingStore, waitingActions } from '@/store/waitingStore';
-
 import GSAP from 'gsap';
-import React, { useState, useCallback, useRef, useMemo } from 'react';
-import { useSnapshot } from 'valtio';
-import { editorStore, actions } from '@/store/editorStore';
-import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
-import { ButtonFooter } from '@/components/Archive/ButtonFooter/ButtonFooter';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { set } from 'lodash';
+import React, { useState, useCallback, useRef, useMemo, useEffect } from 'react';
+import { useSnapshot } from 'valtio';
+
+import { ArchiveItem } from '@/components/Archive/ArchiveItem/ArchiveItem';
+import { ButtonFooter } from '@/components/Archive/ButtonFooter/ButtonFooter';
 import { Pagination } from '@/components/Archive/Pagination/pagination';
-import { useEffect } from 'react';
+import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
+import { editorStore, actions } from '@/store/editorStore';
+import { waitingActions } from '@/store/waitingStore';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -24,7 +20,6 @@ export default function Archive() {
   const router = useRouter();
   const snapshot = useSnapshot(editorStore);
   const { currentSetId, isHistoryChanged, localTitle, archivedSets } = snapshot;
-  // const { isWaiting } = useSnapshot(waitingStore);
   const { setIsWaiting } = waitingActions;
   const { updateArchivedSet, archiveCurrentSet, deleteArchivedSet, loadArchivedSet } = actions;
 
@@ -142,7 +137,14 @@ export default function Archive() {
         }
       );
     },
-    [deleteArchivedSet, openConfirmation, closeConfirmation, archivedSets]
+    [
+      deleteArchivedSet,
+      openConfirmation,
+      closeConfirmation,
+      archivedSets,
+      // currentPage,
+      // setIsWaiting,
+    ]
   );
 
   const handleLoad = useCallback(
@@ -195,7 +197,7 @@ export default function Archive() {
             </div>
           </header>
           <div className="archive__body">
-            {currentItems.map((item, index) => {
+            {currentItems.map((item) => {
               const isCurrent = item.id === editorStore.currentSetId;
 
               return (

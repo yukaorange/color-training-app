@@ -1,9 +1,6 @@
 'use client';
-
 import '@/components/Editor/Button/styles/button-editor.scss';
-
-import { actions, editorStore } from '@/store/editorStore';
-import { useSnapshot } from 'valtio';
+import { actions } from '@/store/editorStore';
 
 interface ButtonProps {
   indicate: string;

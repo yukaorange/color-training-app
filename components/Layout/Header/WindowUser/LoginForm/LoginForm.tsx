@@ -2,9 +2,9 @@ import '@/components/Layout/Header/WindowUser/LoginForm/styles/login-form.scss';
 
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
-import { ButtonLogin } from '@/components/Layout/Header/WindowUser/LoginForm/ButtonLogin/ButtonLogin';
-import { auth } from 'firebase-admin';
+
 import { AuthForm } from '@/components/Layout/Header/WindowUser/AuthForm/AuthForm';
+import { ButtonLogin } from '@/components/Layout/Header/WindowUser/LoginForm/ButtonLogin/ButtonLogin';
 
 interface initialButtonProps {
   setAuthMode: (mode: AuthMode) => void;
@@ -24,7 +24,7 @@ export const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [authMode, setAuthMode] = useState<AuthMode>('initial');
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [successMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

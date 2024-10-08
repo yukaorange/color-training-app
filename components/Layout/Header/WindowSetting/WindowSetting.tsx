@@ -4,9 +4,8 @@ import '@/components/Layout/Header/WindowSetting/styles/button-setting.scss';
 
 import { useSnapshot } from 'valtio';
 
-import { actions } from '@/store/editorStore';
-import { editorStore } from '@/store/editorStore';
-import { waitingStore, waitingActions } from '@/store/waitingStore';
+import { actions, editorStore } from '@/store/editorStore';
+import { waitingActions } from '@/store/waitingStore';
 
 interface WindowSettingProps {
   isOpen: boolean;
@@ -27,7 +26,7 @@ export const WindowSetting = ({ isOpen, onClose, openConfirmation }: WindowSetti
   } = actions;
 
   const { setIsWaiting } = waitingActions;
-  const { isWaiting } = useSnapshot(waitingStore);
+  // const { isWaiting } = useSnapshot(waitingStore);
 
   const handleNewCreation = () => {
     openConfirmation(

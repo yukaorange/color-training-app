@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { signInWithCustomToken, User } from 'firebase/auth';
 import { useSession } from 'next-auth/react';
-import { getAuth, signInWithCustomToken, User } from 'firebase/auth';
+import { useEffect, useState } from 'react';
+
 import { auth } from '@/app/api/firebase';
 
 declare module 'next-auth' {

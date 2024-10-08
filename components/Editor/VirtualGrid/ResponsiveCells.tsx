@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useRef, useState, useMemo, useCallback, useEffect, Suspense } from 'react';
-import * as THREE from 'three';
-import { useFrame, useThree } from '@react-three/fiber';
-
-import { GLTF } from 'three-stdlib';
 import { useGLTF } from '@react-three/drei';
+import { useFrame, useThree } from '@react-three/fiber';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
+import * as THREE from 'three';
+import { GLTF } from 'three-stdlib';
 import { useSnapshot } from 'valtio';
+
 import { actions, editorStore } from '@/store/editorStore';
 
 interface ResponsiveCellsProps {
@@ -37,7 +37,7 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
         y: height / 2,
       };
 
-      cellPositionsRef.current = Array.from(cellElements).map((cell, index) => {
+      cellPositionsRef.current = Array.from(cellElements).map((cell) => {
         const cellRect = cell.getBoundingClientRect();
 
         const scaleX = (cellRect.width / size.width) * width;
@@ -114,7 +114,7 @@ type GLTFResult = GLTF & {
  */
 const GridCell = React.memo(
   ({ index, cellPositionsRef, onClick, isActive, colors }: GridCellProps) => {
-    const { nodes, materials } = useGLTF('/models/cell.glb') as GLTFResult;
+    const { nodes } = useGLTF('/models/cell.glb') as GLTFResult;
     const groupRef = useRef<THREE.Group>(null);
 
     const squareMaterial = useMemo(() => {
@@ -179,5 +179,7 @@ const GridCell = React.memo(
     );
   }
 );
+
+GridCell.displayName = 'GridCell';
 
 useGLTF.preload('/models/cell.glb');

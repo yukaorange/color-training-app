@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+
 import { editorStore, initialCellColors } from '@/store/editorStore';
 
 const isValidColor = (color: string): boolean => {

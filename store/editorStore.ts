@@ -1,5 +1,6 @@
-import { proxy, subscribe } from 'valtio';
 import { isEqual } from 'lodash';
+import { proxy, subscribe } from 'valtio';
+
 import {
   archiveCurrentSetToStore,
   updateArchivedSetInStore,
@@ -79,9 +80,9 @@ const initialState: EditorStore = {
 
 export const editorStore = proxy<EditorStore>(initialState);
 
-const isValidColor = (color: string): boolean => {
-  return /^#[0-9A-F]{6}$/i.test(color);
-};
+// const isValidColor = (color: string): boolean => {
+//   return /^#[0-9A-F]{6}$/i.test(color);
+// };
 
 const saveState = () => {
   if (typeof window === 'undefined') return;
@@ -259,6 +260,7 @@ export const actions = {
     actions.updateHistoryChangedFlag();
   },
   setIsHistoryChanged: (value: boolean) => {
+    console.log('setIsHistoryChanged', value);
     editorStore.isHistoryChanged = true;
   },
   setCurrentSetId: (id: number | null) => {

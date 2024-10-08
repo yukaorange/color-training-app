@@ -22,13 +22,7 @@ export const Loading = forwardRef<HTMLDivElement>((props, ref) => {
   );
 });
 
-const LoadingBar = ({
-  width = 418.4,
-  height = 37.75,
-  fillColor = '#0d0d0d',
-  strokeColor = 'none',
-  className = '',
-}) => {
+const LoadingBar = ({ width = 418.4, height = 37.75, fillColor = '#0d0d0d', className = '' }) => {
   return (
     <svg
       width={width}
@@ -88,3 +82,5 @@ const LoadingBar = ({
     </svg>
   );
 };
+
+Loading.displayName = 'Loading';

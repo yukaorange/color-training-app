@@ -2,17 +2,18 @@
 
 import '@/app/editor/styles/editor.scss';
 
+import { useRef, useState,  useEffect } from 'react';
+import { useSnapshot } from 'valtio';
+
 import { Button } from '@/components/Editor/Button/Button';
-import { Grid } from '@/components/Editor/Grid/Grid';
-import { Explanation } from '@/components/Editor/Explanation/Explanation';
 import { ButtonFooter } from '@/components/Editor/ButtonFooter/ButtonFooter';
-import { WindowSave } from '@/components/Editor/WindowSave/WindowSave';
 import { ColorPicker } from '@/components/Editor/ColorPicker/ColorPicker';
+import { Explanation } from '@/components/Editor/Explanation/Explanation';
+import { Grid } from '@/components/Editor/Grid/Grid';
 import { VirtualGrid } from '@/components/Editor/VirtualGrid/VirtualGrid';
+import { WindowSave } from '@/components/Editor/WindowSave/WindowSave';
 import { actions, editorStore } from '@/store/editorStore';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { useSnapshot } from 'valtio';
 
 export default function EditorAndVirtualGrid() {
   const gridRef = useRef<HTMLDivElement>(null);

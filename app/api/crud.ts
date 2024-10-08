@@ -1,9 +1,10 @@
-import { doc, getDoc, setDoc, updateDoc, deleteField } from 'firebase/firestore';
-import { editorStore } from '@/store/editorStore';
-import { actions } from '@/store/editorStore';
-import { getSession } from 'next-auth/react';
-import { db } from '@/app/api/firebase';
 import { getAuth } from 'firebase/auth';
+import { doc, getDoc, setDoc, updateDoc, deleteField } from 'firebase/firestore';
+import { getSession } from 'next-auth/react';
+
+import { db } from '@/app/api/firebase';
+import { editorStore , actions } from '@/store/editorStore';
+
 
 interface CellColors {
   square: string;

@@ -1,11 +1,12 @@
-import type { Metadata, Viewport } from 'next';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+
+import { authOptions } from '@/app/api/auth/[...nextauth]/auth-options';
+import { LayoutClient } from '@/app/LayoutClient';
 import ClientProvider from '@/components/ClientProvider/ClientProvider';
 
+import type { Metadata, Viewport } from 'next';
 import '@/styles/style.scss';
 
-import { LayoutClient } from '@/app/LayoutClient';
 
 export const metadata: Metadata = {
   title: 'Color Training App',

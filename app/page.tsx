@@ -3,12 +3,13 @@
 import '@/app/styles/top.scss';
 import '@/app/styles/text-loop.scss';
 
+import GSAP from 'gsap';
+import { useEffect, useRef } from 'react';
+
 import { Button } from '@/components/Top/Button/Button';
 import { Marquee } from '@/components/Top/Marquee/Marquee';
-import { useEffect, useRef } from 'react';
 import { useAnimatedRouter } from '@/hooks/useAnimatedRouter';
 
-import GSAP from 'gsap';
 
 export default function Top() {
   const { animationAndNavigate } = useAnimatedRouter();

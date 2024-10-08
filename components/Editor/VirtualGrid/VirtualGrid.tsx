@@ -1,8 +1,9 @@
 'use client';
 
-import { useRef, useState, useMemo, useCallback, useEffect, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
 import { PerspectiveCamera } from '@react-three/drei';
+import { Canvas } from '@react-three/fiber';
+import { Suspense } from 'react';
+
 import { ResponsiveCells } from '@/components/Editor/VirtualGrid/ResponsiveCells';
 
 import '@/components/Editor/VirtualGrid/styles/virtual-grid.scss';

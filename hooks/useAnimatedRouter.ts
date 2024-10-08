@@ -1,6 +1,5 @@
 import { useRouter } from 'next/navigation';
 import { useRef, useCallback } from 'react';
-import GSAP from 'gsap';
 
 export const useAnimatedRouter = () => {
   const router = useRouter();

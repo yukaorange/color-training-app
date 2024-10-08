@@ -2,16 +2,14 @@ import '@/components/Editor/ColorPicker/styles/color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/toggle-color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/button-done.scss';
 import '@/components/Editor/ColorPicker/styles/toggle-element-picker.scss';
-
+import { hexToHsva } from '@uiw/color-convert';
+import Colorful from '@uiw/react-color-colorful';
+import Image from 'next/image';
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { useSnapshot } from 'valtio';
-import { actions, editorStore } from '@/store/editorStore';
 
-import Image from 'next/image';
-
-import Colorful from '@uiw/react-color-colorful';
-import { hexToHsva } from '@uiw/color-convert';
 import { Marquee } from '@/components/Editor/Marquee/Marquee';
+import { actions, editorStore } from '@/store/editorStore';
 
 interface ColorPickerProps {
   onClose: () => void;
@@ -19,9 +17,8 @@ interface ColorPickerProps {
 }
 
 export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
-  const { selectedElement, activeCell, tempCellColors, cellColors, isColorChanged } =
-    useSnapshot(editorStore);
-  const { setSelectedElement, setTempColor, applyColorChange, updateColorChangedFlag } = actions;
+  const { selectedElement, activeCell, tempCellColors, isColorChanged } = useSnapshot(editorStore);
+  const { setSelectedElement, setTempColor, applyColorChange } = actions;
   const [currentHex, setCurrentHex] = useState('');
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -113,7 +110,6 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
       <div
         className={`color-picker-overlay ${isOpen ? 'color-picker-overlay--is-open' : ''}`}
         onClick={onClose}
-        tabIndex={isOpen ? 0 : -1}
         aria-hidden={!isOpen}
       ></div>
     </>
@@ -123,7 +119,7 @@ export const ColorPicker = ({ onClose, isOpen }: ColorPickerProps) => {
 const ToggleColorPicker = ({ isOpen }: { isOpen: boolean }) => {
   return (
     <>
-      <div className="toggle-color-picker _en">
+      <div className={`toggle-color-picker _en ${isOpen && 'toggle-color-picker--is-open'}`}>
         <div className="toggle-color-picker__text">CLOSE</div>
         <div className="toggle-color-picker__icon">
           <Arrow />

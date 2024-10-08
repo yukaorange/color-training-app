@@ -4,13 +4,12 @@ import '@/components/Editor/WindowSave/styles/window-save.scss';
 import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
-
 import { useState, useEffect, useCallback, KeyboardEvent, useRef } from 'react';
 import { useSnapshot } from 'valtio';
-import { editorStore, actions } from '@/store/editorStore';
-import { Marquee } from '@/components/Editor/Marquee/Marquee';
 
-import { waitingStore, waitingActions } from '@/store/waitingStore';
+import { Marquee } from '@/components/Editor/Marquee/Marquee';
+import { editorStore, actions } from '@/store/editorStore';
+import { waitingActions } from '@/store/waitingStore';
 
 interface WindowSaveProps {
   onClick: () => void;

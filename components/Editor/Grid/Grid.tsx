@@ -1,7 +1,5 @@
 import '@/components/Editor/Grid/styles/grid.scss';
 
-interface GridProps {}
-
 export const Grid = () => {
   const GRID_SIZE = 6;
 

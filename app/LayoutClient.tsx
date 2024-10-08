@@ -1,26 +1,22 @@
 'use client';
-
 import '@/app/styles/layout.scss';
-
 import GSAP from 'gsap';
-
-import { ViewPortCalculator } from '@/components/Utility/ViewportCalculator';
-import { UserAgent } from '@/components/Utility/UserAgent';
 import { usePathname } from 'next/navigation';
-import { Header } from '@/components/Layout/Header/Header';
-import { SVGFileter } from '@/components/Layout/SVGFilter/SVGFilter';
-import { Measure } from '@/components/Layout/Measure/Measure';
-import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
-import { Waiting } from '@/components/Layout/Waiting/Waiting';
-
-import { editorStore } from '@/store/editorStore';
-
-import { waitingActions, waitingStore } from '@/store/waitingStore';
+import { useRef, useState, useEffect } from 'react';
+import { useSnapshot } from 'valtio';
 
 import { fetchUserData } from '@/app/api/crud';
-import { useRef, useState, useEffect } from 'react';
+import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
+import { Header } from '@/components/Layout/Header/Header';
 import { Loading } from '@/components/Layout/Loading/Loading';
-import { useSnapshot } from 'valtio';
+import { Measure } from '@/components/Layout/Measure/Measure';
+import { SVGFileter } from '@/components/Layout/SVGFilter/SVGFilter';
+import { Waiting } from '@/components/Layout/Waiting/Waiting';
+import { UserAgent } from '@/components/Utility/UserAgent';
+import { ViewPortCalculator } from '@/components/Utility/ViewportCalculator';
+import { editorStore } from '@/store/editorStore';
+import { waitingStore } from '@/store/waitingStore';
+
 
 export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const pathname = usePathname();

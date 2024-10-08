@@ -1,6 +1,7 @@
 'use client';
 
 import { SessionProvider } from 'next-auth/react';
+
 import { Auth } from '@/components/Auth/Auth';
 
 /**

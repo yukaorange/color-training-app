@@ -3,12 +3,13 @@
 import '@/components/Layout/Header/WindowUser/styles/window-user.scss';
 import '@/components/Layout/Header/WindowUser/styles/overlay-user.scss';
 
-import React, { useState } from 'react';
 import { useSession, signOut } from 'next-auth/react';
-import { useSnapshot } from 'valtio';
-import { editorStore } from '@/store/editorStore';
+import React from 'react';
+// import { useSnapshot } from 'valtio';
+
 import { LoginForm } from '@/components/Layout/Header/WindowUser/LoginForm/LoginForm';
 import { UserInfo } from '@/components/Layout/Header/WindowUser/UserInfo/UserInfo';
+// import { editorStore } from '@/store/editorStore';
 
 interface WindowUserProps {
   isOpen: boolean;
@@ -17,10 +18,10 @@ interface WindowUserProps {
 
 export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
   const { data: session, status } = useSession();
-  const { isLoggedIn } = useSnapshot(editorStore);
-  const [activeView, setActiveView] = useState<'login' | 'register' | 'userInfo'>(
-    isLoggedIn ? 'userInfo' : 'login'
-  );
+  // const { isLoggedIn } = useSnapshot(editorStore);
+  // const [activeView, setActiveView] = useState<'login' | 'register' | 'userInfo'>(
+  //   isLoggedIn ? 'userInfo' : 'login'
+  // );
 
   const handleSignOut = async () => {
     await signOut();

@@ -1,11 +1,9 @@
 import '@/components/Archive/ArchiveItem/styles/archive-item.scss';
 import '@/components/Archive/ArchiveItem/styles/button-archive.scss';
-
-import GSAP from 'gsap';
-import { forwardRef, useCallback } from 'react';
+// import GSAP from 'gsap';
 import { useRouter } from 'next/navigation';
-import { useRef } from 'react';
-import { editorStore } from '@/store/editorStore';
+import { forwardRef, useCallback } from 'react';
+// import { editorStore } from '@/store/editorStore';
 
 interface ArchiveItemProps {
   onClick: () => void;
@@ -42,6 +40,11 @@ export const ArchiveItem = forwardRef<HTMLDivElement, ArchiveItemProps>(
         ref={ref}
         className={`archive-item ${isCurrent ? 'archive-item--current' : ''}`}
         onClick={isCurrent ? handleClick : onClick}
+        // onKeyDown={(e) => {
+        //   if (e.key === 'Enter' || e.key === ' ') {
+        //     isCurrent ? handleClick() : onClick();
+        //   }
+        // }}
       >
         <div className="archive-item__inner">
           <div className="archive-item__body">
@@ -220,3 +223,5 @@ const EdittingText = () => {
     </div>
   );
 };
+
+ArchiveItem.displayName = 'ArchiveItem';

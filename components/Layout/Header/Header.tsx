@@ -4,17 +4,17 @@ import '@/components/Layout/Header/styles/header.scss';
 import '@/components/Layout/Header/styles/icon-user.scss';
 import '@/components/Layout/Header/styles/icon-setting.scss';
 
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState } from 'react';
+import { useSnapshot } from 'valtio';
+
 import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
 import { WindowSetting } from '@/components/Layout/Header/WindowSetting/WindowSetting';
 import { WindowUser } from '@/components/Layout/Header/WindowUser/WindowUser';
-
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
 import { editorStore } from '@/store/editorStore';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { useSnapshot } from 'valtio';
 
 export const Header = () => {
   const { isLoggedIn } = useSnapshot(editorStore);

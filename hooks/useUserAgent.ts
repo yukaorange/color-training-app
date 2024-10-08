@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+
 import { userAgentStore } from "@/store/userAgentStore";
 
 export const useUserAgent = () => {

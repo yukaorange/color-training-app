@@ -1,7 +1,5 @@
 import '@/components/Top/Marquee/styles/marquee.scss';
 
-import Image from 'next/image';
-
 interface MarqueeProps {
   number: number;
   color: string;
