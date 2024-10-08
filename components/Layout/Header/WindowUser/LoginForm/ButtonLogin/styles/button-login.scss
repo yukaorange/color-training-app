@@ -14,6 +14,8 @@
   background-color: var(--active);
 }
 .button-login.button-login--back {
+  padding: 1rem 1.6rem;
+  font-size: text(16);
   border: 0.1rem solid var(--black);
 }
 .button-login.button-login--google {
@@ -58,7 +60,7 @@
   .button-login {
     display: grid;
     width: 100%;
-    padding: 1.0rem 1.4rem;
+    padding: 1rem 1.4rem;
     font-size: text(14);
   }
 

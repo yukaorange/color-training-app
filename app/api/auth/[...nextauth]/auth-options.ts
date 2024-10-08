@@ -2,18 +2,18 @@ import { FirestoreAdapter } from '@next-auth/firebase-adapter';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
-import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { auth } from '@/app/api/firebase';
 
+import type { NextAuthOptions } from 'next-auth';
 
 // interface FirebaseToken {
 //   firebaseToken?: string;
 // }
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
