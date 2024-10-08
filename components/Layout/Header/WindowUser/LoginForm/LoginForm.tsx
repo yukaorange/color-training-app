@@ -66,34 +66,34 @@ export const LoginForm = () => {
                 : 'ログイン'}
           </h2>
         </div>
-        <div className="login-form__form">
-          {authMode === 'initial' ? (
+        {authMode === 'initial' ? (
+          <div className="login-form__form">
             <div className="login-form__buttons">
               <InitialButtons setAuthMode={setAuthMode} />
             </div>
-          ) : (
-            <AuthForm
-              authMode={authMode}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
-              handleSubmit={handleSubmit}
-              setAuthMode={setAuthMode}
-              errorMessage={errorMessage}
-              successMessage={successMessage}
-            />
-          )}
-        </div>
-        <div className="login-form__button-google">
-          <ButtonLogin
-            onClick={() => {
-              signIn('google');
-            }}
-            text={'Google Sign In'}
-            variant={'google'}
+            <div className="login-form__button-google">
+              <ButtonLogin
+                onClick={() => {
+                  signIn('google');
+                }}
+                text={'Google Sign In'}
+                variant={'google'}
+              />
+            </div>
+          </div>
+        ) : (
+          <AuthForm
+            authMode={authMode}
+            email={email}
+            setEmail={setEmail}
+            password={password}
+            setPassword={setPassword}
+            handleSubmit={handleSubmit}
+            setAuthMode={setAuthMode}
+            errorMessage={errorMessage}
+            successMessage={successMessage}
           />
-        </div>
+        )}
       </div>
     </div>
   );

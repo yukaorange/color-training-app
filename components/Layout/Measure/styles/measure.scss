@@ -2,22 +2,22 @@
 
 .measure {
   display: grid;
-  width: fit-content;
-  position: absolute;
-  z-index: var(--z-index-measure);
-  top: 50%;
   left: 3rem;
+  position: absolute;
+  top: 50%;
   translate: 0% -50%;
+  width: fit-content;
+  z-index: var(--z-index-measure);
 }
 
 .measure__image {
-  width: 6rem;
   height: 59.7rem;
+  width: 6rem;
 }
 
 .measure__line {
-  transition-property: scale;
   transition-duration: 0.2s;
+  transition-property: scale;
 }
 
 .measure__line--prev {
@@ -34,19 +34,19 @@
 
 @include mq(sp) {
   .measure {
-    // display: grid;
-    width: fit-content;
-    position: absolute;
-    z-index: var(--z-index-measure);
-    top: 50%;
+    display: none;
     left: 3rem;
+    position: absolute;
+    top: 50%;
     translate: 0% -50%;
 
-    display: none;
+    // display: grid;
+    width: fit-content;
+    z-index: var(--z-index-measure);
   }
 
   .measure__image {
-    width: 3rem;
     height: 59.7rem;
+    width: 3rem;
   }
 }

@@ -1,15 +1,14 @@
 @use "@/styles/mixin/mixins" as *;
 
 .icon-user {
-  width: 7.2rem;
-  height: 8rem;
-  border: 0.1rem solid var(--black);
   background-color: var(--white);
-
-  transition: 0.2s;
-  background-size: 220%;
-  background-position: 100% 50%;
   background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+  background-position: 100% 50%;
+  background-size: 220%;
+  border: 0.1rem solid var(--black);
+  height: 8rem;
+  transition: 0.2s;
+  width: 7.2rem;
 }
 
 .icon-user.icon-user--is-login {
@@ -21,29 +20,29 @@
 
 @media (hover: hover) and (pointer: fine) {
   .icon-user:hover {
-    cursor: pointer;
-
-    background-position: 0% 50%;
     background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+    background-position: 0% 50%;
+    cursor: pointer;
   }
 
   .icon-user:hover path {
-    animation-name: waving;
-    animation-iteration-count: infinite;
     animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: waving;
   }
+
   .icon-user:hover path:nth-child(2) {
-    animation-name: waving;
-    animation-iteration-count: infinite;
-    animation-duration: 2s;
     animation-delay: 0.2s;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-name: waving;
   }
 }
 
 @include mq(sp) {
   .icon-user {
-    width: 4rem;
-    height: 4rem;
     border: 0.1rem solid var(--black);
+    height: 4rem;
+    width: 4rem;
   }
 }

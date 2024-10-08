@@ -1,28 +1,30 @@
 @use "@/styles/mixin/mixins" as *;
 
 .loading-icon {
+  background-color: var(--white);
+  display: grid;
+  left: 50%;
+  place-items: center;
   position: fixed;
   top: 50%;
-  left: 50%;
   translate: -50% -50%;
-  background-color: var(--white);
   z-index: var(--z-index-loading);
-  display: grid;
-  place-items: center;
 }
 
 .loading-icon__inner {
   --width: 41.84rem;
   --height: 37.75;
+
   position: relative;
 }
 
 .loading-icon__frame {
   display: grid;
-  position: relative;
   grid-template-columns: auto auto;
   overflow: hidden;
+  position: relative;
   width: calc(var(--width));
+
   // animation-name: blink;
   // animation-fill-mode: forwards;
   // animation-iteration-count: infinite;
@@ -30,62 +32,61 @@
 }
 
 .loading-icon__bar {
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: loading-animation;
+  animation-timing-function: linear;
   display: grid;
   overflow: hidden;
   width: calc(var(--width));
-  animation-name: loading-animation;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
-  animation-duration: 3s;
-  animation-timing-function: linear;
 }
 
 .loading-icon__bar svg {
-  position: relative;
-  width: calc(var(--width));
   height: var(--height);
   position: relative;
+  width: calc(var(--width));
 }
 
 @include mq(sp) {
   .loading {
-    position: fixed;
-    inset: 0;
     background-color: var(--white);
-    z-index: var(--z-index-loading);
     display: grid;
+    inset: 0;
     place-items: center;
+    position: fixed;
+    z-index: var(--z-index-loading);
   }
 
   .loading-icon__inner {
     --width: 20.84rem;
     --height: 17.75;
+
     position: relative;
   }
 
   .loading-icon__frame {
     display: grid;
-    position: relative;
     grid-template-columns: auto auto;
     overflow: hidden;
+    position: relative;
     width: calc(var(--width));
   }
 
   .loading-icon__bar {
+    animation-duration: 8s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: loading-animation;
+    animation-timing-function: linear;
     display: grid;
     overflow: hidden;
     width: calc(var(--width));
-    animation-name: loading-animation;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
-    animation-duration: 8s;
-    animation-timing-function: linear;
   }
 
   .loading-icon__bar svg {
-    position: relative;
-    width: calc(var(--width));
     height: var(--height);
     position: relative;
+    width: calc(var(--width));
   }
 }

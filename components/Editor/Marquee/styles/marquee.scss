@@ -1,37 +1,35 @@
 @use "@/styles/mixin/mixins" as *;
 
 .marquee-editor {
-  position: absolute;
-
   display: grid;
   grid-template-columns: repeat(6, auto);
-
   opacity: 0.4;
+  position: absolute;
 }
 
 .marquee-editor--1 {
-  z-index: 2;
+  left: calc(50%);
   rotate: 7.9deg;
   top: calc(50% + 31rem);
-  left: calc(50%);
   translate: -50% -50%;
+  z-index: 2;
 }
 
 .marquee-editor--2 {
-  z-index: 1;
+  left: calc(50%);
   rotate: -10deg;
   top: calc(50% + 0rem);
-  left: calc(50%);
   translate: -50% -50%;
+  z-index: 1;
 }
 
 .marquee-editor__inner {
-  display: grid;
-  padding-right: 1.4rem;
-  grid-template-columns: repeat(3, auto);
-  column-gap: 0.4rem;
-  justify-content: start;
   align-items: center;
+  column-gap: 0.4rem;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  padding-right: 1.4rem;
 }
 
 .marquee-editor--1 .marquee-editor__inner {
@@ -43,14 +41,14 @@
 }
 
 .marquee-editor__text {
+  color: #a1a1a1;
   font-size: 3.6rem;
   font-weight: 500;
-  color: #a1a1a1;
 }
 
 .marquee-editor__icon {
-  width: 7.2rem;
   aspect-ratio: 1/1;
+  width: 7.2rem;
 }
 
 .marquee-editor__icon img {
@@ -58,8 +56,8 @@
 }
 
 .marquee-editor__decoration {
-  width: 15rem;
   aspect-ratio: 120/30;
+  width: 15rem;
 }
 
 .marquee-editor__decoration img {
@@ -68,37 +66,35 @@
 
 @include mq(sp) {
   .marquee-editor {
-    position: absolute;
-
     display: grid;
     grid-template-columns: repeat(6, auto);
-
     opacity: 0.4;
+    position: absolute;
   }
 
   .marquee-editor--1 {
-    z-index: 2;
+    left: calc(50%);
     rotate: 7.9deg;
     top: calc(50% + 31rem);
-    left: calc(50%);
     translate: -50% -50%;
+    z-index: 2;
   }
 
   .marquee-editor--2 {
-    z-index: 1;
+    left: calc(50%);
     rotate: -10deg;
     top: calc(50% + 0rem);
-    left: calc(50%);
     translate: -50% -50%;
+    z-index: 1;
   }
 
   .marquee-editor__inner {
-    display: grid;
-    padding-right: 1.3rem;
-    grid-template-columns: repeat(3, auto);
-    column-gap: 0.4rem;
-    justify-content: start;
     align-items: center;
+    column-gap: 0.4rem;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    padding-right: 1.3rem;
   }
 
   .marquee-editor--1 .marquee-editor__inner {
@@ -110,14 +106,14 @@
   }
 
   .marquee-editor__text {
+    color: #a1a1a1;
     font-size: 2.4rem;
     font-weight: 500;
-    color: #a1a1a1;
   }
 
   .marquee-editor__icon {
-    width: 4rem;
     aspect-ratio: 1/1;
+    width: 4rem;
   }
 
   .marquee-editor__icon img {
@@ -125,8 +121,8 @@
   }
 
   .marquee-editor__decoration {
-    width: 9.1rem;
     aspect-ratio: 120/30;
+    width: 9.1rem;
   }
 
   .marquee-editor__decoration img {

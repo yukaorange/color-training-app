@@ -1,21 +1,21 @@
 @use "@/styles/mixin/mixins" as *;
 
 .virtual-grid {
+  inset: 0;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  inset: 0;
-  z-index: var(--z-index-virtual-grid);
   user-select: none;
+  z-index: var(--z-index-virtual-grid);
 }
 
 @include mq(sp) {
   .virtual-grid {
+    inset: 0;
+    left: 0;
     position: fixed;
     top: 0;
-    left: 0;
-    inset: 0;
-    z-index: var(--z-index-virtual-grid);
     user-select: none;
+    z-index: var(--z-index-virtual-grid);
   }
 }

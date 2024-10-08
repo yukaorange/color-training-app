@@ -1,58 +1,54 @@
 @use "@/styles/mixin/mixins" as *;
 
 .explanation {
-  width: cols(8);
-  position: absolute;
-  z-index: 0;
-
-  padding-left: 1.6rem;
-  padding-right: 2.4rem;
-  padding-block: 2.4rem;
-
-  translate: -50% -50%;
-
   display: grid;
   grid-template-columns: 1fr calc(var(--col) * 0.5);
-
-  pointer-events: none;
   opacity: 0;
-
+  padding-block: 2.4rem;
+  padding-left: 1.6rem;
+  padding-right: 2.4rem;
+  pointer-events: none;
+  position: absolute;
+  translate: -50% -50%;
   user-select: none;
+  width: cols(8);
+  z-index: 0;
 }
 
 .explanation--is-active {
-  cursor: pointer;
-  z-index: 10;
-  pointer-events: auto;
-  animation-name: explanation-show;
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
+  animation-name: explanation-show;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 10;
 }
 
 .explanation--inactive {
-  animation-name: explanation-hide;
   animation-duration: 0.2s;
   animation-fill-mode: forwards;
+  animation-name: explanation-hide;
 }
 
 .explanation__text {
-  font-weight: 500;
   font-size: text(16);
+  font-weight: 500;
 }
+
 .explanation__icon {
+  display: grid;
+  height: 2.5rem;
   justify-self: center;
   width: 1.8rem;
-  height: 2.5rem;
-  display: grid;
 }
 
 .explanation__bg {
-  position: absolute;
-  z-index: -1;
-  width: 100%;
   height: 100%;
-  top: 0;
   left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 .explanation__bg img {
@@ -61,52 +57,48 @@
 
 @include mq(sp) {
   .explanation {
-    width: cols(5.2);
-    position: absolute;
-    z-index: 1;
-    left: 50%;
-    translate: -50% 0;
-
-    padding-left: 0.4rem;
-    padding-right: 0.4rem;
-    padding-block: 0.4rem;
-
     display: grid;
     grid-template-columns: 1fr calc(var(--col) * 0.5);
-
+    left: 50%;
     opacity: 0;
+    padding-block: 0.4rem;
+    padding-left: 0.4rem;
+    padding-right: 0.4rem;
     pointer-events: none;
+    position: absolute;
+    translate: -50% 0;
+    width: cols(5.2);
+    z-index: 1;
   }
 
   .explanation--is-active {
     cursor: pointer;
-    z-index: 10;
     opacity: 1;
     pointer-events: auto;
+    z-index: 10;
   }
 
   .explanation__text {
-    font-weight: 400;
     font-size: text(12);
+    font-weight: 400;
     letter-spacing: 0.1em;
   }
 
   .explanation__icon {
+    display: grid;
+    height: 1.6rem;
     justify-self: center;
     width: 1.2rem;
-    height: 1.6rem;
-    display: grid;
   }
 
   .explanation__bg {
-    position: absolute;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-
     display: none;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
   }
 
   .explanation__bg img {

@@ -1,17 +1,16 @@
 @use "@/styles/mixin/mixins" as *;
 
 .button-editor {
-  display: grid;
-
-  transition: 0.2s;
-
   cursor: pointer;
+  display: grid;
+  transition: 0.2s;
 }
 
 .button-editor__icon {
   --size: 6.4rem;
-  width: var(--size);
+
   height: var(--size);
+  width: var(--size);
 }
 
 #button__frame,
@@ -27,40 +26,48 @@
 @media (hover: hover) and (pointer: fine) {
   .button-editor:hover {
   }
+
   .button-editor:hover .button-editor__icon {
   }
 
   .button-editor:active {
-    translate: 0rem 0.2rem;
+    translate: 0 0.2rem;
   }
+
   .button-editor:nth-child(2):active {
-    translate: 0rem 0.2rem;
+    translate: 0 0.2rem;
   }
 
   .button-editor.button-editor--left:hover #button__frame {
     // fill: var(--black);
   }
+
   .button-editor.button-editor--left:hover #button__frame {
     // fill: var(--black);
   }
+
   .button-editor.button-editor--left:hover #button__arrow {
+    animation-duration: 1.5s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
     animation-name: arrow-move-left;
-    animation-iteration-count: infinite;
-    animation-fill-mode: both;
-    animation-duration: 1.5s;
   }
+
   .button-editor.button-editor--right:hover #button__arrow {
-    animation-name: arrow-move-right;
-    animation-iteration-count: infinite;
-    animation-fill-mode: both;
     animation-duration: 1.5s;
+    animation-fill-mode: both;
+    animation-iteration-count: infinite;
+    animation-name: arrow-move-right;
   }
+
   .button-editor--is-disabled:hover {
     cursor: auto;
   }
+
   .button-editor--is-disabled:hover #button__arrow {
     // fill: var(--black);
   }
+
   .button-editor--is-disabled:hover #button__frame {
     // fill: none;
   }
@@ -72,15 +79,17 @@
   }
 
   .button-editor:active {
-    translate: 0rem 0.2rem;
+    translate: 0 0.2rem;
   }
+
   .button-editor:nth-child(2):active {
-    translate: 0rem 0.2rem;
+    translate: 0 0.2rem;
   }
 
   .button-editor__icon {
     --size: 3.1rem;
-    width: var(--size);
+
     height: var(--size);
+    width: var(--size);
   }
 }

@@ -1,7 +1,7 @@
 @use "@/styles/mixin/mixins" as *;
 
 .layout {
+  height: 100svh;
   position: relative;
   z-index: var(--z-index-layout);
-  height: 100svh;
 }

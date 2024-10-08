@@ -1,80 +1,80 @@
 @use "@/styles/mixin/mixins" as *;
 
-.button-login {
+.button-submit {
   display: grid;
   font-size: text(24);
-  padding: 1.8rem 2.4rem;
+  padding: 1rem 1.6rem;
   width: 100%;
 }
 
-.button-login.button-login--register {
+.button-submit.button-submit--register {
   background-color: var(--new);
 }
 
-.button-login.button-login--login {
+.button-submit.button-submit--login {
   background-color: var(--active);
 }
 
-.button-login.button-login--back {
+.button-submit.button-submit--back {
   border: 0.1rem solid var(--black);
   font-size: text(16);
-  padding: 1rem 1.6rem;
+  padding: 0.8rem 1.2rem;
 }
 
-.button-login.button-login--google {
+.button-submit.button-submit--google {
   border: 0.1rem solid var(--black);
 }
 
-.button-login__char--google:nth-child(1) {
+.button-submit__char--google:nth-child(1) {
   color: #4684ea;
 }
 
-.button-login__char--google:nth-child(2) {
+.button-submit__char--google:nth-child(2) {
   color: #d73335;
 }
 
-.button-login__char--google:nth-child(3) {
+.button-submit__char--google:nth-child(3) {
   color: #f2c10d;
 }
 
-.button-login__char--google:nth-child(4) {
+.button-submit__char--google:nth-child(4) {
   color: #4684ea;
 }
 
-.button-login__char--google:nth-child(5) {
+.button-submit__char--google:nth-child(5) {
   color: #3bb753;
 }
 
-.button-login__char--google:nth-child(6) {
+.button-submit__char--google:nth-child(6) {
   color: #d73335;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .button-login.button-login--login:hover {
+  .button-submit.button-submit--login:hover {
     background-color: var(--active);
     filter: url("#color-change-filter-3");
   }
 
-  .button-login.button-login--register:hover {
+  .button-submit.button-submit--register:hover {
     background-color: var(--new);
     filter: url("#color-change-filter-3");
   }
 
-  .button-login.button-login--google:hover {
+  .button-submit.button-submit--google:hover {
     background-color: var(--active);
     filter: url("#color-change-filter-3");
   }
 }
 
 @include mq(sp) {
-  .button-login {
+  .button-submit {
     display: grid;
     font-size: text(14);
     padding: 1rem 1.4rem;
     width: 100%;
   }
 
-  .button-login--google {
+  .button-submit--google {
     border: 0.1rem solid var(--black);
   }
 }

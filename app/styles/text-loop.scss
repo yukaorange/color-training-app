@@ -1,28 +1,28 @@
 @use "@/styles/mixin/mixins" as *;
 
 .text-loop {
-  position: absolute;
   display: grid;
   grid-auto-flow: column;
-  top: 0;
   left: 0;
+  position: absolute;
+  top: 0;
 }
 
 .text-loop__col {
-  width: fit-content;
+  animation: text-loop 30s linear infinite;
+  column-gap: 2.4rem;
   display: grid;
   grid-auto-flow: column;
-  column-gap: 2.4rem;
-  animation: text-loop 30s linear infinite;
+  width: fit-content;
 }
 
 .text-loop__text {
-  padding: 2.4rem;
-  width: fit-content;
   font-size: text(24);
-  line-height: 1.5;
   letter-spacing: 0.15em;
+  line-height: 1.5;
+  padding: 2.4rem;
   white-space: nowrap;
+  width: fit-content;
 }
 
 .text-loop__text .text-loop__text--en {
@@ -31,29 +31,28 @@
 
 @include mq(sp) {
   .text-loop {
-    position: absolute;
     display: grid;
     grid-auto-flow: column;
-    top: 0;
     left: 0;
+    position: absolute;
+    top: 0;
   }
 
   .text-loop__col {
-    width: fit-content;
+    animation: text-loop 8s linear infinite;
+    gap: 0.2rem 0;
     display: grid;
     grid-auto-flow: row;
-    column-gap: 0;
-    row-gap: 0.2rem;
-    animation: text-loop 8s linear infinite;
+    width: fit-content;
   }
 
   .text-loop__text {
-    padding: 0.8rem;
-    width: fit-content;
     font-size: text(14);
-    line-height: 1.5;
     letter-spacing: 0.15em;
+    line-height: 1.5;
+    padding: 0.8rem;
     white-space: nowrap;
+    width: fit-content;
   }
 
   .text-loop__text .text-loop__text--en {

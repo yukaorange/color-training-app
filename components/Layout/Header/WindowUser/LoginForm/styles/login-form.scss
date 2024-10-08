@@ -17,12 +17,16 @@
   font-size: text(32);
 }
 
+.login-form__form {
+  display: grid;
+  row-gap: 5rem;
+}
+
 .login-form__buttons {
   > * + * {
     margin-top: 3.2rem;
   }
 }
-
 
 @include mq(sp) {
   .login-form {
@@ -46,5 +50,10 @@
     > * + * {
       margin-top: 2rem;
     }
+  }
+
+  .login-form__form {
+    display: grid;
+    row-gap: 3.2rem;
   }
 }

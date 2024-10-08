@@ -1,14 +1,13 @@
 @use "@/styles/mixin/mixins" as *;
 
 .button-setting {
-  display: grid;
-  align-items: center;
-  grid-template-columns: auto auto;
-  justify-items: center;
-  justify-content: center;
-  padding: 1.8rem 2.4rem;
+  place-items: center center;
   column-gap: 0.8rem;
   cursor: pointer;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  padding: 1.8rem 2.4rem;
 }
 
 .button-setting__text {
@@ -20,8 +19,8 @@
 }
 
 .button-setting__icon svg {
-  width: 2.2rem;
   height: 2.2rem;
+  width: 2.2rem;
 }
 
 .button-setting--new {
@@ -34,22 +33,22 @@
 
 .button-setting--random {
   border: 0.1rem solid var(--black);
-  transition: 0.2s;
   position: relative;
+  transition: 0.2s;
   z-index: 0;
 }
 
 .button-setting__mask {
   // background-color: var(--active);
   background-color: var(--active);
+  inset: 0;
   mask: url("/images/setting/mask.png");
-  mask-size: 1200% 105%;
+  mask-mode: luminance;
   mask-position: 100% 50%;
   mask-repeat: no-repeat;
-  mask-mode: luminance;
+  mask-size: 1200% 105%;
   position: absolute;
   z-index: -1;
-  inset: 0;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -65,44 +64,44 @@
     // animation-duration: 10s;
     // animation-timing-function: var(--linear);
     // filter: url(#color-change-filter);
-    filter: url(#color-change-filter);
+    filter: url("#color-change-filter");
   }
 
   .button-setting--delete:hover {
-    // animation-name: blinking-button-delete;
-    animation-name: color-change;
-    animation-iteration-count: infinite;
     // animation-duration: 0.01s;
     animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+
+    // animation-name: blinking-button-delete;
+    animation-name: color-change;
     animation-timing-function: var(--linear);
   }
 
   .button-setting--random:hover {
     background-position: 0% 50%;
-    filter: url(#color-change-filter-2);
+    filter: url("#color-change-filter-2");
 
     // border: 0.1rem solid var(--active);
   }
 
   .button-setting--random:hover .button-setting__mask {
-    animation-name: moveMask;
     animation-duration: 0.5s;
-    animation-timing-function: steps(4);
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
+    animation-name: moveMask;
+    animation-timing-function: steps(4);
   }
 }
 
 @include mq(sp) {
   .button-setting {
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto auto;
-    justify-items: center;
-    justify-content: center;
-    padding: 1rem 1.4rem;
+    place-items: center center;
     column-gap: 0.4rem;
     cursor: pointer;
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    padding: 1rem 1.4rem;
   }
 
   .button-setting__text {
@@ -115,12 +114,13 @@
   }
 
   .button-setting__icon svg {
-    width: 1.6rem;
     height: 1.6rem;
+    width: 1.6rem;
   }
 
   .button-setting--new {
     background-color: var(--new);
+
     // filter: url(#color-change-filter);
   }
 
@@ -131,22 +131,23 @@
   .button-setting--random {
     border: none;
     position: relative;
+
     // background-color: var(--active);
     z-index: 0;
   }
 
   .button-setting--random {
     background-position: 0% 50%;
-    filter: url(#color-change-filter-2);
+    filter: url("#color-change-filter-2");
 
     // border: 0.1rem solid var(--active);
   }
 
   .button-setting--random .button-setting__mask {
-    animation-name: moveMask;
     animation-duration: 0.5s;
-    animation-timing-function: steps(4);
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
+    animation-name: moveMask;
+    animation-timing-function: steps(4);
   }
 }

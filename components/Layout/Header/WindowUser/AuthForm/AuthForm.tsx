@@ -1,5 +1,5 @@
 import '@/components/Layout/Header/WindowUser/AuthForm/styles/auth-form.scss';
-import { ButtonLogin } from '@/components/Layout/Header/WindowUser/LoginForm/ButtonLogin/ButtonLogin';
+import { ButtonSubmit } from './ButtonSubmit/ButtonSubmit';
 
 interface AuthFormProps {
   authMode: AuthMode;
@@ -46,11 +46,11 @@ export const AuthForm = ({
       {successMessage && <p className="auth-form__success-message">{successMessage}</p>}
       <button
         type="submit"
-        className={`button-login ${authMode == 'login' ? 'button-login--login' : 'button-login--register'}`}
+        className={`button-submit ${authMode == 'login' ? 'button-submit--login' : 'button-submit--register'}`}
       >
         {authMode === 'register' ? '登録' : 'ログイン'}
       </button>
-      <ButtonLogin onClick={() => setAuthMode('initial')} variant="back" text={'戻る'} />
+      <ButtonSubmit onClick={() => setAuthMode('initial')} variant="back" text={'戻る'} />
     </form>
   );
 };

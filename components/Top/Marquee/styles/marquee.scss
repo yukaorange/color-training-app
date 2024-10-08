@@ -1,15 +1,15 @@
 @use "@/styles/mixin/mixins" as *;
 
 .marquee {
-  position: absolute;
-  top: 0;
-  left: 0;
   display: grid;
   grid-template-columns: repeat(6, auto);
+  left: 0;
+  position: absolute;
   scale: 0 1;
-  transition-property: scale;
-  transition-duration: 1.5s;
+  top: 0;
   transform-origin: right;
+  transition-duration: 1.5s;
+  transition-property: scale;
 }
 
 .marquee--green {
@@ -21,35 +21,35 @@
 }
 
 .marquee--1 {
-  z-index: 4;
+  left: calc(50% - 10rem);
   rotate: -32deg;
   top: calc(50% - 190rem);
-  left: calc(50% - 10rem);
   translate: -50% -50%;
+  z-index: 4;
 }
 
 .marquee--2 {
-  z-index: 3;
+  left: calc(50% - 10rem);
   rotate: -10deg;
   top: calc(50% - 76rem);
-  left: calc(50% - 10rem);
   translate: -50% -50%;
+  z-index: 3;
 }
 
 .marquee--3 {
-  z-index: 2;
+  left: calc(50% + 30rem);
   rotate: -32deg;
   top: calc(50% - 111rem);
-  left: calc(50% + 30rem);
   translate: -50% -50%;
+  z-index: 2;
 }
 
 .marquee--4 {
-  z-index: 1;
+  left: calc(50% + 30rem);
   rotate: -5deg;
   top: calc(50% + 18rem);
-  left: calc(50% + 30rem);
   translate: -50% -50%;
+  z-index: 1;
 }
 
 .marquee--is-show {
@@ -57,16 +57,16 @@
 }
 
 .marquee__inner {
-  display: grid;
-  padding-right: 2.4rem;
-  grid-template-columns: repeat(3, auto);
-  column-gap: 0.8rem;
-  justify-content: start;
   align-items: center;
-  animation-name: marquee;
   animation-duration: 8s;
-  animation-timing-function: linear;
   animation-iteration-count: infinite;
+  animation-name: marquee;
+  animation-timing-function: linear;
+  column-gap: 0.8rem;
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  padding-right: 2.4rem;
 }
 
 .marquee__text {
@@ -79,8 +79,8 @@
 }
 
 .marquee__icon svg {
-  width: 9rem;
   height: 9rem;
+  width: 9rem;
 }
 
 .marquee__decoration {
@@ -88,21 +88,21 @@
 }
 
 .marquee__decoration svg {
-  width: 24rem;
   height: 6rem;
+  width: 24rem;
 }
 
 @include mq(sp) {
   .marquee {
-    position: absolute;
-    top: 0;
-    left: 0;
     display: grid;
     grid-template-columns: repeat(6, auto);
-    transition-property: scale;
+    left: 0;
+    position: absolute;
     scale: 0 1;
-    transition-duration: 1.5s;
+    top: 0;
     transform-origin: right;
+    transition-duration: 1.5s;
+    transition-property: scale;
   }
 
   .marquee--green {
@@ -112,36 +112,37 @@
   .marquee--red {
     background-color: var(--danger);
   }
+
   .marquee--1 {
-    z-index: 4;
+    left: calc(50% + 29rem);
     rotate: -24deg;
     top: calc(50% - 90rem);
-    left: calc(50% + 29rem);
     translate: -50% -50%;
+    z-index: 4;
   }
 
   .marquee--2 {
-    z-index: 3;
+    left: calc(50% + 30rem);
     rotate: -10deg;
     top: calc(50% - 53rem);
-    left: calc(50% + 30rem);
     translate: -50% -50%;
+    z-index: 3;
   }
 
   .marquee--3 {
-    z-index: 2;
+    left: calc(50% + 30rem);
     rotate: -24deg;
     top: calc(50% - 42rem);
-    left: calc(50% + 30rem);
     translate: -50% -50%;
+    z-index: 2;
   }
 
   .marquee--4 {
-    z-index: 1;
+    left: calc(50% + 30rem);
     rotate: -5deg;
     top: calc(50% + 13rem);
-    left: calc(50% + 30rem);
     translate: -50% -50%;
+    z-index: 1;
   }
 
   .marquee--is-show {
@@ -149,16 +150,16 @@
   }
 
   .marquee__inner {
-    display: grid;
-    padding-right: 1.4rem;
-    grid-template-columns: repeat(3, auto);
-    column-gap: 0.4rem;
-    justify-content: start;
     align-items: center;
-    animation-name: marquee;
     animation-duration: 4s;
-    animation-timing-function: linear;
     animation-iteration-count: infinite;
+    animation-name: marquee;
+    animation-timing-function: linear;
+    column-gap: 0.4rem;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: start;
+    padding-right: 1.4rem;
   }
 
   .marquee__text {
@@ -171,8 +172,8 @@
   }
 
   .marquee__icon svg {
-    width: 4.4rem;
     height: 4.4rem;
+    width: 4.4rem;
   }
 
   .marquee__decoration {
@@ -180,7 +181,7 @@
   }
 
   .marquee__decoration svg {
-    width: 12rem;
     height: 3rem;
+    width: 12rem;
   }
 }

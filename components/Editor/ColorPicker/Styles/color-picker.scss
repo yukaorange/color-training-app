@@ -7,19 +7,16 @@
   --z-color-picker__button: 15;
   --z-color-picker__marquee: 0;
 
-  width: calc(var(--col) * 9 + var(--gap) * 8 + calc(var(--margin) * 1));
-  right: 0;
-  position: absolute;
-  z-index: var(--z-color-picker);
-  translate: 100% 0;
-  height: 100svh;
-
   background-color: var(--ui-background);
-
-  transition-property: translate;
-  transition-duration: 0.2s;
-
+  height: 100svh;
   pointer-events: auto;
+  position: absolute;
+  right: 0;
+  transition-duration: 0.2s;
+  transition-property: translate;
+  translate: 100% 0;
+  width: calc(var(--col) * 9 + var(--gap) * 8 + calc(var(--margin) * 1));
+  z-index: var(--z-color-picker);
 }
 
 .color-picker--is-open {
@@ -27,26 +24,25 @@
 }
 
 .color-picker__toggle {
-  position: absolute;
-  z-index: var(--z-color-picker__button);
-  top: 50%;
-  left: 0;
-  rotate: -90deg;
-  translate: -4rem -50%;
-
-  user-select: none;
   cursor: pointer;
+  left: 0;
+  position: absolute;
+  rotate: -90deg;
+  top: 50%;
+  translate: -4rem -50%;
+  user-select: none;
+  z-index: var(--z-color-picker__button);
 }
 
 .color-picker__inner {
-  position: relative;
-  z-index: var(--z-color-picker__inner);
-  margin-inline: auto;
-  width: cols(7);
+  align-content: center;
   display: grid;
   height: 100svh;
-  align-content: center;
+  margin-inline: auto;
+  position: relative;
   row-gap: 3.2rem;
+  width: cols(7);
+  z-index: var(--z-color-picker__inner);
 }
 
 .color-picker__library {
@@ -64,12 +60,13 @@
 }
 
 .w-color-saturation {
-  width: cols(7) !important;
   height: 25rem !important;
-}
-.w-color-alpha {
   width: cols(7) !important;
+}
+
+.w-color-alpha {
   height: 2rem !important;
+  width: cols(7) !important;
 }
 
 .color-picker__button {
@@ -78,29 +75,29 @@
 }
 
 .color-picker__corner {
-  position: absolute;
-  z-index: var(--z-color-picker__corner);
-  top: 0.8rem;
-  left: 0.8rem;
   display: grid;
+  left: 0.8rem;
+  position: absolute;
+  top: 0.8rem;
+  z-index: var(--z-color-picker__corner);
 }
 
 .color-picker__corner svg {
-  width: 4rem;
   height: 4rem;
+  width: 4rem;
 }
 
 .color-picker__marquee {
-  position: absolute;
-  z-index: var(--z-color-picker__marquee);
   inset: 0;
   overflow: hidden;
+  position: absolute;
+  z-index: var(--z-color-picker__marquee);
 }
 
 .color-picker-overlay {
+  inset: 0;
   position: fixed;
   z-index: -1;
-  inset: 0;
 }
 
 .color-picker-overlay--is-open {
@@ -116,22 +113,18 @@
     --z-color-picker__button: 5;
     --z-color-picker__marquee: 0;
 
-    width: 100%;
-    right: auto;
+    background-color: var(--ui-background);
     bottom: 0;
-
-    position: fixed;
-    z-index: var(--z-color-picker);
-    translate: 100% 0;
     height: auto;
     min-height: 20rem;
-
-    background-color: var(--ui-background);
-
-    transition-property: translate;
-    transition-duration: 0.2s;
-
     pointer-events: auto;
+    position: fixed;
+    right: auto;
+    transition-duration: 0.2s;
+    transition-property: translate;
+    translate: 100% 0;
+    width: 100%;
+    z-index: var(--z-color-picker);
   }
 
   .color-picker--is-open {
@@ -139,29 +132,27 @@
   }
 
   .color-picker__toggle {
-    position: absolute;
-    z-index: var(--z-color-picker__button);
-    top: 50%;
-    left: 0;
-    rotate: -90deg;
-    translate: -2rem -50%;
-
-    user-select: none;
     cursor: pointer;
+    left: 0;
+    position: absolute;
+    rotate: -90deg;
+    top: 50%;
+    translate: -2rem -50%;
+    user-select: none;
+    z-index: var(--z-color-picker__button);
   }
 
   .color-picker__inner {
-    position: relative;
-    z-index: var(--z-color-picker__inner);
-    margin-inline: 0;
-    margin-left: calc(var(--col) * 1 + var(--margin) * 1 + calc(var(--gap) * 1));
-    width: cols(7);
+    align-content: center;
     display: grid;
     height: auto;
-    align-content: center;
-    row-gap: 2.4rem;
-
+    margin-inline: 0;
+    margin-left: calc(var(--col) * 1 + var(--margin) * 1 + calc(var(--gap) * 1));
     padding-block: 3.2rem;
+    position: relative;
+    row-gap: 2.4rem;
+    width: cols(7);
+    z-index: var(--z-color-picker__inner);
   }
 
   .color-picker__library {
@@ -183,38 +174,39 @@
   }
 
   .w-color-saturation {
-    width: cols(7) !important;
     height: 15rem !important;
-  }
-  .w-color-alpha {
     width: cols(7) !important;
+  }
+
+  .w-color-alpha {
     height: 2rem !important;
+    width: cols(7) !important;
   }
 
   .color-picker__corner {
-    position: absolute;
-    z-index: var(--z-color-picker__corner);
-    top: 0.4rem;
-    left: 0.4rem;
     display: grid;
+    left: 0.4rem;
+    position: absolute;
+    top: 0.4rem;
+    z-index: var(--z-color-picker__corner);
   }
 
   .color-picker__corner svg {
-    width: 1.4rem;
     height: 1.4rem;
+    width: 1.4rem;
   }
 
   .color-picker__marquee {
-    position: absolute;
-    z-index: var(--z-color-picker__marquee);
     inset: 0;
     overflow: hidden;
+    position: absolute;
+    z-index: var(--z-color-picker__marquee);
   }
 
   .color-picker-overlay {
+    inset: 0;
     position: fixed;
     z-index: -1;
-    inset: 0;
   }
 
   .color-picker-overlay--is-open {

@@ -1,86 +1,81 @@
 @use "@/styles/mixin/mixins" as *;
 
 .top {
-  width: 100%;
   height: 100svh;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden auto;
   position: relative;
+  width: 100%;
   z-index: 0;
 }
 
 .top__inner {
-  width: 100%;
-  height: 100%;
+  place-content: center center;
   display: grid;
-  justify-content: center;
-  align-content: center;
+  height: 100%;
+  width: 100%;
 }
 
 .top__buttons {
+  column-gap: cols(3);
   display: grid;
   grid-template-columns: repeat(2, auto);
   justify-content: center;
-  column-gap: cols(3);
 }
 
 .top__text-loop {
   margin-top: 5rem;
-  width: 100vw;
   position: relative;
+  width: 100vw;
   z-index: 0;
 }
 
 .top__marquee {
-  position: absolute;
-  z-index: -1;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100%;
+  left: 0;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 @include mq(sp) {
   .top {
-    width: 100%;
     height: 100svh;
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: hidden auto;
     position: relative;
+    width: 100%;
     z-index: 0;
   }
 
   .top__inner {
-    width: 100%;
-    height: 100%;
+    place-content: center center;
     display: grid;
-    justify-content: center;
-    align-content: center;
+    height: 100%;
+    width: 100%;
   }
 
   .top__buttons {
+    gap: 3.2rem 0;
     display: grid;
     grid-template-columns: repeat(1, auto);
     justify-content: center;
-    column-gap: 0;
-    row-gap: 3.2rem;
   }
 
   .top__text-loop {
     margin-top: 3.2rem;
-    width: 100vw;
     position: relative;
+    width: 100vw;
     z-index: 0;
   }
 
   .top__marquee {
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    width: 100%;
     height: 100%;
+    left: 0;
     overflow: hidden;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
   }
 }

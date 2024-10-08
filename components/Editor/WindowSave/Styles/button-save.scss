@@ -1,25 +1,25 @@
 @use "@/styles/mixin/mixins" as *;
 
 .button-save {
-  width: cols(7);
-  padding-block: 1.8rem;
-  padding-inline: 2.4rem;
   background-color: var(--active);
   border: 0.1rem solid var(--active);
+  cursor: pointer;
   display: grid;
   justify-items: center;
-  cursor: pointer;
+  padding-block: 1.8rem;
+  padding-inline: 2.4rem;
+  width: cols(7);
 }
 
 .button-save.button-save--disabled {
-  border: 0.1rem solid var(--inactive);
   background-color: transparent;
+  border: 0.1rem solid var(--inactive);
   cursor: auto;
 }
 
 .button-save__text {
-  font-weight: 500;
   font-size: text(24);
+  font-weight: 500;
   letter-spacing: 0.15em;
 }
 
@@ -29,17 +29,17 @@
 
 @include mq(sp) {
   .button-save {
-    width: cols(7);
-    padding-block: 1.4rem;
-    padding-inline: 1.6rem;
     background-color: var(--active);
     display: grid;
     justify-items: center;
+    padding-block: 1.4rem;
+    padding-inline: 1.6rem;
+    width: cols(7);
   }
 
   .button-save__text {
-    font-weight: 500;
     font-size: text(16);
+    font-weight: 500;
     letter-spacing: 0.15em;
   }
 }

@@ -5,20 +5,18 @@
   --height: 8rem;
   --diagonal: 8rem;
 
-  width: var(--width);
-  height: var(--height);
+  place-content: center center;
+  background-color: var(--white);
+  background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+  background-position: 100% 50%;
+  background-size: 220%;
   border: 0.1rem solid var(--black);
   display: grid;
-  align-content: center;
+  height: var(--height);
   justify-items: center;
-  justify-content: center;
   row-gap: 0.4rem;
-  background-color: var(--white);
-
   transition: 0.2s;
-  background-size: 220%;
-  background-position: 100% 50%;
-  background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+  width: var(--width);
 }
 
 .icon-setting--disable {
@@ -28,33 +26,33 @@
   z-index: 0;
 }
 
-.icon-setting--disable:before {
-  content: "";
-  position: absolute;
-  width: var(--diagonal);
-  height: 0.1rem;
+.icon-setting--disable::before {
   background-color: var(--black);
-  translate: -50% -50%;
-  top: calc(50% - 0.3rem);
+  content: "";
+  height: 0.1rem;
   left: 50%;
+  position: absolute;
   rotate: 48deg;
+  top: calc(50% - 0.3rem);
+  translate: -50% -50%;
+  width: var(--diagonal);
 }
 
-.icon-setting--disable:after {
-  content: "";
-  position: absolute;
-  width: var(--diagonal);
-  height: 0.1rem;
+.icon-setting--disable::after {
   background-color: var(--black);
-  translate: -50% -50%;
-  top: calc(50% - 0.3rem);
+  content: "";
+  height: 0.1rem;
   left: 50%;
+  position: absolute;
   rotate: -48deg;
+  top: calc(50% - 0.3rem);
+  translate: -50% -50%;
+  width: var(--diagonal);
 }
 
 .icon-setting__icon {
-  width: 4rem;
   height: 4rem;
+  width: 4rem;
 }
 
 .icon-setting__text {
@@ -63,17 +61,16 @@
 
 @media (hover: hover) and (pointer: fine) {
   .icon-setting:hover {
-    cursor: pointer;
-
-    background-size: 200%;
-    background-position: 0% 50%;
     background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);
+    background-position: 0% 50%;
+    background-size: 200%;
+    cursor: pointer;
   }
 
   .icon-setting:hover .icon-setting__icon {
-    animation-name: rotation;
-    animation-iteration-count: infinite;
     animation-duration: 5s;
+    animation-iteration-count: infinite;
+    animation-name: rotation;
     animation-timing-function: linear;
   }
 
@@ -92,50 +89,48 @@
     --height: 4rem;
     --diagonal: 4rem;
 
-    width: var(--width);
-    height: var(--height);
-    width: 4rem;
-    height: 4rem;
+    place-content: center center;
     border: 0.1rem solid var(--black);
     display: grid;
-    align-content: center;
+    height: var(--height);
+    height: 4rem;
     justify-items: center;
-    justify-content: center;
-    row-gap: 0rem;
+    row-gap: 0;
+    width: var(--width);
+    width: 4rem;
   }
 
   .icon-setting__icon {
-    width: 2.2rem;
     height: 2.2rem;
+    width: 2.2rem;
   }
 
   .icon-setting__text {
-    font-size: 1rem;
-
     display: none;
+    font-size: 1rem;
   }
 
-  .icon-setting--disable:before {
-    content: "";
-    position: absolute;
-    width: var(--diagonal);
-    height: 0.1rem;
+  .icon-setting--disable::before {
     background-color: var(--black);
-    translate: -50% -50%;
-    top: calc(50% - 0rem);
+    content: "";
+    height: 0.1rem;
     left: 50%;
+    position: absolute;
     rotate: 48deg;
+    top: calc(50% - 0rem);
+    translate: -50% -50%;
+    width: var(--diagonal);
   }
 
-  .icon-setting--disable:after {
-    content: "";
-    position: absolute;
-    width: var(--diagonal);
-    height: 0.1rem;
+  .icon-setting--disable::after {
     background-color: var(--black);
-    translate: -50% -50%;
-    top: calc(50% - 0rem);
+    content: "";
+    height: 0.1rem;
     left: 50%;
+    position: absolute;
     rotate: -48deg;
+    top: calc(50% - 0rem);
+    translate: -50% -50%;
+    width: var(--diagonal);
   }
 }

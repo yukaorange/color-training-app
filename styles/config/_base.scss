@@ -5,34 +5,28 @@
 :root {
   --vw: 100vw; //this value will be changed by js
   --vh: 100vh; //this value will be changed by js
-
   --header-height: 0; //this value will be changed by js
 
   //z-index
   --z-index-header: 1000;
   --z-index-virtual-grid: -10;
-
   --z-index-overlay-setting: 2000;
   --z-index-overlay-user: 2500;
   --z-index-overlay-confirm: 3000;
   --z-index-overlay-loading: 4000;
   --z-index-overlay-waiting: 5000;
-
   --z-index-setting: 2001;
   --z-index-user: 2501;
   --z-index-confirm: 3001;
   --z-index-loading: 4001;
   --z-index-waiting: 5001;
-
   --z-index-webgl: 10;
   --z-index-layout: 0;
   --z-index-measure: 1;
   --z-index-bg-grid: -1000;
-
   --margin: 0.6rem;
   --gap: 1.2rem;
   --col: calc((var(--vw) - var(--margin) * 2 - var(--gap) * 23) / 24);
-
   --delay: 0.2s;
   --duration: 0.4s;
   --timing-function: var(--easeInOutQuint);
@@ -48,23 +42,22 @@
 
 ::-webkit-scrollbar {
 }
+
 ::-webkit-scrollbar-track {
   background-color: var(--black-5);
 }
+
 ::-webkit-scrollbar-thumb {
-  border-radius: 1rem;
   background-color: var(--black-5);
+  border-radius: 1rem;
 }
 
 html {
   font-size: calc(var(--vw) / 144);
-  scrollbar-width: thin; //webkit
-  scrollbar-color: #444 #ccc; //webkit
-
   min-height: 100svh;
-
   overscroll-behavior-y: none;
-
+  scrollbar-color: #444 #ccc; //webkit
+  scrollbar-width: thin; //webkit
   touch-action: manipulation;
 }
 
@@ -75,12 +68,7 @@ html {
 }
 
 body {
-  font-size: var(--font-size-base);
-  line-height: 1.5;
-  letter-spacing: 0.1em;
-
   color: var(--black);
-
   font-family:
     "Noto Sans JP",
     system-ui,
@@ -94,6 +82,9 @@ body {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
+  font-size: var(--font-size-base);
+  letter-spacing: 0.1em;
+  line-height: 1.5;
 }
 
 p,
@@ -141,6 +132,7 @@ a[href^="tel"] {
 [data-device="sp"] {
   display: none;
 }
+
 [data-device="pc"] {
   display: inherit;
 }
@@ -149,22 +141,23 @@ a[href^="tel"] {
   [data-device="sp"] {
     display: inherit;
   }
+
   [data-device="pc"] {
     display: none;
   }
 }
 
 a {
-  font-size: var(--font-size-base);
   color: inherit;
+  font-size: var(--font-size-base);
   text-decoration: none;
   transition: var(--duration);
 }
 
 @media (hover: hover) and (pointer: fine) {
   a:hover {
-    text-decoration: none;
     opacity: 0.8;
+    text-decoration: none;
   }
 }
 
@@ -172,10 +165,10 @@ svg {
 }
 
 img {
-  width: 100%;
   height: 100%;
   object-fit: cover;
   vertical-align: bottom;
+  width: 100%;
 }
 
 ul,
@@ -194,8 +187,9 @@ button {
 
 // SVGスプライトのためのスタイル
 .use-sprite {
-  position: absolute;
   height: 0;
+  position: absolute;
+
   & > svg {
     display: block;
     height: 0;
@@ -240,26 +234,16 @@ button {
 
 //color
 :root {
-  --white: #ffffff;
-
+  --white: #fff;
   --black: #0d0d0d;
-
   --active: #aaff01;
-
   --inactive: #a1a1a1;
-
   --overlay: #dcdcdc70;
-
   --overlay2: #dcdcdc10;
-
   --sub-accent: #008080;
-
   --danger: #f44336;
-
   --new: #ff9800;
-
   --ui-background: #e8e8e8;
-
   --standby: #e1e1e1;
   --form-cell: #e1e1e1;
 }
@@ -273,21 +257,18 @@ button {
   --easeInQuad: cubic-bezier(0.55, 0.085, 0.68, 0.53);
   --easeOutQuad: cubic-bezier(0.25, 0.46, 0.45, 0.94);
   --easeInOutQuad: cubic-bezier(0.455, 0.03, 0.515, 0.955);
-
   --easeInCubic: cubic-bezier(0.55, 0.055, 0.675, 0.19);
   --easeOutCubic: cubic-bezier(0.215, 0.61, 0.355, 1);
   --easeInOutCubic: cubic-bezier(0.645, 0.045, 0.355, 1);
   --easeInQuart: cubic-bezier(0.895, 0.03, 0.685, 0.22);
   --easeOutQuart: cubic-bezier(0.165, 0.84, 0.44, 1);
   --easeInOutQuart: cubic-bezier(0.77, 0, 0.175, 1);
-
   --easeInQuint: cubic-bezier(0.755, 0.05, 0.855, 0.06);
   --easeOutQuint: cubic-bezier(0.23, 1, 0.32, 1);
   --easeInOutQuint: cubic-bezier(0.86, 0, 0.07, 1);
   --easeInExpo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
   --easeOutExpo: cubic-bezier(0.19, 1, 0.22, 1);
   --easeInOutExpo: cubic-bezier(1, 0, 0, 1);
-
   --easeInCirc: cubic-bezier(0.6, 0.04, 0.98, 0.335);
   --easeOutCirc: cubic-bezier(0.075, 0.82, 0.165, 1);
   --easeInOutCirc: cubic-bezier(0.785, 0.135, 0.15, 0.86);

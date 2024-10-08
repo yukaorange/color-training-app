@@ -1,73 +1,75 @@
 @use "@/styles/mixin/mixins" as *;
 
 .waiting {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-waiting);
-  place-items: center;
   display: grid;
+  inset: 0;
+  place-items: center;
+  position: fixed;
+  z-index: var(--z-index-waiting);
 }
 
 .waiting__text {
-  font-weight: 500;
   font-size: text(24);
+  font-weight: 500;
 }
 
 .waiting__text span {
-  animation-name: twinkling-dot;
-  animation-iteration-count: infinite;
-  animation-fill-mode: forwards;
   animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: twinkling-dot;
 }
 
 .waiting__text span:nth-child(2) {
   animation-delay: 0.1s;
 }
+
 .waiting__text span:nth-child(3) {
   animation-delay: 0.2s;
 }
 
 .waiting-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-overlay-waiting);
   background-color: var(--overlay);
+  inset: 0;
   opacity: 0.5;
+  position: fixed;
+  z-index: var(--z-index-overlay-waiting);
 }
 
 @include mq(sp) {
   .waiting {
-    position: fixed;
-    inset: 0;
-    z-index: var(--z-index-waiting);
-    place-items: center;
     display: grid;
+    inset: 0;
+    place-items: center;
+    position: fixed;
+    z-index: var(--z-index-waiting);
   }
 
   .waiting__text {
-    font-weight: 500;
     font-size: text(16);
+    font-weight: 500;
   }
 
   .waiting__text span {
-    animation-name: twinkling-dot;
-    animation-iteration-count: infinite;
-    animation-fill-mode: forwards;
     animation-duration: 1s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: twinkling-dot;
   }
 
   .waiting__text span:nth-child(2) {
     animation-delay: 0.1s;
   }
+
   .waiting__text span:nth-child(3) {
     animation-delay: 0.2s;
   }
 
   .waiting-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: var(--z-index-overlay-waiting);
     background-color: var(--overlay);
+    inset: 0;
     opacity: 0.5;
+    position: fixed;
+    z-index: var(--z-index-overlay-waiting);
   }
 }

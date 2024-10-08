@@ -1,26 +1,26 @@
 @use "@/styles/mixin/mixins" as *;
 
 .header {
-  padding-inline: calc(var(--col) * 1 + var(--margin) * 1);
   padding-block: 1.6rem;
+  padding-inline: calc(var(--col) * 1 + var(--margin) * 1);
   position: fixed;
-  z-index: var(--z-index-header);
   width: 100%;
+  z-index: var(--z-index-header);
 }
 
 .header__inner {
+  align-items: center;
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
-  align-items: center;
 }
 
 .header__title-logo {
+  align-items: center;
+  column-gap: 0.4rem;
   cursor: pointer;
   display: grid;
   grid-template-columns: auto auto;
-  align-items: center;
-  column-gap: 0.4rem;
 }
 
 .header__title {
@@ -34,40 +34,39 @@
 }
 
 .header__buttons {
+  column-gap: 2.4rem;
   display: grid;
   grid-template-columns: auto auto;
-  column-gap: 2.4rem;
 }
 
 @include mq(sp) {
   .header {
-    padding-inline: calc(var(--margin) * 1);
     padding-block: 1.6rem;
+    padding-inline: calc(var(--margin) * 1);
     position: fixed;
-    z-index: var(--z-index-header);
     width: 100%;
+    z-index: var(--z-index-header);
   }
 
   .header__inner {
+    align-items: center;
     display: grid;
     grid-template-columns: auto auto;
     justify-content: space-between;
-    align-items: center;
   }
 
   .header__title-logo {
+    align-items: center;
+    column-gap: 0;
     display: grid;
     grid-template-columns: auto;
-    align-items: center;
-    column-gap: 0rem;
   }
 
   .header__title {
+    display: none;
     font-size: text(36);
     font-weight: 500;
     letter-spacing: 0.005em;
-
-    display: none;
   }
 
   .header__logo {
@@ -75,8 +74,8 @@
   }
 
   .header__buttons {
+    column-gap: 1.4rem;
     display: grid;
     grid-template-columns: auto auto;
-    column-gap: 1.4rem;
   }
 }

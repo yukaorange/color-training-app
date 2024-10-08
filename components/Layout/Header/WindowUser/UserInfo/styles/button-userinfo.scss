@@ -1,17 +1,17 @@
 @use "@/styles/mixin/mixins" as *;
 
 .button-userinfo {
-  padding: 1.8rem 2.4rem;
+  background-color: var(--danger);
   font-size: text(24);
   font-weight: 500;
-  background-color: var(--danger);
+  padding: 1.8rem 2.4rem;
 }
 
 @include mq(sp) {
   .button-userinfo {
-    padding: 1.4rem 1.4rem;
+    background-color: var(--danger);
     font-size: text(14);
     font-weight: 500;
-    background-color: var(--danger);
+    padding: 1.4rem;
   }
 }

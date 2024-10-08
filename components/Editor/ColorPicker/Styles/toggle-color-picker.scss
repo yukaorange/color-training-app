@@ -1,19 +1,19 @@
 @use "@/styles/mixin/mixins" as *;
 
 .toggle-color-picker {
-  display: grid;
-  grid-template-columns: auto auto;
-  width: cols(2.4);
-  padding: 0.4rem 0.8rem;
-  column-gap: 0.8rem;
-  justify-content: center;
   align-items: center;
   background-color: transparent;
+  column-gap: 0.8rem;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+  padding: 0.4rem 0.8rem;
+  width: cols(2.4);
 }
 
 .toggle-color-picker__text {
-  font-weight: 500;
   font-size: text(16);
+  font-weight: 500;
   letter-spacing: 0.15em;
 }
 
@@ -22,19 +22,19 @@
 }
 
 .toggle-color-picker__icon svg {
-  width: 2.4rem;
   height: 1.6rem;
+  width: 2.4rem;
 }
 
 @include mq(sp) {
   .toggle-color-picker {
+    align-items: center;
+    column-gap: 0.4rem;
     display: grid;
     grid-template-columns: auto auto;
-    width: cols(2.4);
-    padding: 0.4rem 0.2rem;
-    column-gap: 0.4rem;
     justify-content: center;
-    align-items: center;
+    padding: 0.4rem 0.2rem;
+    width: cols(2.4);
   }
 
   .toggle-color-picker--close {
@@ -42,8 +42,8 @@
   }
 
   .toggle-color-picker__text {
-    font-weight: 500;
     font-size: text(14);
+    font-weight: 500;
     letter-spacing: 0.15em;
   }
 
@@ -52,7 +52,7 @@
   }
 
   .toggle-color-picker__icon svg {
-    width: 1.4rem;
     height: 0.8rem;
+    width: 1.4rem;
   }
 }
