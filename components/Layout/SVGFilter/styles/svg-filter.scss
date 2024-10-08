@@ -1,0 +1,7 @@
+@use "@/styles/mixin/mixins" as *;
+
+.svg-filter {
+  height: 0;
+  width: 0;
+  display: block;
+}

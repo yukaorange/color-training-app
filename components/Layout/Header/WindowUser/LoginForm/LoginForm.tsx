@@ -4,8 +4,7 @@ import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { ButtonLogin } from '@/components/Layout/Header/WindowUser/LoginForm/ButtonLogin/ButtonLogin';
 import { auth } from 'firebase-admin';
-
-type AuthMode = 'login' | 'register' | 'initial';
+import { AuthForm } from '@/components/Layout/Header/WindowUser/AuthForm/AuthForm';
 
 interface initialButtonProps {
   setAuthMode: (mode: AuthMode) => void;
@@ -14,67 +13,9 @@ interface initialButtonProps {
 const InitialButtons = ({ setAuthMode }: initialButtonProps) => {
   return (
     <>
-      <button onClick={() => setAuthMode('login')} className="button-login">
-        ログイン
-      </button>
-      <button onClick={() => setAuthMode('register')} className="button-login">
-        新規登録
-      </button>
+      <ButtonLogin onClick={() => setAuthMode('login')} text={'ログイン'} variant={'login'} />
+      <ButtonLogin onClick={() => setAuthMode('register')} text={'新規登録'} variant={'register'} />
     </>
-  );
-};
-
-interface AuthFormProps {
-  authMode: AuthMode;
-  email: string;
-  setEmail: (email: string) => void;
-  password: string;
-  setPassword: (password: string) => void;
-  handleSubmit: (e: React.FormEvent) => void;
-  setAuthMode: (mode: AuthMode) => void;
-  errorMessage: string;
-  successMessage: string;
-}
-
-const AuthForm = ({
-  authMode,
-  email,
-  setEmail,
-  password,
-  setPassword,
-  handleSubmit,
-  setAuthMode,
-  errorMessage,
-  successMessage,
-}: AuthFormProps) => {
-  return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="メールアドレス"
-        required
-      />
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="パスワード"
-        required
-      />
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      {successMessage && <p className="success-message">{successMessage}</p>}
-      <button
-        type="submit"
-        className={`button-login ${authMode == 'login' ? 'button-login--login' : 'button-login--register'}`}
-      >
-        {authMode === 'register' ? '登録' : 'ログイン'}
-      </button>
-      <button onClick={() => setAuthMode('initial')} type="button">
-        戻る
-      </button>
-    </form>
   );
 };
 
@@ -102,7 +43,7 @@ export const LoginForm = () => {
       console.error('Authentication error:', response.error);
       if (authMode === 'login' && response.error === 'CredentialsSignin') {
         setErrorMessage('メールアドレスまたはパスワードが正しくありません。');
-      } else if (authMode === 'register' && response.error === 'UserExists') {
+      } else if (authMode === 'register' && response.error === 'CredentialsSignin') {
         setErrorMessage('このメールアドレスは既に登録されています。');
       } else {
         setErrorMessage('認証エラーが発生しました。再度お試しください。');
@@ -127,7 +68,9 @@ export const LoginForm = () => {
         </div>
         <div className="login-form__form">
           {authMode === 'initial' ? (
-            <InitialButtons setAuthMode={setAuthMode} />
+            <div className="login-form__buttons">
+              <InitialButtons setAuthMode={setAuthMode} />
+            </div>
           ) : (
             <AuthForm
               authMode={authMode}
@@ -142,12 +85,13 @@ export const LoginForm = () => {
             />
           )}
         </div>
-        <div className="login-form__buttons">
+        <div className="login-form__button-google">
           <ButtonLogin
             onClick={() => {
               signIn('google');
             }}
-            text={'Sign In With Google'}
+            text={'Google Sign In'}
+            variant={'google'}
           />
         </div>
       </div>

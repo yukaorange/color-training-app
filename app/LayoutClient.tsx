@@ -8,6 +8,7 @@ import { ViewPortCalculator } from '@/components/Utility/ViewportCalculator';
 import { UserAgent } from '@/components/Utility/UserAgent';
 import { usePathname } from 'next/navigation';
 import { Header } from '@/components/Layout/Header/Header';
+import { SVGFileter } from '@/components/Layout/SVGFilter/SVGFilter';
 import { Measure } from '@/components/Layout/Measure/Measure';
 import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
 import { Waiting } from '@/components/Layout/Waiting/Waiting';
@@ -66,6 +67,7 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
           {showMeasure && <Measure />}
           {children}
           <BgGrid />
+          <SVGFileter />
         </div>
       )}
     </>

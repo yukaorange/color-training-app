@@ -10,3 +10,7 @@ declare module 'next-auth' {
     };
   }
 }
+
+declare global {
+  type AuthMode = 'login' | 'register' | 'initial';
+}

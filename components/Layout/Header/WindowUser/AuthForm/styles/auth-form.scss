@@ -1,0 +1,33 @@
+@use "@/styles/mixin/mixins" as *;
+
+.auth-form {
+  display: grid;
+  row-gap: 2.4rem;
+}
+
+.auth-form__input {
+  background-color: var(--form-cell);
+  padding: 1.6rem;
+}
+
+.auth-form__error-message {
+  color: var(--danger);
+  font-size: text(18);
+}
+
+@include mq(sp) {
+  .auth-form {
+    display: grid;
+    row-gap: 2rem;
+  }
+
+  .auth-form__input {
+    background-color: var(--form-cell);
+    padding: 1rem 0.8rem;
+  }
+
+  .auth-form__error-message {
+    color: var(--danger);
+    font-size: text(16);
+  }
+}

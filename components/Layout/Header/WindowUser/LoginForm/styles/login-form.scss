@@ -17,6 +17,13 @@
   font-size: text(32);
 }
 
+.login-form__buttons {
+  > * + * {
+    margin-top: 3.2rem;
+  }
+}
+
+
 @include mq(sp) {
   .login-form {
   }
@@ -33,5 +40,11 @@
 
   .login-form__title {
     font-size: text(20);
+  }
+
+  .login-form__buttons {
+    > * + * {
+      margin-top: 2rem;
+    }
   }
 }
