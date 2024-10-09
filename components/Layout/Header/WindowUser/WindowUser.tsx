@@ -5,11 +5,10 @@ import '@/components/Layout/Header/WindowUser/styles/overlay-user.scss';
 
 import { useSession, signOut } from 'next-auth/react';
 import React from 'react';
-// import { useSnapshot } from 'valtio';
 
 import { LoginForm } from '@/components/Layout/Header/WindowUser/LoginForm/LoginForm';
 import { UserInfo } from '@/components/Layout/Header/WindowUser/UserInfo/UserInfo';
-// import { editorStore } from '@/store/editorStore';
+import { waitingActions } from '@/store/waitingStore';
 
 interface WindowUserProps {
   isOpen: boolean;
@@ -18,13 +17,15 @@ interface WindowUserProps {
 
 export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
   const { data: session, status } = useSession();
-  // const { isLoggedIn } = useSnapshot(editorStore);
-  // const [activeView, setActiveView] = useState<'login' | 'register' | 'userInfo'>(
-  //   isLoggedIn ? 'userInfo' : 'login'
-  // );
 
   const handleSignOut = async () => {
+    waitingActions.setIsWaiting(true);
     await signOut();
+    waitingActions.setIsWaiting(false);
+    onClose();
+  };
+
+  const handleAuthSuccess = () => {
     onClose();
   };
 
@@ -39,7 +40,7 @@ export const WindowUser = ({ isOpen, onClose }: WindowUserProps) => {
           ) : status === 'authenticated' ? (
             <UserInfo user={session.user} onSignOut={handleSignOut} />
           ) : (
-            <LoginForm />
+            <LoginForm onAuthSuccess={handleAuthSuccess} />
           )}
         </div>
         <div className="window-user__corner">

@@ -1,0 +1,11 @@
+@use "@/styles/mixin/mixins" as *;
+
+.button-cookie {
+  padding: 1rem;
+  background-color: var(--active);
+  border: 0.1rem solid var(--active);
+}
+.button-cookie.button-cookie--close {
+  border: 0.1rem solid var(--black);
+  background-color: transparent;
+}

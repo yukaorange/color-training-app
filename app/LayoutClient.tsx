@@ -7,6 +7,7 @@ import { useSnapshot } from 'valtio';
 
 import { fetchUserData } from '@/app/api/crud';
 import { BgGrid } from '@/components/Layout/BgGrid/BgGrid';
+import { CookieConsent } from '@/components/Layout/CookieConsent/CookieConsent';
 import { Header } from '@/components/Layout/Header/Header';
 import { Loading } from '@/components/Layout/Loading/Loading';
 import { Measure } from '@/components/Layout/Measure/Measure';
@@ -16,7 +17,6 @@ import { UserAgent } from '@/components/Utility/UserAgent';
 import { ViewPortCalculator } from '@/components/Utility/ViewportCalculator';
 import { editorStore } from '@/store/editorStore';
 import { waitingStore } from '@/store/waitingStore';
-
 
 export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const pathname = usePathname();
@@ -64,6 +64,7 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
           {children}
           <BgGrid />
           <SVGFileter />
+          <CookieConsent />
         </div>
       )}
     </>

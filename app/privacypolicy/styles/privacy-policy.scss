@@ -1,0 +1,130 @@
+@use "@/styles/mixin/mixins" as *;
+
+.privacy-policy {
+  padding-inline: calc(var(--col) * 2 + var(--gap) * 1 + var(--margin) * 1);
+  padding-top: 15rem;
+  padding-bottom: 15rem;
+}
+
+.privacy-policy section {
+  margin-top: 6.4rem;
+}
+
+.privacy-policy section + section {
+  margin-top: 5rem;
+}
+
+.privacy-policy h1 {
+  font-size: text(32);
+}
+
+.privacy-policy h2 {
+  font-size: text(24);
+}
+
+.privacy-policy p {
+  font-size: text(16);
+  padding-left: calc(var(--col) * 1 / 4);
+}
+
+.privacy-policy a {
+  display: block;
+  font-size: text(16);
+  padding-left: calc(var(--col) * 1 / 4);
+}
+
+.privacy-policy ul {
+  padding-left: calc(var(--col) * 1 / 2);
+  display: grid;
+  row-gap: 0.8rem;
+}
+
+.privacy-policy section {
+  > * + * {
+    margin-top: 1.6rem;
+  }
+}
+
+.privacy-policy footer {
+  margin-top: 8rem;
+}
+
+.privacy-policy__back-to-top {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  translate: -50% 0%;
+  font-size: text(32);
+  border: 0.1rem solid var(--black);
+  padding: 1.6rem 2.4rem;
+  background-color: var(--white);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .privacy-policy__back-to-top:hover {
+    background-color: var(--active);
+    filter: url("#color-change-filter-3");
+  }
+}
+
+@include mq(sp) {
+  .privacy-policy {
+    padding-inline: calc(var(--col) * 0 + var(--gap) * 0 + var(--margin) * 1);
+    padding-top: 8rem;
+    padding-bottom: 10rem;
+  }
+
+  .privacy-policy section {
+    margin-top: 5rem;
+  }
+
+  .privacy-policy section + section {
+    margin-top: 4rem;
+  }
+
+  .privacy-policy h1 {
+    font-size: text(24);
+  }
+
+  .privacy-policy h2 {
+    font-size: text(18);
+  }
+
+  .privacy-policy p {
+    font-size: text(14);
+    padding-left: calc(var(--col) * 1 / 4);
+  }
+
+  .privacy-policy a {
+    display: block;
+    font-size: text(14);
+    padding-left: calc(var(--col) * 1 / 4);
+  }
+
+  .privacy-policy ul {
+    padding-left: calc(var(--col) * 1 / 2);
+    display: grid;
+    row-gap: 0.8rem;
+  }
+
+  .privacy-policy section {
+    > * + * {
+      margin-top: 1.4rem;
+    }
+  }
+
+  .privacy-policy footer {
+    margin-top: 5rem;
+  }
+
+  .privacy-policy__back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    translate: -50% 0%;
+    font-size: text(24);
+    border: 0.1rem solid var(--black);
+    padding: 1rem 1.4rem;
+    background-color: var(--white);
+  }
+}

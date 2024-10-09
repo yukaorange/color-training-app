@@ -1,0 +1,67 @@
+@use "@/styles/mixin/mixins" as *;
+
+.window-cookie {
+  position: fixed;
+  z-index: 100000;
+  width: 100%;
+  bottom: calc(var(--col) * 1 / 4);
+  right: calc(var(--col) * 1 / 4);
+  background-color: var(--white);
+  width: cols(8);
+  border: 0.1rem solid var(--black);
+}
+
+.window-cookie__inner {
+  padding: 2.4rem;
+  display: grid;
+  row-gap: 1.6rem;
+}
+
+.window-cookie__buttons {
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 1.6rem;
+}
+
+.window-cookie__text {
+  font-size: text(16);
+  text-align: justify;
+}
+
+.window-cookie__link {
+  text-decoration: underline;
+}
+
+@include mq(sp) {
+  .window-cookie {
+    position: fixed;
+    z-index: 100000;
+    width: 100%;
+    bottom: 0;
+    right: 0;
+    background-color: var(--white);
+    width: 100%;
+    border: 0.1rem solid var(--black);
+  }
+
+  .window-cookie__inner {
+    padding: 2.4rem;
+    display: grid;
+    row-gap: 1.6rem;
+  }
+
+  .window-cookie__buttons {
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 1.6rem;
+  }
+
+  .window-cookie__text {
+    font-size: text(16);
+    text-align: justify;
+  }
+
+  .window-cookie__link {
+    text-decoration: underline;
+  }
+}

@@ -3,6 +3,7 @@ import type NextAuth from 'next-auth';
 
 declare module 'next-auth' {
   interface Session {
+    firebaseToken?: string;
     user: {
       id: string;
       name?: string | null;

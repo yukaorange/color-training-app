@@ -5,21 +5,13 @@ import { useState } from 'react';
 
 import { AuthForm } from '@/components/Layout/Header/WindowUser/AuthForm/AuthForm';
 import { ButtonLogin } from '@/components/Layout/Header/WindowUser/LoginForm/ButtonLogin/ButtonLogin';
+import { waitingActions } from '@/store/waitingStore';
 
-interface initialButtonProps {
-  setAuthMode: (mode: AuthMode) => void;
+interface LoginFormProps {
+  onAuthSuccess: () => void;
 }
 
-const InitialButtons = ({ setAuthMode }: initialButtonProps) => {
-  return (
-    <>
-      <ButtonLogin onClick={() => setAuthMode('login')} text={'ログイン'} variant={'login'} />
-      <ButtonLogin onClick={() => setAuthMode('register')} text={'新規登録'} variant={'register'} />
-    </>
-  );
-};
-
-export const LoginForm = () => {
+export const LoginForm = ({ onAuthSuccess }: LoginFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [authMode, setAuthMode] = useState<AuthMode>('initial');
@@ -31,27 +23,40 @@ export const LoginForm = () => {
     if (authMode === 'initial') return;
 
     setErrorMessage('');
+    waitingActions.setIsWaiting(true);
+    try {
+      const response = await signIn('credentials', {
+        email,
+        password,
+        action: authMode,
+        redirect: false,
+      });
 
-    const response = await signIn('credentials', {
-      email,
-      password,
-      action: authMode,
-      redirect: false,
-    });
-
-    if (response?.error) {
-      console.error('Authentication error:', response.error);
-      if (authMode === 'login' && response.error === 'CredentialsSignin') {
-        setErrorMessage('メールアドレスまたはパスワードが正しくありません。');
-      } else if (authMode === 'register' && response.error === 'CredentialsSignin') {
-        setErrorMessage('このメールアドレスは既に登録されています。');
+      if (response?.error) {
+        console.error('Authentication error:', response.error);
+        if (authMode === 'login' && response.error === 'CredentialsSignin') {
+          setErrorMessage('メールアドレスまたはパスワードが正しくありません。');
+        } else if (authMode === 'register' && response.error === 'CredentialsSignin') {
+          setErrorMessage('このメールアドレスは既に登録されています。');
+        } else {
+          setErrorMessage('認証エラーが発生しました。再度お試しください。');
+        }
       } else {
-        setErrorMessage('認証エラーが発生しました。再度お試しください。');
+        setEmail('');
+        setPassword('');
+        onAuthSuccess();
       }
-    } else {
-      setEmail('');
-      setPassword('');
+    } catch (err) {
+      console.log(err);
+    } finally {
+      waitingActions.setIsWaiting(false);
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    waitingActions.setIsWaiting(true);
+    signIn('google');
+    // waitingActions.setIsWaiting(false);
   };
 
   return (
@@ -73,9 +78,7 @@ export const LoginForm = () => {
             </div>
             <div className="login-form__button-google">
               <ButtonLogin
-                onClick={() => {
-                  signIn('google');
-                }}
+                onClick={handleGoogleSignIn}
                 text={'Google Sign In'}
                 variant={'google'}
               />
@@ -96,5 +99,18 @@ export const LoginForm = () => {
         )}
       </div>
     </div>
+  );
+};
+
+interface initialButtonProps {
+  setAuthMode: (mode: AuthMode) => void;
+}
+
+const InitialButtons = ({ setAuthMode }: initialButtonProps) => {
+  return (
+    <>
+      <ButtonLogin onClick={() => setAuthMode('login')} text={'ログイン'} variant={'login'} />
+      <ButtonLogin onClick={() => setAuthMode('register')} text={'新規登録'} variant={'register'} />
+    </>
   );
 };
