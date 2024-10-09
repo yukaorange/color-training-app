@@ -10,7 +10,7 @@ export interface ExplanationProps {
 }
 
 export const Explanation = ({ text, number, isActive, onClick }: ExplanationProps) => {
-  const getIconSrc = () => {
+  const getIconSrc = (): string => {
     switch (number) {
       case 1:
         return '/images/editor/down-three.svg';
@@ -20,6 +20,8 @@ export const Explanation = ({ text, number, isActive, onClick }: ExplanationProp
         return '/images/editor/down-one.svg';
       case 4:
         return '/images/editor/down-reverse.svg';
+      default:
+        return '';
     }
   };
 
@@ -33,10 +35,25 @@ export const Explanation = ({ text, number, isActive, onClick }: ExplanationProp
       >
         <div className="explanation__text">{text}</div>
         <div className="explanation__icon">
-          {<Image src={getIconSrc() as string} alt="" width={24} height={24} />}
+          {
+            <Image
+              src={getIconSrc()}
+              alt={`Step ${number}`}
+              width={24}
+              height={24}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          }
         </div>
         <div className="explanation__bg">
-          <Image src="/images/editor/how-to-use__frame.svg" alt="" width={100} height={100} />
+          <Image
+            src="/images/editor/how-to-use__frame.svg"
+            alt="Explanation frame"
+            width={100}
+            height={100}
+            style={{ width: '100%', height: 'auto' }}
+            priority
+          />
         </div>
       </div>
     </>
