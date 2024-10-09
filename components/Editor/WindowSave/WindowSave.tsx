@@ -190,7 +190,7 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
                 onChange={handleTitleChange}
                 onBlur={handleTitleBlur}
                 onKeyDown={handleKeyDown}
-                rows={1}
+                // rows={1}
               />
             </div>
             <div className="project__row">

@@ -49,6 +49,12 @@
   color: #d73335;
 }
 
+.button-submit.button-submit--disabled {
+  background-color: var(--white);
+  color: var(--inactive);
+  border: 0.1rem solid var(--inactive);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .button-submit.button-submit--login:hover {
     background-color: var(--active);
@@ -63,6 +69,12 @@
   .button-submit.button-submit--google:hover {
     background-color: var(--active);
     filter: url("#color-change-filter-3");
+  }
+
+  .button-submit.button-submit--disabled:hover {
+    background-color: var(--white);
+    color: var(--inactive);
+    border: 0.1rem solid var(--inactive);
   }
 }
 

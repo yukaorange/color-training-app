@@ -15,6 +15,14 @@
   font-size: text(18);
 }
 
+.auth-form__error-message.auth-form__error-message--input {
+  font-size: text(14);
+}
+
+.auth-form__field input {
+  width: 100%;
+}
+
 @include mq(sp) {
   .auth-form {
     display: grid;

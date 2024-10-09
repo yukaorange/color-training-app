@@ -25,11 +25,7 @@
   font-size: text(16);
   font-weight: 400;
   letter-spacing: 0.15em;
-  -webkit-line-clamp: 2;
-  max-height: 2lh;
-  min-height: 1lh;
-  resize: vertical;
-  text-overflow: ellipsis;
+  field-sizing: content;
 }
 
 @include mq(sp) {
@@ -58,7 +54,6 @@
     font-size: text(14);
     font-weight: 400;
     letter-spacing: 0.15em;
-    -webkit-line-clamp: 2;
-    text-overflow: ellipsis;
+    field-sizing: content;
   }
 }
