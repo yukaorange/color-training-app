@@ -13,7 +13,7 @@
   ],
   "plugins": ["@typescript-eslint", "react", "react-hooks", "jsx-a11y", "import"],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-explicit-any": "warn", //any型の使用を警告
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
@@ -21,6 +21,7 @@
       "error",
       {
         "groups": [
+          //importの順序を指定
           "builtin",
           "external",
           "internal",
@@ -29,7 +30,7 @@
           "object",
           "type"
         ],
-        "newlines-between": "always",
+        "newlines-between": "always", //importのグループごとに間に改行を入れる
         "alphabetize": { "order": "asc", "caseInsensitive": true }
       }
     ],
