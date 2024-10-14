@@ -6,7 +6,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { auth } from '@/app/api/firebase';
-import { adminDb, adminAuth } from '@/lib/firebaseAdmin';
+import { adminFirestore, adminAuth } from '@/lib/firebaseAdmin';
 
 import type { NextAuthOptions } from 'next-auth';
 
@@ -73,7 +73,7 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  adapter: FirestoreAdapter(adminDb),
+  adapter: FirestoreAdapter(adminFirestore),
   // adapter: FirestoreAdapter({
   //   credential: cert({
   //     projectId: process.env.FIREBASE_PROJECT_ID,
