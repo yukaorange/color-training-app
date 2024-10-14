@@ -1,6 +1,6 @@
-// import { FirestoreAdapter } from '@next-auth/firebase-adapter';
+import { FirestoreAdapter } from '@next-auth/firebase-adapter';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-// import { cert } from 'firebase-admin/app';
+import { cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
@@ -71,13 +71,13 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  // adapter: FirestoreAdapter({
-  //   credential: cert({
-  //     projectId: process.env.FIREBASE_PROJECT_ID,
-  //     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-  //     privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-  //   }),
-  // }),
+  adapter: FirestoreAdapter({
+    credential: cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+  }),
   callbacks: {
     async jwt({ token, user }) {
       console.log('JWT callback - user:', user);
