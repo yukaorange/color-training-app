@@ -1,7 +1,9 @@
-import './styles/color-picker.scss';
-import './styles/button-done.scss';
-import './styles/toggle-color-picker.scss';
-import './styles/toggle-element-picker.scss';
+'use client';
+
+import '@/components/Editor/ColorPicker/styles/color-picker.scss';
+import '@/components/Editor/ColorPicker/styles/button-done.scss';
+import '@/components/Editor/ColorPicker/styles/toggle-color-picker.scss';
+import '@/components/Editor/ColorPicker/styles/toggle-element-picker.scss';
 
 import { hexToHsva } from '@uiw/color-convert';
 import Colorful from '@uiw/react-color-colorful';
