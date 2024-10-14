@@ -86,11 +86,14 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
+      console.log('Session callback - token:', token);
       if (session?.user && token?.sub) {
         session.user.id = token.sub;
         try {
+          console.log('Attempting to create Firebase token');
           const firebaseToken = await getAuth().createCustomToken(token.sub);
           session.firebaseToken = firebaseToken;
+          console.log('Firebase token created successfully');
         } catch (err) {
           console.error('Error caused when create Firebase custom token :', err);
         }
