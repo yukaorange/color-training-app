@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import '@/components/Editor/ColorPicker/styles/color-picker.scss';
 import '@/components/Editor/ColorPicker/styles/button-done.scss';

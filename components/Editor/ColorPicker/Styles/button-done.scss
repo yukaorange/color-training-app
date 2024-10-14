@@ -47,10 +47,10 @@
   opacity: 0.2;
 }
 
-@media (hover: hover) and (pointer: fine) {
-  .button-done:hover {
-  }
-}
+// @media (hover: hover) and (pointer: fine) {
+//   .button-done:hover {
+//   }
+// }
 
 @include mq(sp) {
   .button-done {

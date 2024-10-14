@@ -1,6 +1,6 @@
 'use client';
 
-import './styles/window-save.scss';
+import '@/components/Editor/WindowSave/styles/window-save.scss';
 import '@/components/Editor/WindowSave/styles/toggle-window-save.scss';
 import '@/components/Editor/WindowSave/styles/project.scss';
 import '@/components/Editor/WindowSave/styles/button-save.scss';
