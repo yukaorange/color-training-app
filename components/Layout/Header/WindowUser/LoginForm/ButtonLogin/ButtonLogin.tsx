@@ -14,7 +14,8 @@ export const ButtonLogin = ({ onClick, text, variant }: ButtonLoginProps) => {
     >
       {variant === 'google' ? (
         <span>
-          Sign in with 
+          Sign in with
+          <span> </span>
           <span className="button-login__char--google">G</span>
           <span className="button-login__char--google">o</span>
           <span className="button-login__char--google">o</span>
