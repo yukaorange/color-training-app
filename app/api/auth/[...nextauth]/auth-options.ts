@@ -1,11 +1,12 @@
 import { FirestoreAdapter } from '@next-auth/firebase-adapter';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
-import { cert } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+// import { cert } from 'firebase-admin/app';
+// import { getAuth } from 'firebase-admin/auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 
 import { auth } from '@/app/api/firebase';
+import { adminDb, adminAuth } from '@/lib/firebaseAdmin';
 
 import type { NextAuthOptions } from 'next-auth';
 
@@ -14,8 +15,7 @@ import type { NextAuthOptions } from 'next-auth';
 // }
 
 export const authOptions: NextAuthOptions = {
-  debug: true,
-  secret: process.env.NEXTAUTH_SECRET!,
+  debug: false,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -73,13 +73,14 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-  adapter: FirestoreAdapter({
-    credential: cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-    }),
-  }),
+  adapter: FirestoreAdapter(adminDb),
+  // adapter: FirestoreAdapter({
+  //   credential: cert({
+  //     projectId: process.env.FIREBASE_PROJECT_ID,
+  //     clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+  //     privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  //   }),
+  // }),
   callbacks: {
     async jwt({ token, user }) {
       console.log('JWT callback - user:', user);
@@ -90,12 +91,14 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       console.log('Session callback - token:', token);
+
       if (session?.user && token?.sub) {
         session.user.id = token.sub;
         try {
           console.log('Attempting to create Firebase token');
 
-          const firebaseToken = await getAuth().createCustomToken(token.sub);
+          // const firebaseToken = await getAuth().createCustomToken(token.sub);
+          const firebaseToken = await adminAuth.createCustomToken(token.sub);
           session.firebaseToken = firebaseToken;
 
           console.log('Firebase token created successfully');
@@ -106,6 +109,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
   },
+
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
