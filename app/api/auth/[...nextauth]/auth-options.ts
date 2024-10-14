@@ -14,6 +14,7 @@ import type { NextAuthOptions } from 'next-auth';
 // }
 
 export const authOptions: NextAuthOptions = {
+  debug: true,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -92,8 +93,10 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.sub;
         try {
           console.log('Attempting to create Firebase token');
+
           const firebaseToken = await getAuth().createCustomToken(token.sub);
           session.firebaseToken = firebaseToken;
+
           console.log('Firebase token created successfully');
         } catch (err) {
           console.error('Error caused when create Firebase custom token :', err);
