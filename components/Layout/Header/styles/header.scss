@@ -21,6 +21,8 @@
   cursor: pointer;
   display: grid;
   grid-template-columns: auto auto;
+
+  filter: drop-shadow(0 0 0.1rem #c4c4c4);
 }
 
 .header__title {

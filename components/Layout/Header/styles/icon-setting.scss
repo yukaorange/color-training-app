@@ -5,6 +5,8 @@
   --height: 8rem;
   --diagonal: 8rem;
 
+  box-shadow: 0 0 0.1rem var(--black);
+
   place-content: center center;
   background-color: var(--white);
   background-image: linear-gradient(90deg, var(--black) 50%, transparent 50%);

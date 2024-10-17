@@ -97,7 +97,7 @@ export const Header = () => {
 };
 
 const Logo = () => {
-  return <Image src="/images/header/logo.svg" alt="to be muscle" width={72} height={72} />;
+  return <Image src="/images/header/logo.svg" alt="to be muscle" className='header-logo' width={72} height={72} />;
 };
 
 const IconUser = ({ isLogin, onClick }: { isLogin: boolean; onClick: () => void }) => {
