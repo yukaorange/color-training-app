@@ -37,13 +37,15 @@ export const LayoutClient = ({ children }: Readonly<{ children: React.ReactNode 
       } catch (err) {
         console.error('Error fetching user data:', err);
       } finally {
-        GSAP.to(loadingRef.current, {
-          opacity: 0,
-          duration: 0.5,
-          onComplete: () => {
-            setIsLoading(false);
-          },
-        });
+        if (loadingRef.current) {
+          GSAP.to(loadingRef.current, {
+            opacity: 0,
+            duration: 0.5,
+            onComplete: () => {
+              setIsLoading(false);
+            },
+          });
+        }
       }
     };
 
