@@ -21,10 +21,10 @@
 }
 
 .project__content {
-  -webkit-box-orient: vertical;
   font-size: text(16);
   font-weight: 400;
   letter-spacing: 0.15em;
+  text-overflow: ellipsis;
   field-sizing: content;
 }
 
@@ -50,10 +50,11 @@
   }
 
   .project__content {
-    -webkit-box-orient: vertical;
     font-size: text(14);
+
     font-weight: 400;
     letter-spacing: 0.15em;
+    text-overflow: ellipsis;
     field-sizing: content;
   }
 }
