@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "browser": "next dev -H 172.20.10.5",
+    "browser": "next dev -H 172.20.10.6",
     "build": "next build",
     "start": "next start",
-    "start:browser": "next start -H 172.20.10.5",
+    "start:browser": "next start -H 172.20.10.6",
     "lint": "next lint",
     "lint:style": "stylelint \"**/*.scss\"",
     "lint:style:fix": "stylelint \"**/*.scss\" --fix"

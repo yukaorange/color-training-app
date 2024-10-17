@@ -13,7 +13,7 @@
 
 .loading-icon__inner {
   --width: 41.84rem;
-  --height: 37.75;
+  --height: 3.775rem;
 
   position: relative;
 }
@@ -38,13 +38,13 @@
   animation-name: loading-animation;
   animation-timing-function: linear;
   display: grid;
+  grid-template-columns: auto auto;
   overflow: hidden;
-  width: calc(var(--width));
+  width: calc(var(--width) * 2);
 }
 
 .loading-icon__bar svg {
-  height: var(--height);
-  position: relative;
+  height: calc(var(--height));
   width: calc(var(--width));
 }
 
@@ -59,8 +59,8 @@
   }
 
   .loading-icon__inner {
-    --width: 20.84rem;
-    --height: 17.75;
+    --width: calc(41.84rem / 2);
+    --height: calc(3.775rem / 2);
 
     position: relative;
   }
@@ -81,12 +81,11 @@
     animation-timing-function: linear;
     display: grid;
     overflow: hidden;
-    width: calc(var(--width));
+    width: calc(var(--width) * 2);
   }
 
   .loading-icon__bar svg {
     height: var(--height);
-    position: relative;
     width: calc(var(--width));
   }
 }
