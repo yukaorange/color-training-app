@@ -69,7 +69,8 @@ async function getUserDocRef() {
 }
 
 function getSessionData(): UserData {
-  const sessionData = sessionStorage.getItem('userData');
+  // const sessionData = sessionStorage.getItem('userData');
+  const sessionData = localStorage.getItem('userData');
 
   if (sessionData) {
     return JSON.parse(sessionData);
@@ -79,7 +80,8 @@ function getSessionData(): UserData {
 }
 
 function setSessionData(data: UserData) {
-  sessionStorage.setItem('userData', JSON.stringify(data));
+  // sessionStorage.setItem('userData', JSON.stringify(data));
+  localStorage.setItem('userData', JSON.stringify(data));
 }
 
 /**
