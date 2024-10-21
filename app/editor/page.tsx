@@ -2,7 +2,7 @@
 
 import '@/app/editor/styles/editor.scss';
 
-import { useRef, useState,  useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 
 import { Button } from '@/components/Editor/Button/Button';
@@ -14,14 +14,16 @@ import { VirtualGrid } from '@/components/Editor/VirtualGrid/VirtualGrid';
 import { WindowSave } from '@/components/Editor/WindowSave/WindowSave';
 import { actions, editorStore } from '@/store/editorStore';
 
-
 export default function EditorAndVirtualGrid() {
   const gridRef = useRef<HTMLDivElement>(null);
   const { isColorPickerOpen } = useSnapshot(editorStore);
 
+  /**
+   * fecthingの際に同等の動作を行うように変更したので、削除予定。 2024/10/21
+   *    */
   // useEffect(() => {
   //   const savedState = localStorage.getItem('editorStore');
-    
+
   //   if (savedState) {
   //     try {
   //       const parsedState = JSON.parse(savedState);
@@ -42,7 +44,7 @@ export default function EditorAndVirtualGrid() {
   //         editorStore.canRedo = parsedState.canRedo;
   //       }
   //       console.log('Loaded saved state:', parsedState);
-        
+
   //     } catch (error) {
   //       console.error('Failed to parse saved state:', error);
   //     }
