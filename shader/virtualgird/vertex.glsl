@@ -55,7 +55,7 @@ void main() {
 
     float animationValue = smoothstep(0.0, 1.0, remappedProgress);
 
-    float maxHeight = 0.5;
+    float maxHeight = 0.3;
 
     animationValue = animationValue * maxHeight;
 
