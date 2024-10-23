@@ -1,6 +1,5 @@
 # 残タスク
 
-- グリッドのインタラクション
 - 各WINDOWのESC閉じ
 
 # Color Training App

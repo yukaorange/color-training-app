@@ -7,14 +7,13 @@ import '@/components/Layout/Header/styles/icon-setting.scss';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 
 import { WindowConfirmation } from '@/components/Common/WindowConfirmation/WindowConfirmation';
 import { WindowSetting } from '@/components/Layout/Header/WindowSetting/WindowSetting';
 import { WindowUser } from '@/components/Layout/Header/WindowUser/WindowUser';
 import { editorStore } from '@/store/editorStore';
-
 
 export const Header = () => {
   const { isLoggedIn } = useSnapshot(editorStore);
@@ -29,6 +28,28 @@ export const Header = () => {
 
   const pathname = usePathname();
   const disableEditorAction = pathname !== '/editor';
+
+  const handleEscKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isConfirmOpen) {
+          setIsConfirmOpen(false);
+        } else if (isSettingOpen) {
+          setIsSettingOpen(false);
+        } else if (isUserOpen) {
+          setIsUserOpen(false);
+        }
+      }
+    },
+    [isConfirmOpen, isSettingOpen, isUserOpen]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [handleEscKey]);
 
   const toggleSetting = () => {
     setIsSettingOpen((prev) => !prev);
@@ -97,7 +118,15 @@ export const Header = () => {
 };
 
 const Logo = () => {
-  return <Image src="/images/header/logo.svg" alt="to be muscle" className='header-logo' width={72} height={72} />;
+  return (
+    <Image
+      src="/images/header/logo.svg"
+      alt="to be muscle"
+      className="header-logo"
+      width={72}
+      height={72}
+    />
+  );
 };
 
 const IconUser = ({ isLogin, onClick }: { isLogin: boolean; onClick: () => void }) => {

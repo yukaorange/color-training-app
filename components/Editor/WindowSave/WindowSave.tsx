@@ -13,7 +13,7 @@ import { editorStore, actions } from '@/store/editorStore';
 import { waitingActions } from '@/store/waitingStore';
 
 interface WindowSaveProps {
-  onClick: () => void;
+  onClick: () => void; //close window
   isOpen: boolean;
 }
 
@@ -186,7 +186,9 @@ export const WindowSave = ({ onClick, isOpen }: WindowSaveProps) => {
                 id="titleInput"
                 ref={textareaRef}
                 className="project__content"
-                placeholder={localTitle == '' ? 'you could edit title under 20 chars here!' : localTitle}
+                placeholder={
+                  localTitle == '' ? 'you could edit title under 20 chars here!' : localTitle
+                }
                 value={inputValue}
                 onChange={handleTitleChange}
                 onBlur={handleTitleBlur}

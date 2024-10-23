@@ -10,15 +10,16 @@ import '@/components/Editor/VirtualGrid/styles/virtual-grid.scss';
 
 interface VirtualGridProps {
   gridRef: React.RefObject<HTMLDivElement>;
+  activeExplanation: number;
 }
 
-export const VirtualGrid = ({ gridRef }: VirtualGridProps) => {
+export const VirtualGrid = ({ gridRef, activeExplanation }: VirtualGridProps) => {
   return (
     <div className="virtual-grid">
       <Suspense fallback={<Loading />}>
         <Canvas>
           <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-          <ResponsiveCells gridRef={gridRef} />
+          <ResponsiveCells gridRef={gridRef} activeExplanation={activeExplanation} />
         </Canvas>
       </Suspense>
     </div>

@@ -2,24 +2,28 @@
 
 import { useGLTF } from '@react-three/drei';
 import { useFrame, useThree } from '@react-three/fiber';
-import React, { useRef, useState, useMemo, useCallback } from 'react';
+import React, { useRef, useState, useMemo, useCallback, useEffect } from 'react';
 import * as THREE from 'three';
 import { GLTF } from 'three-stdlib';
 import { useSnapshot } from 'valtio';
 
+import fragmentShader from '@/shader/virtualgird/fragment.glsl';
+import vertexShader from '@/shader/virtualgird/vertex.glsl';
 import { actions, editorStore } from '@/store/editorStore';
 
 interface ResponsiveCellsProps {
   gridRef: React.RefObject<HTMLDivElement>;
+  activeExplanation: number;
 }
 
-export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
+export const ResponsiveCells = ({ gridRef, activeExplanation }: ResponsiveCellsProps) => {
   const { size, camera } = useThree();
   const [isInitialized, setIsInitialized] = useState(false);
   const cellPositionsRef = useRef<
     { position: [number, number, number]; scale: [number, number, number] }[]
   >([]);
   const lastClickTimeRef = useRef(0);
+  const gridResolutionRef = useRef(new THREE.Vector2(1, 1));
   const { activeCell, tempCellColors } = useSnapshot(editorStore);
   const { setActiveCell, openColorPicker } = actions;
 
@@ -52,6 +56,18 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
         };
       });
 
+      if (cellPositionsRef.current) {
+        const lastCell = cellPositionsRef.current[cellPositionsRef.current.length - 1];
+        const firstCell = cellPositionsRef.current[0];
+        const gridWidth =
+          Math.abs(lastCell.position[0] - firstCell.position[0]) + lastCell.scale[0];
+
+        const gridHeight =
+          Math.abs(firstCell.position[1] - lastCell.position[1]) + lastCell.scale[1];
+
+        gridResolutionRef.current.set(gridWidth, gridHeight);
+      }
+
       if (!isInitialized) {
         setIsInitialized(true);
       }
@@ -78,11 +94,13 @@ export const ResponsiveCells = ({ gridRef }: ResponsiveCellsProps) => {
         index={index}
         cellPositionsRef={cellPositionsRef}
         onClick={() => handleClick(index)}
+        gridResolution={gridResolutionRef.current}
         isActive={activeCell === index}
         colors={tempCellColors[index]}
+        activeExplanation={activeExplanation}
       />
     ));
-  }, [isInitialized, activeCell, cellPositionsRef, handleClick, tempCellColors]);
+  }, [isInitialized, activeCell, cellPositionsRef, handleClick, tempCellColors, activeExplanation]);
 
   return <group>{cells}</group>;
 };
@@ -93,8 +111,10 @@ interface GridCellProps {
     { position: [number, number, number]; scale: [number, number, number] }[]
   >;
   onClick: () => void;
+  gridResolution: THREE.Vector2;
   isActive: boolean;
   colors: { square: string; circle: string };
+  activeExplanation: number;
 }
 
 type GLTFResult = GLTF & {
@@ -113,21 +133,70 @@ type GLTFResult = GLTF & {
  *
  */
 const GridCell = React.memo(
-  ({ index, cellPositionsRef, onClick, isActive, colors }: GridCellProps) => {
+  ({
+    index,
+    cellPositionsRef,
+    onClick,
+    gridResolution,
+    isActive,
+    colors,
+    activeExplanation,
+  }: GridCellProps) => {
     const { nodes } = useGLTF('/models/cell.glb') as GLTFResult;
     const groupRef = useRef<THREE.Group>(null);
+    const squareRef = useRef<THREE.Mesh>(null);
+    const circleRef = useRef<THREE.Mesh>(null);
+    const animationProgressRef = useRef(0);
+    const isAnimationRef = useRef(false);
+    const prevActiveExplanationRef = useRef(activeExplanation);
+
+    const uniformsForSquare = useMemo(() => {
+      return {
+        uTime: { value: 0 },
+        uOrder: { value: index },
+        uResolution: { value: gridResolution },
+        uIsSquare: { value: true },
+        uIsCircle: { value: false },
+        uColor: { value: new THREE.Color(colors.square) },
+        uActiveExplanation: {
+          value: activeExplanation,
+        },
+        uAnimationProgress: { value: 0 },
+      };
+    }, [colors.square, activeExplanation, gridResolution]);
+
+    const uniformsForCircle = useMemo(() => {
+      return {
+        uTime: { value: 0 },
+        uOrder: { value: index },
+        uResolution: { value: gridResolution },
+        uIsSquare: { value: false },
+        uIsCircle: { value: true },
+        uColor: { value: new THREE.Color(colors.circle) },
+        uActiveExplanation: {
+          value: activeExplanation,
+        },
+        uAnimationProgress: { value: 0 },
+      };
+    }, [colors.circle, activeExplanation, gridResolution]);
 
     const squareMaterial = useMemo(() => {
-      return new THREE.MeshBasicMaterial({
-        color: colors.square,
+      const squareShaderMaterial = new THREE.ShaderMaterial({
+        uniforms: uniformsForSquare,
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
       });
-    }, [colors.square]);
+      return squareShaderMaterial;
+    }, [uniformsForSquare]);
 
     const circleMaterial = useMemo(() => {
-      return new THREE.MeshBasicMaterial({
-        color: colors.circle,
+      const circleShaderMaterial = new THREE.ShaderMaterial({
+        uniforms: uniformsForCircle,
+        vertexShader: vertexShader,
+        fragmentShader: fragmentShader,
       });
-    }, [colors.circle]);
+      return circleShaderMaterial;
+    }, [uniformsForCircle]);
 
     const frameMaterial = useMemo(() => {
       return new THREE.MeshBasicMaterial({
@@ -137,7 +206,25 @@ const GridCell = React.memo(
       });
     }, []);
 
-    useFrame(() => {
+    useEffect(() => {
+      if (activeExplanation !== prevActiveExplanationRef.current) {
+        animationProgressRef.current = 0;
+        isAnimationRef.current = true;
+        prevActiveExplanationRef.current = activeExplanation;
+      }
+    }, [activeExplanation]);
+
+    const easeInOutCubic = (t: number): number => {
+      // const value = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+      const value = 1 - (1 - t) * (1 - t);
+
+      return value;
+    };
+
+    useFrame((state, delta) => {
+      const { clock } = state;
+
       if (groupRef.current && cellPositionsRef.current[index]) {
         const { position, scale } = cellPositionsRef.current[index];
 
@@ -167,13 +254,54 @@ const GridCell = React.memo(
             child.scale.set(scale, scale, scale);
           }
         });
+
+        if (isAnimationRef.current) {
+          animationProgressRef.current += delta * .8;
+
+          if (animationProgressRef.current >= 1) {
+            animationProgressRef.current = 1;
+            isAnimationRef.current = false;
+          }
+        }
+
+        const easedProgress = easeInOutCubic(animationProgressRef.current);
+
+        const animationProgress = isAnimationRef.current
+          ? Math.sin(easedProgress * Math.PI) //0 -> 1 -> 0
+          : 0;
+
+        if (squareRef.current) {
+          const shaderMaterial = squareRef.current.material as THREE.ShaderMaterial;
+
+          shaderMaterial.uniforms.uTime.value = clock.getElapsedTime();
+          shaderMaterial.uniforms.uAnimationProgress.value = animationProgress;
+          shaderMaterial.uniforms.uActiveExplanation.value = activeExplanation;
+        }
+
+        if (circleRef.current) {
+          const shaderMaterial = circleRef.current.material as THREE.ShaderMaterial;
+
+          shaderMaterial.uniforms.uTime.value = clock.getElapsedTime();
+          shaderMaterial.uniforms.uAnimationProgress.value = animationProgress;
+          shaderMaterial.uniforms.uActiveExplanation.value = activeExplanation;
+        }
       }
     });
 
     return (
       <group ref={groupRef} onClick={onClick} dispose={null}>
-        <mesh geometry={nodes.circle.geometry} material={circleMaterial} name="circle" />
-        <mesh geometry={nodes.square.geometry} material={squareMaterial} name="square" />
+        <mesh
+          geometry={nodes.circle.geometry}
+          material={circleMaterial}
+          name="circle"
+          ref={circleRef}
+        />
+        <mesh
+          geometry={nodes.square.geometry}
+          material={squareMaterial}
+          name="square"
+          ref={squareRef}
+        />
         <mesh geometry={nodes.squareFrame.geometry} material={frameMaterial} name="squareFrame" />
       </group>
     );

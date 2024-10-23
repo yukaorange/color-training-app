@@ -2,7 +2,7 @@
 
 import '@/app/editor/styles/editor.scss';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect, useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 
 import { Button } from '@/components/Editor/Button/Button';
@@ -17,6 +17,8 @@ import { actions, editorStore } from '@/store/editorStore';
 export default function EditorAndVirtualGrid() {
   const gridRef = useRef<HTMLDivElement>(null);
   const { isColorPickerOpen } = useSnapshot(editorStore);
+  const [activeExplanation, setActiveExplanation] = useState(1);
+  const { closeColorPicker } = actions;
 
   /**
    * fecthingの際に同等の動作を行うように変更したので、削除予定。 2024/10/21
@@ -51,24 +53,6 @@ export default function EditorAndVirtualGrid() {
   //   }
   // }, []);
 
-  return (
-    <>
-      <Editor gridRef={gridRef} isColorPickerOpen={isColorPickerOpen} />
-      <VirtualGrid gridRef={gridRef} />
-    </>
-  );
-}
-
-interface EditorProps {
-  gridRef: React.RefObject<HTMLDivElement>;
-
-  isColorPickerOpen: boolean;
-}
-
-const Editor = ({ gridRef, isColorPickerOpen }: EditorProps) => {
-  const { canUndo, canRedo } = useSnapshot(editorStore);
-  const { closeColorPicker } = actions;
-  const [activeExplanation, setActiveExplanation] = useState(1);
   const [isWindowSaveOpen, setIsWindowSaveOpen] = useState(false);
 
   const handleExplanationClick = () => {
@@ -78,6 +62,66 @@ const Editor = ({ gridRef, isColorPickerOpen }: EditorProps) => {
   const handleWindowSaveClick = () => {
     setIsWindowSaveOpen((prev) => !prev);
   };
+
+  const handleEscKey = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        if (isColorPickerOpen) {
+          closeColorPicker();
+        }
+        if (isWindowSaveOpen) {
+          setIsWindowSaveOpen(false);
+        }
+      }
+    },
+    [isColorPickerOpen, isWindowSaveOpen, closeColorPicker]
+  );
+  useEffect(() => {
+    document.addEventListener('keydown', handleEscKey);
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+    };
+  }, [handleEscKey]);
+
+  return (
+    <>
+      <Editor
+        gridRef={gridRef}
+        isColorPickerOpen={isColorPickerOpen}
+        activeExplanation={activeExplanation}
+        // setActiveExplanation={setActiveExplanation}
+        handleExplanationClick={handleExplanationClick}
+        handleWindowSaveClick={handleWindowSaveClick}
+        isWindowSaveOpen={isWindowSaveOpen}
+        closeColorPicker={closeColorPicker}
+      />
+      <VirtualGrid gridRef={gridRef} activeExplanation={activeExplanation} />
+    </>
+  );
+}
+
+interface EditorProps {
+  gridRef: React.RefObject<HTMLDivElement>;
+  isColorPickerOpen: boolean;
+  activeExplanation: number;
+  // setActiveExplanation: React.Dispatch<React.SetStateAction<number>>;
+  closeColorPicker: () => void;
+  handleExplanationClick: () => void;
+  handleWindowSaveClick: () => void;
+  isWindowSaveOpen: boolean;
+}
+
+const Editor = ({
+  gridRef,
+  isColorPickerOpen,
+  activeExplanation,
+  handleExplanationClick,
+  handleWindowSaveClick,
+  // setActiveExplanation,
+  closeColorPicker,
+  isWindowSaveOpen,
+}: EditorProps) => {
+  const { canUndo, canRedo } = useSnapshot(editorStore);
 
   return (
     <main className="editor">
