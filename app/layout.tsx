@@ -23,6 +23,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: 'https://color-training-app.vercel.app/ogp.jpg',
+        width: 271,
+        height: 158,
         alt: 'Color Training App',
       },
     ],
