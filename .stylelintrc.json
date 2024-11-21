@@ -5,6 +5,10 @@
     "order/properties-alphabetical-order": true,
     "selector-class-pattern": null,
     "custom-property-pattern": null,
-    "keyframes-name-pattern": null
+    "keyframes-name-pattern": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "block-no-empty": null,
+    "no-duplicate-selectors": null,
+    "scss/no-global-function-names": null
   }
 }

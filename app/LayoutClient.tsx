@@ -1,5 +1,6 @@
 'use client';
 import '@/app/styles/layout.scss';
+
 import GSAP from 'gsap';
 import { usePathname } from 'next/navigation';
 import { useRef, useState, useEffect } from 'react';

@@ -7,12 +7,34 @@ import ClientProvider from '@/components/ClientProvider/ClientProvider';
 import type { Metadata, Viewport } from 'next';
 import '@/styles/style.scss';
 
-
 export const metadata: Metadata = {
   title: 'Color Training App',
-  description: 'created by takaoka',
+  description:
+    '幻冬舎刊、前田高志様の著書「勝てるデザイン」にて紹介されている色彩センスを身に付けるためのワークを参考に作成したアプリケーションです。',
   icons: {
     icon: '/favicon/logo.svg',
+  },
+  openGraph: {
+    title: 'Color Training App',
+    description:
+      '幻冬舎刊、前田高志様の著書「勝てるデザイン」にて紹介されている色彩センスを身に付けるためのワークを参考に作成したアプリケーションです。',
+    url: 'https://color-training-app.vercel.app/',
+    siteName: 'Color Training App',
+    images: [
+      {
+        url: 'https://color-training-app.vercel.app/ogp.jpg',
+        alt: 'Color Training App',
+      },
+    ],
+    locale: 'ja_JP',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Color Training App',
+    description:
+      '幻冬舎刊、前田高志様の著書「勝てるデザイン」にて紹介されている色彩センスを身に付けるためのワークを参考に作成したアプリケーションです。',
+    images: ['https://color-training-app.vercel.app/ogp.jpg'],
   },
 };
 
