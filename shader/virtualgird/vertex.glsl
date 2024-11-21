@@ -36,28 +36,22 @@ void main() {
     float gridX = mod(uOrder, 6.0);
     float gridY = floor(uOrder / 6.0);
 
-    //正規化された左上からの距離
-    float diagonalProgress = (gridX + gridY) / 10.0;//セルの項番縦横の最大値を加算している。5.0 +5.0 = 10.0
+    float timeOffset = floor(uTime * 0.1);
 
-    float shiftedPeak = 0.1 + diagonalProgress * 0.8;
+    float random = fract(sin(dot(vec2(gridX + timeOffset, gridY + timeOffset), vec2(12.9898, 78.233))) * 43758.5453);
 
-    float adjustedProgress = uAnimationProgress;
-    // float adjustedProgress = min(uAnimationProgress * 2.0, 1.0);
+    // ランダム値に基づいて、一部のブロックだけを選択 (参考：edge 0.7で約30%のブロックが選択される)
+    float isSelected = step(0.9, random);
 
-    float remappedProgress;
-    if(adjustedProgress < shiftedPeak) {
-      remappedProgress = adjustedProgress / shiftedPeak;
-    } else {
-      remappedProgress = 1.0 - (adjustedProgress - shiftedPeak) / (1.0 - shiftedPeak);
-    }
-
-    remappedProgress = easeOutCubic(remappedProgress);
-
-    float animationValue = smoothstep(0.0, 1.0, remappedProgress);
-
+    // アニメーションの進行度に応じて高さを調整
     float maxHeight = 0.3;
+    float animationValue = 0.0;
 
-    animationValue = animationValue * maxHeight;
+    if(isSelected > 0.5) {
+        // イーズアウト関数を使用してスムーズな上昇
+      float progress = easeOutCubic(uAnimationProgress);
+      animationValue = progress * maxHeight;
+    }
 
     pos.z += animationValue;
   }
