@@ -41,7 +41,7 @@
 
 .top__attention {
   position: fixed;
-  font-size: 1.6rem;
+  font-size: text(24);
   z-index: 1;
   bottom: 10rem;
   left: calc(var(--col) * 1 + var(--gap) * 1 + var(--margin) * 1);
@@ -102,5 +102,6 @@
     font-weight: 500;
     padding: 1rem;
     background-color: #e1e1e180;
+    pointer-events: none;
   }
 }
