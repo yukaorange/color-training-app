@@ -10,7 +10,6 @@ import { Button } from '@/components/Top/Button/Button';
 import { Marquee } from '@/components/Top/Marquee/Marquee';
 import { useAnimatedRouter } from '@/hooks/useAnimatedRouter';
 
-
 export default function Top() {
   const { animationAndNavigate } = useAnimatedRouter();
 
@@ -102,6 +101,12 @@ export default function Top() {
               })}
             </div>
           </div>
+          <p className={'top__attention'}>
+            ※このアプリは書籍
+            <br />
+            『勝てるデザイン』(前田高志著、幻冬舎刊)
+            にて紹介されていた、色彩センスを身に付けるための美術課題を参考に作成しました。色彩感覚を養うことを目的とされる場合は、当アプリ上で行うのではなく、必ずケント紙と不透明水彩絵の具を用いてアナログで行うようにしてください。
+          </p>
         </div>
         <div className="top__marquee" style={{ opacity: 0 }}>
           <Marquee number={1} color="green" />
