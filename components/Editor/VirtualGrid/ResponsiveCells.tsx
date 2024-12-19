@@ -19,14 +19,30 @@ interface ResponsiveCellsProps {
 export const ResponsiveCells = ({ gridRef, activeExplanation }: ResponsiveCellsProps) => {
   const { size, camera } = useThree();
   const [isInitialized, setIsInitialized] = useState(false);
+
+  // セルの位置情報をキャッシュするRef
+  // useRefを使用する理由：
+  // 1. レンダリングサイクル間でのデータ永続化
+  // 2. 不要な再レンダリングの防止
+  // 3. アニメーションフレーム間での値の保持
   const cellPositionsRef = useRef<
     { position: [number, number, number]; scale: [number, number, number] }[]
   >([]);
+  // クリックのデバウンス処理用
   const lastClickTimeRef = useRef(0);
+
+  // グリッドの解像度を追跡
+  // 動的なサイズ変更に対応するため
   const gridResolutionRef = useRef(new THREE.Vector2(1, 1));
+
+  // Valtioストアからの状態取得
+  // プロキシを使用することで効率的な更新を実現
   const { activeCell, tempCellColors } = useSnapshot(editorStore);
   const { setActiveCell, openColorPicker } = actions;
 
+  // セルの位置を更新するロジック
+  // カメラの視野角とアスペクト比に基づいて
+  // WebGLの座標系に変換
   const updateCellPositions = useCallback(() => {
     if (gridRef.current && camera instanceof THREE.PerspectiveCamera) {
       const cellElements = gridRef.current.querySelectorAll('[data-ui-name="cell"]');
@@ -78,6 +94,8 @@ export const ResponsiveCells = ({ gridRef, activeExplanation }: ResponsiveCellsP
     updateCellPositions();
   });
 
+  // クリックハンドラ
+  // デバウンス処理により連続クリックを防止
   const handleClick = useCallback((index: number) => {
     const now = performance.now();
     if (now - lastClickTimeRef.current > 300) {
@@ -87,6 +105,8 @@ export const ResponsiveCells = ({ gridRef, activeExplanation }: ResponsiveCellsP
     }
   }, []);
 
+  // セルコンポーネントの生成
+  // useMemoによりパフォーマンスを最適化
   const cells = useMemo(() => {
     return cellPositionsRef.current.map((_, index) => (
       <GridCell
@@ -130,7 +150,8 @@ type GLTFResult = GLTF & {
 };
 
 /**
- *
+ *グリッドセルコンポーネント
+ * React.memoで最適化：プロップスが変更されない限り再レンダリングを防止
  */
 const GridCell = React.memo(
   ({
@@ -146,10 +167,14 @@ const GridCell = React.memo(
     const groupRef = useRef<THREE.Group>(null);
     const squareRef = useRef<THREE.Mesh>(null);
     const circleRef = useRef<THREE.Mesh>(null);
+
+    // アニメーション制御用の参照
     const animationProgressRef = useRef(0);
     const isAnimationRef = useRef(false);
     const prevActiveExplanationRef = useRef(activeExplanation);
 
+    // 四角形用のシェーダーユニフォーム
+    // useMemoで最適化：依存値が変更されない限りキャッシュを使用
     const uniformsForSquare = useMemo(() => {
       return {
         uTime: { value: 0 },
@@ -165,6 +190,7 @@ const GridCell = React.memo(
       };
     }, [colors.square, activeExplanation, gridResolution]);
 
+    // 円形用のシェーダーユニフォーム
     const uniformsForCircle = useMemo(() => {
       return {
         uTime: { value: 0 },
@@ -180,6 +206,8 @@ const GridCell = React.memo(
       };
     }, [colors.circle, activeExplanation, gridResolution]);
 
+    // シェーダーマテリアルの生成
+    // カスタムシェーダーを使用してGPUベースの描画を実現
     const squareMaterial = useMemo(() => {
       const squareShaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniformsForSquare,
@@ -189,6 +217,8 @@ const GridCell = React.memo(
       return squareShaderMaterial;
     }, [uniformsForSquare]);
 
+    // フレーム用のマテリアル
+    // 半透明の黒色フレームを作成
     const circleMaterial = useMemo(() => {
       const circleShaderMaterial = new THREE.ShaderMaterial({
         uniforms: uniformsForCircle,
@@ -206,6 +236,7 @@ const GridCell = React.memo(
       });
     }, []);
 
+    // アニメーション状態の更新
     useEffect(() => {
       if (activeExplanation !== prevActiveExplanationRef.current) {
         animationProgressRef.current = 0;
@@ -228,10 +259,12 @@ const GridCell = React.memo(
       if (groupRef.current && cellPositionsRef.current[index]) {
         const { position, scale } = cellPositionsRef.current[index];
 
+        // アクティブ状態に応じたスケールとZ位置の調整
         const activeScale = isActive ? 1.1 : 1.0;
         const activeZoom = isActive ? 0.01 : 0;
         const activeFrame = isActive ? 1.1 : 0;
 
+        // スムーズな補間によるアニメーション
         const targetScaleX = THREE.MathUtils.lerp(
           groupRef.current.scale.x,
           scale[0] * activeScale,
@@ -256,7 +289,7 @@ const GridCell = React.memo(
         });
 
         if (isAnimationRef.current) {
-          animationProgressRef.current += delta * .8;
+          animationProgressRef.current += delta * 0.8;
 
           if (animationProgressRef.current >= 1) {
             animationProgressRef.current = 1;
